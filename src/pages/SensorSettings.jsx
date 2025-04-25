@@ -13,9 +13,10 @@ export default function SensorSettings() {
     sensorThres: 0,
   });
 
+  let unregistered = [];
   axios
     .get("http://localhost:8080/api/sensors/unregistered")
-    .then((res) => console.log(res))
+    .then((res) => (unregistered = res.data))
     .catch((e) => console.log(e));
 
   const handleChange = (e) => {
@@ -100,7 +101,7 @@ export default function SensorSettings() {
                         onChange={handleChange}
                       >
                         <option value="" disabled selected></option>
-                        {mockSensorList.map((sens, key) => (
+                        {unregistered.map((sens, key) => (
                           <option value={sens.sensorId} key={key}>
                             {sens.sensorId} - {sens.sensorType}
                           </option>
