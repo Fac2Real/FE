@@ -21,7 +21,7 @@ export default function SensorList() {
       <div className="page-contents">
         <div className="rows">
           {roomList.map((room, idx) => (
-            <table className="table-1" key={idx}>
+            <table key={idx}>
               <thead>
                 <tr>
                   <th>{room.title}</th>
@@ -32,23 +32,43 @@ export default function SensorList() {
                   <td className="sensorlist-info">
                     <div>
                       <div className="sensorlist-underbar">공간 환경 센서</div>
-                      {room.env.length == 0 && <p>공간 환경 센서가 없습니다</p>}
+                      {room.env.length == 0 && (
+                        <div key={idx} className="list-text">
+                          <div>공간 환경 센서가 없습니다</div>
+                        </div>
+                      )}
                       {room.env.length !== 0 &&
                         room.env.map((sen, idx) => (
-                          <p key={idx}>
-                            {sen.name} (현재 설정값: {sen.thres})
-                          </p>
+                          <div key={idx} className="list-text">
+                            <div>{sen.name}</div>
+                            <span className="dash-line"></span>
+                            <div>(현재 설정값: {sen.thres})</div>
+                          </div>
                         ))}
                     </div>
                     <div>
                       <div className="sensorlist-underbar">설비 관리 센서</div>
-                      {room.fac.length == 0 && <p>설비 관리 센서가 없습니다</p>}
+                      {room.fac.length == 0 && (
+                        <div key={idx} className="list-text">
+                          <div> 설비 관리 센서가 없습니다</div>
+                        </div>
+                      )}
                       {room.fac.length > 0 && room.fac}
                     </div>
                     <div>
                       <div className="sensorlist-underbar">담당자</div>
-                      {!room.master && <p>담당자가 없습니다</p>}
-                      {room.master && <p>{room.master}</p>}
+                      {!room.master && (
+                        <div key={idx} className="list-text">
+                          <div>담당자가 없습니다</div>
+                        </div>
+                      )}
+                      {room.master && (
+                        <div key={idx} className="list-text">
+                          <div>{room.master}</div>
+                          <span className="dash-line"></span>
+                          <button>호출</button>
+                        </div>
+                      )}
                     </div>
                   </td>
                 </tr>
