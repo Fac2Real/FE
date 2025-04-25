@@ -16,7 +16,10 @@ export default function SensorSettings() {
   let unregistered = [];
   axios
     .get("http://localhost:8080/api/sensors/unregistered")
-    .then((res) => (unregistered = res.data))
+    .then((res) => {
+      unregistered = res.data;
+      console.log(unregistered);
+    })
     .catch((e) => console.log(e));
 
   const handleChange = (e) => {
