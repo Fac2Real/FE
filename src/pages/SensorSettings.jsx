@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MiniMonitor from "../MiniMonitor";
+import mockSensorList from "../mock_data/mock_sensorlist";
 
 export default function SensorSettings() {
   const [sensorFormData, setFormData] = useState({
@@ -7,6 +8,7 @@ export default function SensorSettings() {
     sensorPosition: "",
     facilityType: "",
     sensorType: "",
+    sensorId: "",
     sensorThres: null,
   });
 
@@ -83,18 +85,19 @@ export default function SensorSettings() {
                     </div>
                   )}
                   <div className="dropdown">
-                    <label htmlFor="sensorType">센서 종류</label>
+                    <label htmlFor="sensorId">센서 ID</label>
                     <select
-                      id="sensorType"
-                      name="sensorType"
-                      value={sensorFormData.sensorType}
+                      id="sensorId"
+                      name="sensorId"
+                      value={sensorFormData.sensorId}
                       onChange={handleChange}
                     >
                       <option value="" disabled selected></option>
-                      <option value="temp">온도 센서</option>
-                      <option value="hmd">습도 센서</option>
-                      <option value="vibe">진동 센서</option>
-                      <option value="gas">공기질 센서</option>
+                      {mockSensorList.map((sens, key) => (
+                        <option value={sens.sensorId} key={key}>
+                          {sens.sensorId} - {sens.sensorType}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   {sensorFormData.sensorPurpose == "environment" && (
