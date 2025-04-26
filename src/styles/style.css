@@ -38,10 +38,6 @@ th {
   min-width: 12rem;
 }
 
-.table-1 {
-  width: 100%;
-}
-
 th {
   text-align: center;
   height: 2rem;
@@ -51,7 +47,7 @@ th {
   min-height: 100px;
 }
 
-/**/
+/* 테이블 아래로 쌓을 때 */
 .rows {
   display: flex;
   flex-direction: column;
@@ -81,7 +77,8 @@ a:focus {
 }
 
 .sensorlist-info > div {
-  margin-bottom: 0.5rem;
+  margin: 0.75rem;
+  margin-top: 0;
 }
 
 .sensorlist-info > div > p {
@@ -89,7 +86,21 @@ a:focus {
   margin-bottom: 0px;
 }
 
-/* 센서 목록 조회 */
+.list-text {
+  margin: 0.5rem 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.dash-line {
+  flex-grow: 1;
+  margin: auto 6px;
+  transform: translateY(2px);
+  border-top: 1px dashed black;
+}
+
+/* 센서 설정 관련 */
 .dropdown {
   display: flex;
   align-items: center;
@@ -111,7 +122,6 @@ a:focus {
   box-sizing: border-box;
   width: 100%;
   margin: 1rem;
-  /* border-radius: 0.4rem; */
 }
 
 .button-flex {
