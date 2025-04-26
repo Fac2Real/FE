@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MiniMonitor from "../MiniMonitor";
 import mockSensorList from "../mock_data/mock_sensorlist";
 import axios from "axios";
@@ -13,14 +13,17 @@ export default function SensorSettings() {
     sensorThres: 0,
   });
 
-  let unregistered = [];
-  axios
-    .get("http://localhost:8080/api/sensors/unregistered")
-    .then((res) => {
-      unregistered = res.data;
-      console.log(unregistered);
-    })
-    .catch((e) => console.log(e));
+  
+  const [unregistered, setUnregistered] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/sensors/unregistered")
+      .then((res) => {
+        setUnregistered(res.data); // 이게 핵심!
+      })
+      .catch((e) => console.error(e));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
