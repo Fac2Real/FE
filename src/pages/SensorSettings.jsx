@@ -13,7 +13,6 @@ export default function SensorSettings() {
     sensorThres: 0,
   });
 
-  
   const [unregistered, setUnregistered] = useState([]);
 
   useEffect(() => {
@@ -34,9 +33,18 @@ export default function SensorSettings() {
   };
 
   const handleButton = (e) => {
-    console.log(
-      `제출 버튼: ${sensorFormData.sensorPurpose} ${sensorFormData.sensorPosition} ${sensorFormData.sensorType} ${sensorFormData.sensorThres} ${sensorFormData.facilityType}`
-    );
+    axios
+      .post(`http://localhost:8080/api/sensors/${sensorFormData.sensorId}`, {
+        sensorPurpose: sensorFormData.sensorPurpose,
+        location: sensorFormData.sensorPosition,
+        threshold: sensorFormData.sensorThres,
+      })
+      .then((res) =>
+        console.log(
+          `제출 버튼: ${sensorFormData.sensorPurpose} ${sensorFormData.sensorPosition} ${sensorFormData.sensorType} ${sensorFormData.sensorThres} ${sensorFormData.facilityType}`
+        )
+      )
+      .catch((e) => console.log(e));
   };
 
   return (
