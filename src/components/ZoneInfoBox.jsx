@@ -1,9 +1,10 @@
 import { useState } from "react";
 import ToolIcon from "../assets/tool_icon.svg?react";
-export default function ZoneInfoBox({ zone, modalBtn }) {
+export default function ZoneInfoBox({ zone, modalBtn, onAddZone = null }) {
   const { title, env_sensor = [], fac_sensor = [], master = "" } = zone;
   const [isOpen, setIsOpen] = useState(false);
   const addZone = zone === "공간 추가";
+  const [newZone, setNewZone] = useState("");
   return (
     <div className="box-wrapper">
       <div
@@ -64,11 +65,20 @@ export default function ZoneInfoBox({ zone, modalBtn }) {
               <input
                 id="zoneName"
                 name="zoneName"
+                value={newZone}
+                onChange={(e) => setNewZone(e.target.value)}
                 placeholder="공간 이름을 입력하세요"
               />
             </div>
             <div className="button-flex">
-              <button>등록</button>
+              <button
+                onClick={() => {
+                  onAddZone(newZone);
+                  setNewZone("");
+                }}
+              >
+                등록
+              </button>
             </div>
           </div>
         )}

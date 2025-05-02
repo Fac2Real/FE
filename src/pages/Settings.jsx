@@ -59,6 +59,19 @@ export default function Settings() {
     setModalOpen(false);
   };
 
+  const handleAddZone = (newZone) => {
+    const confirmed = window.confirm(`[${newZone}]을 추가하시겠습니까?`);
+    if (!confirmed) return;
+    const newItem = {
+      title: newZone,
+      env_sensor: [],
+      fac_sensor: [],
+      master: "",
+    };
+    const li = [...zoneList, newItem];
+    setZoneList(li);
+  };
+
   return (
     <>
       <Modal
@@ -71,7 +84,7 @@ export default function Settings() {
       {zoneList.map((z, i) => (
         <ZoneInfoBox zone={z} key={z.title} modalBtn={handleOpenModal} />
       ))}
-      <ZoneInfoBox zone="공간 추가" />
+      <ZoneInfoBox zone="공간 추가" onAddZone={handleAddZone} />
     </>
   );
 }

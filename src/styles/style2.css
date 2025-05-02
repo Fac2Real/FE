@@ -3,6 +3,7 @@
   --c1: #e3f6ff;
   --c2: #e1f0ff;
   --c3: #608dff;
+  --c4: #ebf8fe;
 }
 
 /* 기본 마진 삭제 */
@@ -362,7 +363,7 @@ p.sidebar-open {
 }
 
 .modal-box {
-  background-color: var(--c1);
+  background-color: var(--c4);
   border-radius: 2rem;
   width: 40vw;
   height: auto;
