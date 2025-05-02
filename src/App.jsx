@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Sidebar from "./Sidebar";
-import "./styles/style2.css";
+import "./styles/style.css";
 import Settings from "./pages/Settings";
 
 export default function App() {
