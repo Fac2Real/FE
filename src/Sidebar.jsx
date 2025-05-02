@@ -17,7 +17,7 @@ export default function Sidebar() {
     <aside className={isOpen ? "sidebar-open" : "sidebar-close"}>
       {!isOpen && (
         <div>
-          <span className="icon">
+          <span className="icon side-opt">
             <Link
               onClick={() => {
                 setIsOpen(!isOpen);
@@ -30,12 +30,12 @@ export default function Sidebar() {
       )}
       {isOpen && (
         <div className="sidebar-open">
-          <span className="icon">
+          <span className="icon side-opt">
             <Link>
               <Logo fill="#FFF" width="1.5rem" />
             </Link>
           </span>
-          <span className="icon">
+          <span className="icon side-opt">
             <Link
               onClick={() => {
                 setIsOpen(!isOpen);
@@ -48,7 +48,10 @@ export default function Sidebar() {
       )}
       <div className="sidebar-menu">
         <div>
-          <span className="icon" onClick={() => setCurrentPage("Home")}>
+          <span
+            className="icon side-opt"
+            onClick={() => setCurrentPage("Home")}
+          >
             <Link to="/">
               <HomeIcon
                 fill={currentPage === "Home" ? "#608DFF" : "#FFF"}
@@ -67,7 +70,10 @@ export default function Sidebar() {
           </span>
         </div>
         <div>
-          <span className="icon" onClick={() => setCurrentPage("Monitor")}>
+          <span
+            className="icon side-opt"
+            onClick={() => setCurrentPage("Monitor")}
+          >
             <Link>
               <MonitorIcon
                 fill={currentPage === "Monitor" ? "#608DFF" : "#FFF"}
@@ -86,7 +92,10 @@ export default function Sidebar() {
           </span>
         </div>
         <div>
-          <span className="icon" onClick={() => setCurrentPage("Sensor")}>
+          <span
+            className="icon side-opt"
+            onClick={() => setCurrentPage("Sensor")}
+          >
             <Link to="/settings">
               <ToolIcon
                 stroke={currentPage === "Sensor" ? "#608DFF" : "#FFF"}
@@ -106,7 +115,7 @@ export default function Sidebar() {
         </div>
         <div>
           <span
-            className="icon"
+            className="icon side-opt"
             onClick={() => setCurrentPage("Certification")}
           >
             <Link>

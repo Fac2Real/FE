@@ -4,15 +4,15 @@ export default function SensorList() {
   const roomList = [
     {
       title: "보일러실",
-      env: [
+      env_sensor: [
         { name: "온도 센서", thres: 60 },
         { name: "습도 센서", thres: 75 },
       ],
-      fac: [],
+      fac_sensor: [],
       master: "김00",
     },
-    { title: "휴게실", env: [], fac: [], master: "윤00" },
-    { title: "테스트룸A", env: [], fac: [], master: "정00" },
+    { title: "휴게실", env_sensor: [], fac_sensor: [], master: "윤00" },
+    { title: "테스트룸A", env_sensor: [], fac_sensor: [], master: "정00" },
   ];
 
   return (
