@@ -1,11 +1,10 @@
-import Home from "./pages/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
 import Sidebar from "./Sidebar";
-import "./styles/style.css";
-import SensorSettings from "./pages/SensorSettings";
-import SensorList from "./pages/SensorList";
+import "./styles/style2.css";
+import Settings from "./pages/Settings";
 
-function App() {
+export default function App2() {
   return (
     <BrowserRouter>
       <div className="main">
@@ -13,14 +12,10 @@ function App() {
         <div className="contents">
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="/monitoring" element={<Monitoring />} /> */}
-            <Route path="/sensorsetting" element={<SensorSettings />} />
-            <Route path="/sensorlist" element={<SensorList />} />
+            <Route path="/settings" element={<Settings />} />
           </Routes>
         </div>
       </div>
     </BrowserRouter>
   );
 }
-
-export default App;

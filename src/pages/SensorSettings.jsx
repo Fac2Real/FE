@@ -19,7 +19,7 @@ export default function SensorSettings() {
     axios
       .get("http://localhost:8080/api/sensors/unregistered")
       .then((res) => {
-        setUnregistered(res.data); // 이게 핵심!
+        setUnregistered(res.data);
       })
       .catch((e) => console.error(e));
   }, []);
