@@ -1,8 +1,9 @@
 import { useState } from "react";
-
-export default function ZoneInfoBox({ title }) {
+import ToolIcon from "../assets/tool_icon.svg?react";
+export default function ZoneInfoBox({ zone, modalBtn }) {
+  const { title, env_sensor = [], fac_sensor = [], master = "" } = zone;
   const [isOpen, setIsOpen] = useState(false);
-  const addZone = title === "공간 추가";
+  const addZone = zone === "공간 추가";
   return (
     <div className="box-wrapper">
       <div
@@ -10,7 +11,7 @@ export default function ZoneInfoBox({ title }) {
           addZone && "add-zone"
         }`}
       >
-        {title}
+        {addZone ? "공간 추가" : title}
         <span className="arrow" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? "▲" : addZone ? "＋" : "▼"}
         </span>
@@ -21,15 +22,38 @@ export default function ZoneInfoBox({ title }) {
           <>
             <div className="sensorlist">
               <div className="sensorlist-underbar">공간 환경 센서</div>
-              <p>공간 환경 센서가 없습니다</p>
+              {env_sensor.length === 0 && <p>공간 환경 센서가 없습니다</p>}
+              {env_sensor.length !== 0 &&
+                env_sensor.map((sen, i) => (
+                  <div className="list-text" key={i}>
+                    <div>{sen.name}</div>
+                    <span className="dash-line"></span>현재 설정값:{" "}
+                    <div>{sen.thres}</div>
+                    <span onClick={() => modalBtn(title, sen.name, sen.thres)}>
+                      <ToolIcon
+                        className="thres-setting"
+                        width="1.3rem"
+                        fill="gray"
+                        stroke="gray"
+                      />
+                    </span>
+                  </div>
+                ))}
             </div>
             <div className="sensorlist">
               <div className="sensorlist-underbar">설비 관리 센서</div>
-              <p>설비 관리 센서가 없습니다</p>
+              {fac_sensor.length === 0 && <p>설비 관리 센서가 없습니다</p>}
+              {fac_sensor.length !== 0 &&
+                fac_sensor.map((sen, i) => (
+                  <div className="list-text" key={i}>
+                    <div>{sen}</div>
+                  </div>
+                ))}
             </div>
             <div className="sensorlist">
               <div className="sensorlist-underbar">담당자</div>
-              <p>담당자가 없습니다</p>
+              {master == "" && <p>담당자가 없습니다</p>}
+              {master && <p>{master}</p>}
             </div>
           </>
         )}

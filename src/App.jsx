@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import "./styles/style2.css";
 import Settings from "./pages/Settings";
 
-export default function App2() {
+export default function App() {
   return (
     <BrowserRouter>
       <div className="main">
