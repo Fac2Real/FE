@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
 import ZoneInfoBox from "../components/ZoneInfoBox";
+import axios from "axios";
 
 export default function Settings() {
   /* mock data */
@@ -32,6 +33,20 @@ export default function Settings() {
     //   .get("/api/zones")
     //   .then((res) => console.log(res))
     //   .catch((e) => console.log(e));
+    axios.get(`http://localhost:8080/api/zones`)        // ← GET /api/zones
+    .then((res) => {
+      const list = res.data.map((z) => ({
+        id: z.zoneId,           // ← key 용
+        title: z.zoneName,      // ← 화면에 찍힐 이름
+        // get 요청에서 데이터가 없으면 빈 배열 혹은 "" 할당해주기
+        env_sensor: z.env_sensor || [],
+        fac_sensor: z.fac_sensor || [],
+        master: z.master || "",
+      }));
+      setZoneList(list);
+    })
+    .catch((e) => console.error(e));
+    // db에 존 데이터가 없을 경우 초기 예시 데이터 보여줌
     if (zoneList.length === 0) {
       setZoneList(initialZoneList);
     }
@@ -59,17 +74,38 @@ export default function Settings() {
     setModalOpen(false);
   };
 
-  const handleAddZone = (newZone) => {
+  const handleAddZone = async (newZone) => {
     const confirmed = window.confirm(`[${newZone}]을 추가하시겠습니까?`);
     if (!confirmed) return;
-    const newItem = {
-      title: newZone,
-      env_sensor: [],
-      fac_sensor: [],
-      master: "",
-    };
-    const li = [...zoneList, newItem];
-    setZoneList(li);
+    else{
+      try {
+        /* 1) 백엔드에 공간 생성 요청 */
+        const { data } = await axios.post(
+          "http://localhost:8080/api/zones",
+          { zoneName: newZone } // 요청하는 zoneName이 title이 됨
+        );
+    
+        /* 2) 전체 요소를를 화면에 출력하기위한 데이터터 */
+        const newItem = {
+          id: data.zoneId,        // key 로도 사용
+          title: data.zoneName,   // UI 에 표시할 이름
+          env_sensor: [],
+          fac_sensor: [],
+          master: "",
+        };
+    
+        /* 3) 화면 상태 업데이트 */
+        setZoneList((prev) => [...prev, newItem]);
+    
+        /* 4) 로그 (센서 API와 동일한 패턴) */
+        console.log(
+          `ZONE 생성: ${data.zoneId} / ${data.zoneName}`
+        );
+      } catch (err) {
+        console.error(err);
+        alert("공간 생성에 실패했습니다.");
+      }
+    }
   };
 
   return (
