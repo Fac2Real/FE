@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import MenuIcon from "./assets/menu_icon.svg?react";
 import HomeIcon from "./assets/home_icon.svg?react";
 import MonitorIcon from "./assets/monitor_icon.svg?react";
@@ -7,12 +7,23 @@ import AwardIcon from "./assets/award_icon.svg?react";
 import BellIcon from "./assets/bell_icon.svg?react";
 import CloseIcon from "./assets/close_icon.svg?react";
 import Logo from "./assets/temp_logo.svg?react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Sidebar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const alram_count = 3;
+  const location = useLocation();
   const [currentPage, setCurrentPage] = useState("Home");
+  useEffect(() => {
+    if (location.pathname === "/") setCurrentPage("Home");
+    else if (location.pathname.startsWith("/monitoring"))
+      setCurrentPage("Monitor");
+    else if (location.pathname.startsWith("/settings"))
+      setCurrentPage("Sensor");
+    else if (location.pathname.startsWith("/certification"))
+      setCurrentPage("Certification");
+  }, [location.pathname]);
+
   return (
     <aside className={isOpen ? "sidebar-open" : "sidebar-close"}>
       {!isOpen && (
@@ -74,7 +85,7 @@ export default function Sidebar() {
             className="icon side-opt"
             onClick={() => setCurrentPage("Monitor")}
           >
-            <Link>
+            <Link to="/monitoring">
               <MonitorIcon
                 fill={currentPage === "Monitor" ? "#608DFF" : "#FFF"}
                 width="1.5rem"
@@ -118,7 +129,7 @@ export default function Sidebar() {
             className="icon side-opt"
             onClick={() => setCurrentPage("Certification")}
           >
-            <Link>
+            <Link to="/certification">
               <AwardIcon
                 stroke={currentPage === "Certification" ? "#608DFF" : "#FFF"}
                 width="1.5rem"
