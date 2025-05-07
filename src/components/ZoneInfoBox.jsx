@@ -27,7 +27,11 @@ export default function ZoneInfoBox({ zone, modalBtn, onAddZone = null }) {
               {env_sensor.length !== 0 &&
                 env_sensor.map((sen, i) => (
                   <div className="list-text" key={i}>
-                    <div>{sen.name}</div>
+                    {/* <div>{sen.name}</div> */}
+                    <div>
+                     {sen.name}
+                     <span className="sensor-id"> ({sen.id})</span>   {/* ← 추가 */}
+                    </div>
                     <span className="dash-line"></span>현재 설정값:{" "}
                     <div>{sen.thres}</div>
                     <span onClick={() => modalBtn(title, sen.name, sen.thres)}>
@@ -47,7 +51,15 @@ export default function ZoneInfoBox({ zone, modalBtn, onAddZone = null }) {
               {fac_sensor.length !== 0 &&
                 fac_sensor.map((sen, i) => (
                   <div className="list-text" key={i}>
-                    <div>{sen}</div>
+                    {/* <div>{sen}</div> */}
+                    <div>{sen.name}
+                      <span className="sensor-id"> ({sen.id})</span>
+                    </div>
+                    <span className="dash-line"></span>현재 설정값: 
+                    <div>{sen.thres}</div>
+                    <span onClick={() => modalBtn(title, sen.name, sen.thres)}>
+                    <ToolIcon className="thres-setting" width="1.3rem" fill="gray" stroke="gray" />
+                    </span>  
                   </div>
                 ))}
             </div>
