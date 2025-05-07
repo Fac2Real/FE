@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
 import ZoneInfoBox from "../components/ZoneInfoBox";
 import axios from "axios";
+import FacilityModal from "../components/FacilityModal";
 /* ────────────────────────────────
    1. 센서 타입 → 한글 명/분류 매핑
 ──────────────────────────────── */
@@ -27,33 +28,12 @@ const toKoName = (type) => {
 
 export default function Settings() {
   const [sensorInfo, setSensorInfo] = useState();
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedZone, setSelectedZone] = useState();
+  const [isSensorModalOpen, setSensorModalOpen] = useState(false);
+  const [isFacilityModalOpen, setFacilityModalOpen] = useState(false);
   const [zoneList, setZoneList] = useState([]);
 
   useEffect(() => {
-    // axios
-    //   .get("/api/zones")
-    //   .then((res) => console.log(res))
-    //   .catch((e) => console.log(e));
-
-    // axios.get(`http://localhost:8080/api/zones`)        // ← GET /api/zones
-    // .then((res) => {
-    //   const list = res.data.map((z) => ({
-    //     id: z.zoneId,           // ← key 용
-    //     title: z.zoneName,      // ← 화면에 찍힐 이름
-    //     // get 요청에서 데이터가 없으면 빈 배열 혹은 "" 할당해주기
-    //     env_sensor: z.env_sensor || [],
-    //     fac_sensor: z.fac_sensor || [],
-    //     master: z.master || "",
-    //   }));
-    //   setZoneList(list);
-    // })
-    // .catch((e) => console.error(e));
-    // // db에 존 데이터가 없을 경우 초기 예시 데이터 보여줌
-    // if (zoneList.length === 0) {
-    //   setZoneList(initialZoneList);
-    // }
-
     /* ────────────────────────────────
        2. ① 공간 + ② 센서를 한 번에 받아서 매핑
     ───────────────────────────────── */
@@ -103,9 +83,14 @@ export default function Settings() {
       .catch(console.error);
   }, []);
 
-  const handleOpenModal = (zoneName, sensorName, thres) => {
+  const handleOpenSensorModal = (zoneName, sensorName, thres) => {
     setSensorInfo({ zoneName, sensorName, thres });
-    setModalOpen(true);
+    setSensorModalOpen(true);
+  };
+
+  const handleOpenFacilityModal = (zoneName) => {
+    setSelectedZone(zoneName);
+    setFacilityModalOpen(true);
   };
 
   const handleThresUpdate = (newValue) => {
@@ -122,7 +107,12 @@ export default function Settings() {
     });
     console.log(li);
     setZoneList(li);
-    setModalOpen(false);
+    setSensorModalOpen(false);
+  };
+
+  const handleFacilityUpdate = (newValue) => {
+    console.log(`공간명: ${selectedZone} 설비명: ${newValue}`);
+    /* TODO :: 설비 목록 업데이트하기 */
   };
 
   const handleAddZone = async (newZone) => {
@@ -160,14 +150,25 @@ export default function Settings() {
   return (
     <>
       <Modal
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
+        isOpen={isSensorModalOpen}
+        onClose={() => setSensorModalOpen(false)}
         sensorInfo={sensorInfo}
         onUpdate={handleThresUpdate}
       />
+      <FacilityModal
+        isOpen={isFacilityModalOpen}
+        onClose={() => setFacilityModalOpen(false)}
+        zoneInfo={selectedZone}
+        onUpdate={handleFacilityUpdate}
+      />
       <h1>센서 관리</h1>
       {zoneList.map((z, i) => (
-        <ZoneInfoBox zone={z} key={z.title} modalBtn={handleOpenModal} />
+        <ZoneInfoBox
+          zone={z}
+          key={z.title}
+          sensorModalBtn={handleOpenSensorModal}
+          facilityModalBtn={handleOpenFacilityModal}
+        />
       ))}
       <ZoneInfoBox zone="공간 추가" onAddZone={handleAddZone} />
     </>
