@@ -6,10 +6,19 @@ export default function ZoneInfoBox({
   facilityModalBtn,
   onAddZone = null,
 }) {
-  const { title, env_sensor = [], fac_sensor = [], master = "" } = zone;
+  const { title, env_sensor = [], facility = [], master = "" } = zone;
   const [isOpen, setIsOpen] = useState(false);
   const addZone = zone === "공간 추가";
   const [newZone, setNewZone] = useState("");
+  const [facilityInfoOpen, setFacilityInfoOpen] = useState({});
+
+  const toggleFacility = (i) => {
+    setFacilityInfoOpen((prev) => ({
+      ...prev,
+      [i]: !prev[i],
+    }));
+  };
+
   return (
     <div className="box-wrapper">
       <div
@@ -32,14 +41,15 @@ export default function ZoneInfoBox({
               {env_sensor.length !== 0 &&
                 env_sensor.map((sen, i) => (
                   <div className="list-text" key={i}>
-                    {/* <div>{sen.name}</div> */}
                     <div>
                       {sen.name}
-                      <span className="sensor-id"> ({sen.id})</span>{" "}
-                      {/* ← 추가 */}
+                      <span className="sensor-id">
+                        {" "}
+                        (UA10T-TEM-24060890)
+                      </span>{" "}
                     </div>
-                    <span className="dash-line"></span>현재 설정값:{" "}
-                    <div>{sen.thres}</div>
+                    <span className="dash-line"></span>
+                    <div>현재 설정값: {sen.thres}</div>
                     <span
                       onClick={() => sensorModalBtn(title, sen.name, sen.thres)}
                     >
@@ -55,22 +65,43 @@ export default function ZoneInfoBox({
             </div>
             <div className="sensorlist">
               <div className="sensorlist-underbar">설비 관리 센서</div>
-              {fac_sensor.length === 0 && <p>설비 관리 센서가 없습니다</p>}
-              {fac_sensor.length !== 0 &&
-                fac_sensor.map((sen, i) => (
-                  <div className="list-text" key={i}>
-                    <div>
-                      {sen.name}
-                      <span className="sensor-id"> ({sen.id})</span>
+              {facility.length === 0 && <p>등록된 설비가 없습니다</p>}
+              {facility.length !== 0 &&
+                facility.map((f, i) => (
+                  <div key={i}>
+                    {/* 설비 목록 */}
+                    <div className="list-text">
+                      <div>{f.name}</div>
+                      <span className="dash-line"></span>
+                      <span className="arrow" onClick={() => toggleFacility(i)}>
+                        {facilityInfoOpen[i] ? "▲" : "▼"}
+                      </span>
                     </div>
+                    {/* 설비 센서 목록 */}
+                    {facilityInfoOpen[i] && (
+                      <div style={{ margin: "0 1rem" }}>
+                        {(!Array.isArray(f.fac_sensor) ||
+                          f.fac_sensor.length === 0) && (
+                          <p>설비 관리용 센서가 없습니다</p>
+                        )}
+                        {f.fac_sensor?.length !== 0 &&
+                          f.fac_sensor?.map((s, i) => (
+                            <p key={i}>
+                              {s.name} ({s.id})
+                            </p>
+                          ))}
+                      </div>
+                    )}
                   </div>
                 ))}
-              <button
-                className="no-flex-button"
-                onClick={() => facilityModalBtn(title)}
-              >
-                + 설비 등록
-              </button>
+              <p>
+                <button
+                  className="no-flex-button"
+                  onClick={() => facilityModalBtn(title)}
+                >
+                  + 설비 등록
+                </button>
+              </p>
             </div>
             <div className="sensorlist">
               <div className="sensorlist-underbar">담당자</div>
