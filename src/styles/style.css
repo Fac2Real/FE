@@ -164,6 +164,10 @@ p.sidebar-open {
   flex-direction: row;
 }
 
+.arrow {
+  cursor: pointer;
+}
+
 .moving-box:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transform: translateY(-3px);
