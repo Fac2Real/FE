@@ -98,7 +98,7 @@ export default function Settings() {
 
         /* 센서를 zoneId 기준으로 그룹핑 → { 5: {env:[], fac:[]}, … } */
         const mapByZone = sensors.reduce((acc, s) => {
-          const zoneId = s.location?.trim(); // ← 공백 대비
+          const zoneId = s.zoneId?.trim(); // ← 공백 대비
           if (!zoneId) return acc;
 
           if (!acc[zoneId]) acc[zoneId] = { env: [], fac: [] };
