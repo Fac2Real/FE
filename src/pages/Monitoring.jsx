@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import MonitorBox from "../components/MonitorBox";
 import useWebSocket from "../websocket/useWebSocket";
+import { Link } from "react-router-dom";
 // import mockZoneList from "../mock_data/mock_zonelist";
 
 // 메모...
@@ -48,15 +49,15 @@ export default function Monitoring() {
       // abnormal_sensor: null,
     },
     {
-      zoneId: "PID-792",
-      title: "테스트룸A",
+      zoneId: "PID-002",
+      title: "테스트룸B",
       master: "정00",
       // level: 0,
       // abnormal_sensor: null,
     },
     {
       zoneId: "PID-003",
-      title: "테스트룸A",
+      title: "테스트룸C",
       master: "정00",
       // level: 0,
       // abnormal_sensor: null,
@@ -80,7 +81,9 @@ export default function Monitoring() {
       <div className="monitor-body">
         <div>
           {zoneList.map((z, i) => (
-            <MonitorBox zone={z} key={i} />
+            <Link to={`/zone/${z.zoneId}`} className="link-as-contents">
+              <MonitorBox zone={z} key={i} />
+            </Link>
           ))}
         </div>
       </div>

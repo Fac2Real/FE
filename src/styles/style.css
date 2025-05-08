@@ -237,6 +237,11 @@ p.sidebar-open {
   align-items: flex-end;
 }
 
+.link-as-contents {
+  display: contents;
+  text-decoration: none;
+}
+
 /* 센서 관리 페이지 */
 .box-wrapper {
   position: relative;
