@@ -95,7 +95,7 @@ export default function ZoneInfoBox({
                 ))}
               <p>
                 <button
-                  className="no-flex-button"
+                  className="no-flex-button add-fac"
                   onClick={() => facilityModalBtn(title)}
                 >
                   + 설비 등록
