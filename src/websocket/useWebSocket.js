@@ -15,7 +15,7 @@ export default function useWebSocket(topic, onMessage) {
             reconnectDelay: 5000, // 5초 간격으로 재연결 시도
 
             // onConnect: 연결 성공 시 호출할 함수
-            onConnet: () => {
+            onConnect: () => {
                 console.log("웹소켓 연결 성공");
                 // topic으로부터 메시지를 구독하고, 메시지를 받으면 JSON으로 파싱해서 콜백함수로 전달합니다.
                 client.subscribe(topic, (message) => {

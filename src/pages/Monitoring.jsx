@@ -11,7 +11,7 @@ export default function Monitoring() {
   const [zoneList, setZoneList] = useState([]);
 
   // 메시지 예: {"zoneId":"PID-790","sensorType":"humid","level":2}
-  useWebSocket("/topic/zone/PID-001", (data) => {
+  useWebSocket("/topic/zone", (data) => {
     setZoneList((prev) =>
       prev.map((zone) =>
         zone.zoneId === data.zoneId
@@ -41,14 +41,14 @@ export default function Monitoring() {
 
   const mock_zoneList = [
     {
-      zoneId: "PID-001",
+      zoneId: "PID-791",
       title: "테스트룸A",
       master: "정00",
       // level: 0,
       // abnormal_sensor: null,
     },
     {
-      zoneId: "PID-002",
+      zoneId: "PID-792",
       title: "테스트룸A",
       master: "정00",
       // level: 0,
