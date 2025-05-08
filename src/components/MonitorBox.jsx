@@ -8,7 +8,7 @@ export default function MonitorBox({ zone }) {
       }`}
     >
       <div className="icon-container">
-        <PageIcon width="2rem" stroke="gray" opacity="0.3" />
+        <PageIcon width="2.3rem" stroke="gray" opacity="0.3" />
       </div>
       <h3>{zone.title}</h3>
       {/* <p>확인 필요: 습도</p> */}
