@@ -43,15 +43,14 @@ export default function ZoneInfoBox({
                   <div className="list-text" key={i}>
                     <div>
                       {sen.name}
-                      <span className="sensor-id">
-                        {" "}
-                        (UA10T-TEM-24060890)
-                      </span>{" "}
+                      <span className="sensor-id">({sen.sensorId})</span>{" "}
                     </div>
                     <span className="dash-line"></span>
                     <div>현재 설정값: {sen.thres}</div>
                     <span
-                      onClick={() => sensorModalBtn(title, sen.name, sen.thres)}
+                      onClick={() =>
+                        sensorModalBtn(title, sen.sensorId, sen.thres)
+                      }
                     >
                       <ToolIcon
                         className="thres-setting"

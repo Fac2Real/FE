@@ -92,8 +92,8 @@ export default function Settings() {
       axios.get("http://localhost:8080/api/sensors"), // ← location 컬럼 포함
     ])
       .then(([zoneRes, sensorRes]) => {
-        console.log(zoneRes.data);
-        console.log(sensorRes.data);
+        // console.log(zoneRes.data);
+        // console.log(sensorRes.data);
         const sensors = sensorRes.data;
 
         /* 센서를 zoneId 기준으로 그룹핑 → { 5: {env:[], fac:[]}, … } */
@@ -145,8 +145,8 @@ export default function Settings() {
             master: z.master || "",
           };
         });
-        console.log("????");
-        console.log(list);
+        // console.log("????");
+        // console.log(list);
 
         /* 레코드가 하나도 없으면 예시 데이터 사용 */
         setZoneList(list.length ? list : initialZoneList);
@@ -155,8 +155,8 @@ export default function Settings() {
   }, []);
 
   /* 모달 여는 동작 전용 함수 */
-  const handleOpenSensorModal = (zoneName, sensorName, thres) => {
-    setSensorInfo({ zoneName, sensorName, thres });
+  const handleOpenSensorModal = (zoneName, sensorId, thres) => {
+    setSensorInfo({ zoneName, sensorId, thres });
     setSensorModalOpen(true);
   };
 
@@ -170,22 +170,25 @@ export default function Settings() {
     /* 화면 표현하기 (완료) */
     const value = Number(newValue);
     const updated = zoneList.map((zone) => {
-      if (zone.title !== sensorInfo.zoneName) return zone;
+      if (zone.title !== sensorInfo.zoneName) {
+        return zone;
+      }
       return {
         ...zone,
         env_sensor: zone.env_sensor.map((sen) => {
-          if (sen.name !== sensorInfo.sensorName) return sen;
+          if (sen.sensorId !== sensorInfo.sensorId) {
+            return sen;
+          }
           return { ...sen, thres: value };
         }),
       };
     });
-    console.log(updated);
     setZoneList(updated);
     setSensorModalOpen(false);
   };
 
   const handleFacilityUpdate = (newValue) => {
-    console.log(`공간명: ${selectedZone} 설비명: ${newValue}`);
+    // console.log(`공간명: ${selectedZone} 설비명: ${newValue}`);
     /* TODO :: 설비 목록 업데이트하기 */
     /* 화면 표현하기 */
     const updated = zoneList.map((z) => {
