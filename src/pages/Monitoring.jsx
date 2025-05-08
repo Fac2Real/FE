@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MonitorBox from "../components/MonitorBox";
-// import useWebSocket from "../websocket/useWebSocket";
+import useWebSocket from "../websocket/useWebSocket";
 // import mockZoneList from "../mock_data/mock_zonelist";
 
 // 메모...
