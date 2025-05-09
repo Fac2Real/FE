@@ -196,6 +196,10 @@ export default function Settings() {
   };
 
   const handleFacilityUpdate = (newValue) => {
+    axios.post("http://localhost:8080/api/equips", {
+      zoneName: selectedZone,
+      equipName: newValue,
+    });
     // console.log(`공간명: ${selectedZone} 설비명: ${newValue}`);
     /* TODO :: 설비 목록 업데이트하기 */
     // axios.post()
@@ -256,6 +260,10 @@ export default function Settings() {
         //   master: "",
         // };
 
+        axios.post("http://localhost:8080/api/zones", {
+          zoneName: newZone,
+        });
+        
         const newItem = {
           title: newZone,
           env_sensor: [],
