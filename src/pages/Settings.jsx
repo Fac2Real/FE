@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SensorModal from "../components/SensorModal";
 import ZoneInfoBox from "../components/ZoneInfoBox";
 import axios from "axios";
@@ -220,7 +220,7 @@ export default function Settings() {
   const handleEditZone = (newZoneName) => {
     // 여기에 editzone 수정 API
     console.log("공간명 변경 제출!");
-    
+
     axios.post(`http://localhost:8080/api/zones/${selectedZone}`, {
       zoneName: newZoneName,
     });
