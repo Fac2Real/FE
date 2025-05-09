@@ -81,8 +81,8 @@ export default function Monitoring() {
       <div className="monitor-body">
         <div>
           {zoneList.map((z, i) => (
-            <Link to={`/zone/${z.zoneId}`} className="link-as-contents">
-              <MonitorBox zone={z} key={i} />
+            <Link key={i} to={`/zone/${z.zoneId}`} className="link-as-contents">
+              <MonitorBox zone={z} />
             </Link>
           ))}
         </div>
