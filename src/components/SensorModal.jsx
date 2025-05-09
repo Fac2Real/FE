@@ -5,6 +5,7 @@ export default function SensorModal({ isOpen, onClose, sensorInfo, onUpdate }) {
   if (isOpen) {
     const { zoneName, sensorName, thres } = sensorInfo;
     const [newThres, setNewThres] = useState(thres);
+    console.log(sensorInfo);
     return (
       <>
         <div className="modal-overlay" onClick={onClose}>

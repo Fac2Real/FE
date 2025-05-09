@@ -284,7 +284,7 @@ p.sidebar-open {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 1;
-  transition: max-height 0.3s ease, padding 0.3s ease;
+  transition: height 0.2s ease, padding 0.2s ease;
   overflow: hidden;
 }
 
@@ -295,15 +295,13 @@ p.sidebar-open {
   border: none;
 }
 
-.box-wrapper:last-child {
+.bottom-box.last-box {
   margin-bottom: 5rem;
 }
 
 .top-box.add-zone {
   background-color: #fff3dc;
 }
-
-/**/
 
 .sensorlist {
   padding: 0.7rem;
@@ -657,4 +655,34 @@ p.sidebar-open {
 
 .animate-fade-in {
   animation: fade-in 0.5s ease-in-out; /* 페이드 인 애니메이션 */
+}
+
+/* 공간 상세 페이지 */
+.elk-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0.2rem;
+  flex-wrap: wrap;
+}
+
+.elk-box {
+  width: calc((100% - 0.2rem) / 2);
+  height: 100%;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.elk-box > p {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+}
+
+iframe {
+  width: 95%;
+  min-height: 22.5rem;
+  margin: 0.1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
