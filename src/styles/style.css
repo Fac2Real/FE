@@ -18,7 +18,7 @@ a:hover,
 a:active,
 a:visited {
   text-decoration: none;
-  color: white;
+  /* color: white; */
 }
 
 a {
@@ -91,6 +91,7 @@ div.sidebar-open {
 
 p.sidebar-open {
   display: inline-block;
+  margin: 0;
   margin-left: 1.5rem;
   font-size: 1.2rem;
   height: 1.5rem;
@@ -150,7 +151,7 @@ p.sidebar-open {
   word-break: keep-all;
 }
 
-.sidebar-open.current-page {
+.current-page {
   color: var(--c3);
 }
 
@@ -223,7 +224,7 @@ p.sidebar-open {
 .mini-box > :first-child {
   max-width: 40%;
   margin: 1.5rem 0 0 2rem;
-  font-size: 1.5rem;
+  font-size: 45%;
   white-space: normal;
   overflow-wrap: break-word;
   word-break: keep-all;
@@ -240,6 +241,11 @@ p.sidebar-open {
 .link-as-contents {
   display: contents;
   text-decoration: none;
+}
+
+.mini-menu > .side-opt {
+  margin-left: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 /* 센서 관리 페이지 */

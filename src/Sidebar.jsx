@@ -18,6 +18,9 @@ export default function Sidebar() {
     if (location.pathname === "/") setCurrentPage("Home");
     else if (location.pathname.startsWith("/monitoring"))
       setCurrentPage("Monitor");
+    else if (location.pathname.startsWith("/safety")) setCurrentPage("Safety");
+    else if (location.pathname.startsWith("/facility"))
+      setCurrentPage("Facility");
     else if (location.pathname.startsWith("/settings"))
       setCurrentPage("Sensor");
     else if (location.pathname.startsWith("/certification"))
@@ -42,7 +45,7 @@ export default function Sidebar() {
       {isOpen && (
         <div className="sidebar-open">
           <span className="icon side-opt">
-            <Link>
+            <Link to="/">
               <Logo fill="#FFF" width="1.5rem" />
             </Link>
           </span>
@@ -87,13 +90,19 @@ export default function Sidebar() {
           >
             <Link to="/monitoring">
               <MonitorIcon
-                fill={currentPage === "Monitor" ? "#608DFF" : "#FFF"}
+                fill={
+                  ["Monitor", "Facility", "Safety"].includes(currentPage)
+                    ? "#608DFF"
+                    : "#FFF"
+                }
                 width="1.5rem"
               />
               {isOpen && (
                 <p
                   className={`${
-                    currentPage === "Monitor" ? "current-page" : ""
+                    ["Monitor", "Facility", "Safety"].includes(currentPage)
+                      ? "current-page"
+                      : ""
                   } sidebar-open`}
                 >
                   모니터링
@@ -101,6 +110,46 @@ export default function Sidebar() {
               )}
             </Link>
           </span>
+          {isOpen &&
+            ["Monitor", "Facility", "Safety"].includes(currentPage) && (
+              <>
+                <div className="mini-menu">
+                  <div className="side-opt">
+                    <Link to="/monitoring">
+                      <p
+                        className={`${
+                          currentPage === "Monitor" ? "current-page" : ""
+                        }`}
+                      >
+                        실시간 모니터링
+                      </p>
+                    </Link>
+                  </div>
+                  <div className="side-opt">
+                    <Link to="/safety">
+                      <p
+                        className={`${
+                          currentPage === "Safety" ? "current-page" : ""
+                        }`}
+                      >
+                        작업자 안전관리
+                      </p>
+                    </Link>
+                  </div>
+                  <div className="side-opt">
+                    <Link to="/facility">
+                      <p
+                        className={`${
+                          currentPage === "Facility" ? "current-page" : ""
+                        }`}
+                      >
+                        설비 관리
+                      </p>
+                    </Link>
+                  </div>
+                </div>
+              </>
+            )}
         </div>
         <div>
           <span
