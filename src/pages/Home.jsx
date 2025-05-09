@@ -17,13 +17,13 @@ export default function Home() {
             icon={<PulseIcon width="5rem" stroke="#c1bebe" />}
           />
         </Link>
-        <Link to="/" className="link-as-contents">
+        <Link to="/safety" className="link-as-contents">
           <MiniBox
             title="작업자 안전관리"
             icon={<WorkerIcon width="5rem" fill="#c1bebe" />}
           />
         </Link>
-        <Link to="/" className="link-as-contents">
+        <Link to="/facility" className="link-as-contents">
           <MiniBox
             title="설비 관리"
             icon={<MachineIcon width="5rem" fill="#c1bebe" />}
