@@ -52,7 +52,11 @@ export default function ZoneInfoBox({
         </span>
       </div>
 
-      <div className={`bottom-box ${isOpen ? "open" : "closed"}`}>
+      <div
+        className={`bottom-box ${isOpen ? "open" : "closed"} ${
+          addZone ? "last-box" : ""
+        }`}
+      >
         {!addZone && (
           <>
             <div className="sensorlist">
