@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SensorModal from "../components/SensorModal";
 import ZoneInfoBox from "../components/ZoneInfoBox";
 import axios from "axios";
 import FacilityModal from "../components/FacilityModal";
+import EditModal from "../components/EditModal";
 /* ────────────────────────────────
    1. 센서 타입 → 한글 명/분류 매핑
 ──────────────────────────────── */
@@ -31,6 +32,7 @@ export default function Settings() {
   const [selectedZone, setSelectedZone] = useState(); // 모달 전달용
   const [isSensorModalOpen, setSensorModalOpen] = useState(false); // 모달 열기
   const [isFacilityModalOpen, setFacilityModalOpen] = useState(false); // 모달 열기
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [zoneList, setZoneList] = useState([]); // 존 추가하고 열기
 
   // mock-data 시작 -->
@@ -90,6 +92,7 @@ export default function Settings() {
     Promise.all([
       axios.get("http://localhost:8080/api/zones"),
       axios.get("http://localhost:8080/api/sensors"), // ← location 컬럼 포함
+      axios.get("http://localhost:8080/api/equips"),
     ])
       .then(([zoneRes, sensorRes]) => {
         // console.log(zoneRes.data);
@@ -165,6 +168,11 @@ export default function Settings() {
     setFacilityModalOpen(true);
   };
 
+  const handleOpenEditModal = (zoneName) => {
+    setSelectedZone(zoneName);
+    setEditModalOpen(true);
+  };
+
   const handleThresUpdate = (newValue) => {
     /* TODO :: 임계값 업데이트하기 */
     /* 화면 표현하기 (완료) */
@@ -190,6 +198,7 @@ export default function Settings() {
   const handleFacilityUpdate = (newValue) => {
     // console.log(`공간명: ${selectedZone} 설비명: ${newValue}`);
     /* TODO :: 설비 목록 업데이트하기 */
+    // axios.post()
     /* 화면 표현하기 */
     const updated = zoneList.map((z) => {
       if (z.title !== selectedZone) return z;
@@ -206,6 +215,28 @@ export default function Settings() {
     });
     setZoneList(updated);
     setFacilityModalOpen(false);
+  };
+
+  const handleEditZone = (newZoneName) => {
+    // 여기에 editzone 수정 API
+    console.log("공간명 변경 제출!");
+
+    axios.post(`http://localhost:8080/api/zones/${selectedZone}`, {
+      zoneName: newZoneName,
+    });
+
+    // 화면 반영 ()
+    const updated = zoneList.map((z) => {
+      if (z.title !== selectedZone) return z;
+      return {
+        ...z,
+        title: newZoneName,
+      };
+    });
+    setZoneList(updated);
+    alert(`${selectedZone}이 ${newZoneName}로 변경되었습니다`); // 없애도 되려나..
+    setSelectedZone(newZoneName);
+    setEditModalOpen(false);
   };
 
   const handleAddZone = async (newZone) => {
@@ -255,6 +286,12 @@ export default function Settings() {
         zoneInfo={selectedZone}
         onUpdate={handleFacilityUpdate}
       />
+      <EditModal
+        isOpen={isEditModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        zoneName={selectedZone}
+        onUpdate={handleEditZone}
+      />
       <h1>센서 관리</h1>
       {zoneList.map((z, i) => (
         <ZoneInfoBox
@@ -262,6 +299,7 @@ export default function Settings() {
           key={z.title}
           sensorModalBtn={handleOpenSensorModal}
           facilityModalBtn={handleOpenFacilityModal}
+          editModalBtn={handleOpenEditModal}
         />
       ))}
       <ZoneInfoBox zone="공간 추가" onAddZone={handleAddZone} />

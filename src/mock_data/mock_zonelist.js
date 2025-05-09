@@ -17,9 +17,10 @@ const mockZoneList = [
         master: "윤00",
         level: 0
     },
-    { title: "테스트룸A", env_sensor: [], fac_sensor: [], master: "정00", level: 0 },
-    { title: "테스트룸B", env_sensor: [], fac_sensor: [], master: "강00", level: 0 },
+    { title: "테스트룸A", env_sensor: [], fac_sensor: [], master: "정00", level: 1 },
+    { title: "테스트룸B", env_sensor: [], fac_sensor: [], master: "강00", level: 1 },
     { title: "테스트룸C", env_sensor: [], fac_sensor: [], master: "이00", level: 0 },
+    { title: "테스트룸D", env_sensor: [], fac_sensor: [], master: "박00", level: 0 },
     { title: "테스트룸D", env_sensor: [], fac_sensor: [], master: "박00", level: 0 },
 ];
 

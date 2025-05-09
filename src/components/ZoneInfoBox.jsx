@@ -1,9 +1,11 @@
 import { useState } from "react";
 import ToolIcon from "../assets/tool_icon.svg?react";
+import EditIcon from "../assets/edit_icon.svg?react";
 export default function ZoneInfoBox({
   zone,
   sensorModalBtn,
   facilityModalBtn,
+  editModalBtn,
   onAddZone = null,
 }) {
   const { title, env_sensor = [], facility = [], master = "" } = zone;
@@ -26,13 +28,35 @@ export default function ZoneInfoBox({
           addZone && "add-zone"
         }`}
       >
-        {addZone ? "공간 추가" : title}
+        {addZone ? (
+          "공간 추가"
+        ) : (
+          <>
+            <span>
+              {title}
+              <EditIcon
+                width="1rem"
+                opacity="0.4"
+                style={{
+                  marginLeft: "0.7rem",
+                  transform: "translateY(1.5px)",
+                  cursor: "pointer",
+                }}
+                onClick={() => editModalBtn(title)}
+              />
+            </span>
+          </>
+        )}
         <span className="arrow" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? "▲" : addZone ? "＋" : "▼"}
         </span>
       </div>
 
-      <div className={`bottom-box ${isOpen ? "open" : "closed"}`}>
+      <div
+        className={`bottom-box ${isOpen ? "open" : "closed"} ${
+          addZone ? "last-box" : ""
+        }`}
+      >
         {!addZone && (
           <>
             <div className="sensorlist">
@@ -95,7 +119,7 @@ export default function ZoneInfoBox({
                 ))}
               <p>
                 <button
-                  className="no-flex-button"
+                  className="no-flex-button add-fac"
                   onClick={() => facilityModalBtn(title)}
                 >
                   + 설비 등록
