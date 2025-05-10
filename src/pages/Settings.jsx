@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import SensorModal from "../components/SensorModal";
 import ZoneInfoBox from "../components/ZoneInfoBox";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 import FacilityModal from "../components/FacilityModal";
 import EditModal from "../components/EditModal";
 /* ────────────────────────────────
@@ -90,9 +90,9 @@ export default function Settings() {
     ───────────────────────────────── */
   useEffect(() => {
     Promise.all([
-      axios.get("http://localhost:8080/api/zones"),
-      axios.get("http://localhost:8080/api/sensors"), // ← location 컬럼 포함
-      axios.get("http://localhost:8080/api/equips"),
+      axiosInstance.get("/api/zones"),
+      axiosInstance.get("/api/sensors"), // ← location 컬럼 포함
+      axiosInstance.get("/api/equips"),
     ])
       .then(([zoneRes, sensorRes]) => {
         // console.log(zoneRes.data);
@@ -221,7 +221,7 @@ export default function Settings() {
     // 여기에 editzone 수정 API
     console.log("공간명 변경 제출!");
 
-    axios.post(`http://localhost:8080/api/zones/${selectedZone}`, {
+    axiosInstance.post(`/api/zones/${selectedZone}`, {
       zoneName: newZoneName,
     });
 
