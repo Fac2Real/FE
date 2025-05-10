@@ -9,9 +9,13 @@ type ToastContextType = {
   showToast: (alarm: AlarmEvent) => void;
 };
 
-export const ToastContext = createContext<ToastContextType | undefined>(undefined);
+export const ToastContext = createContext<ToastContextType | undefined>(
+  undefined
+);
 
-export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [toasts, setToasts] = useState<AlarmEvent[]>([]);
   const navigate = useNavigate();
 
@@ -45,12 +49,12 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const getColor = (riskLevel: RiskLevel) => {
     switch (riskLevel) {
       case "CRITICAL":
-        return "bg-red-600 text-white";
+        return "alert-box red";
       case "WARNING":
-        return "bg-yellow-400 text-black";
+        return "alert-box yellow";
       case "INFO":
       default:
-        return "bg-blue-500 text-white";
+        return "alert-box blue";
     }
   };
   const handleWebSocketMessage = (message: AlarmEvent) => {
@@ -78,19 +82,18 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               onClick={() => handleToastClick(toast)}
               className={`px-4 py-3 rounded shadow-md cursor-pointer transition-all animate-fade-in ${getColor(toast.riskLevel)}`}
             >
-              <div className="font-bold">
+              <h3>
                 {toast.riskLevel} - {toast.sensorType}
-              </div>
-              <div>{toast.messageBody}</div>
-              <div className="text-xs opacity-75">
-                {new Date(toast.timestamp).toLocaleTimeString()}
+              </h3>
+              <div>
+                <p>{toast.messageBody}</p>
+                <p>{new Date(toast.timestamp).toLocaleTimeString()}</p>
               </div>
             </div>
           ))}
         </div>,
         document.getElementById("toast-root") as HTMLElement
       )}
-      
     </ToastContext.Provider>
   );
 };

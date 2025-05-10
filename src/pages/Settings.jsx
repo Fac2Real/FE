@@ -7,8 +7,6 @@ import EditModal from "../components/EditModal";
 /* ────────────────────────────────
    1. 센서 타입 → 한글 명/분류 매핑
 ──────────────────────────────── */
-const ENV_TYPES = ["temp", "humid"]; // 환경센서
-const FAC_TYPES = ["dust", "current", "vibration"]; // 설비센서
 
 const toKoName = (type) => {
   switch (type) {
@@ -76,85 +74,36 @@ export default function Settings() {
       master: "윤00",
     },
   ];
-
-  // useEffect(() => {
-  //   if (zoneList.length === 0) {
-  //     setZoneList(initialZoneList);
-  //   }
-  // }, []);
-
+  
   // <---- mock-data 끝
 
   /* ────────────────────────────────
        2. ① 공간 + ② 센서를 한 번에 받아서 매핑
     ───────────────────────────────── */
   useEffect(() => {
-    Promise.all([
-      axiosInstance.get("/api/zones"),
-      axiosInstance.get("/api/sensors"), // ← location 컬럼 포함
-      axiosInstance.get("/api/equips"),
+  Promise.all([
+      axiosInstance.get("/api/zones/zoneitems"),    // zoneItems 1개만 써도 OK
     ])
-      .then(([zoneRes, sensorRes]) => {
-        // console.log(zoneRes.data);
-        // console.log(sensorRes.data);
-        const sensors = sensorRes.data;
-
-        /* 센서를 zoneId 기준으로 그룹핑 → { 5: {env:[], fac:[]}, … } */
-        const mapByZone = sensors.reduce((acc, s) => {
-          const zoneId = s.zoneId?.trim(); // ← 공백 대비
-          if (!zoneId) return acc;
-
-          if (!acc[zoneId]) acc[zoneId] = { env: [], fac: [] };
-
-          const koName = toKoName(s.sensorType); // ※ 백엔드 키 sensorType
-          const item = {
-            // ← 센서 공통 구조
-            id: s.sensorId, // 새 필드
-            name: toKoName(s.sensorType),
-            thres: s.threshold ?? "-",
-          };
-
-          if (ENV_TYPES.includes(s.sensorType)) {
-            acc[zoneId].env.push(item); // env → 객체 그대로
-          } else if (FAC_TYPES.includes(s.sensorType)) {
-            acc[zoneId].fac.push(item); // fac → 문자열만 push
-          }
-          return acc;
-        }, {});
-
-        /* zones 에 센서 배열을 끼워 넣어 최종 zoneList 작성 */
-        const list = zoneRes.data.map((z) => {
-          const zoneId = z.zoneId.trim();
-          const mapped = mapByZone[zoneId] || { env: [], fac: [] };
-          return {
-            title: z.zoneName,
-            env_sensor: mapped.env.map((s) => ({
-              name: s.name,
-              thres: s.thres,
-              sensorId: s.id,
+      .then(([res]) => {
+        const list = res.data.map((z) => ({
+          title: z.title,
+          env_sensor: z.env_sensor.map((s) => ({
+            name:  toKoName(s.sensorType),        // 한글 변환
+            thres: s.thres ?? "-",                // thres 없으면 “-”
+            sensorId: s.sensorId,
+          })),
+          facility: z.facility.map((f) => ({
+            name: f.name,
+            fac_sensor: f.fac_sensor.map((s) => ({
+              name: toKoName(s.sensorType),
+              id:   s.sensorId,
             })),
-            facility:
-              mapped.fac.length > 0
-                ? [
-                    {
-                      name: "API필요",
-                      fac_sensor: mapped.fac.map((s) => ({
-                        name: s.name,
-                        id: s.id,
-                      })),
-                    },
-                  ]
-                : [],
-            master: z.master || "",
-          };
-        });
-        // console.log("????");
-        // console.log(list);
-
-        /* 레코드가 하나도 없으면 예시 데이터 사용 */
+          })),
+        }));
+  
         setZoneList(list.length ? list : initialZoneList);
-      })
-      .catch(console.error);
+        })
+        .catch(console.error);
   }, []);
 
   /* 모달 여는 동작 전용 함수 */
@@ -196,9 +145,13 @@ export default function Settings() {
   };
 
   const handleFacilityUpdate = (newValue) => {
+    axiosInstance.post("/api/equips", {
+      zoneName: selectedZone,
+      equipName: newValue,
+    });
     // console.log(`공간명: ${selectedZone} 설비명: ${newValue}`);
     /* TODO :: 설비 목록 업데이트하기 */
-    // axios.post()
+    // axios.post() 
     /* 화면 표현하기 */
     const updated = zoneList.map((z) => {
       if (z.title !== selectedZone) return z;
@@ -244,17 +197,9 @@ export default function Settings() {
     if (!confirmed) return;
     else {
       try {
-        // const { data } = await axios.post("http://localhost:8080/api/zones", {
-        //   zoneName: newZone,
-        // });
-
-        // const newItem = {
-        //   id: data.zoneId,
-        //   title: data.zoneName,
-        //   env_sensor: [],
-        //   fac_sensor: [],
-        //   master: "",
-        // };
+        axiosInstance.post("/api/zones", {
+          zoneName: newZone,
+        });
 
         const newItem = {
           title: newZone,
@@ -264,7 +209,6 @@ export default function Settings() {
         };
 
         setZoneList((prev) => [...prev, newItem]);
-        // console.log(`ZONE 생성: ${data.zoneId} / ${data.zoneName}`);
       } catch (err) {
         console.error(err);
         alert("공간 생성에 실패했습니다.");
