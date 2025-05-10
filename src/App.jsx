@@ -24,7 +24,6 @@ export default function App() {
             <Route path="/safety" element={<Safety />} />
             <Route path="/facility" element={<Facility />} />
             <Route path="/certification" element={<Certification />} />
-
             <Route path="/zone/:zoneId" element={<ZoneDetail_2 />} />
           </Routes>
         </div>
