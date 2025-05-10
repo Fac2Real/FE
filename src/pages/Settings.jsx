@@ -49,7 +49,8 @@ export default function Settings() {
             { name: "온도 센서", id: "UA10T-TEM-24060890" },
           ],
         },
-      ]
+      ],
+      master: "김00",
     },
     {
       title: "휴게실",
@@ -62,22 +63,18 @@ export default function Settings() {
             { name: "온도 센서", id: "UA10T-TEM-24060891" },
           ],
         },
-      ]
+      ],
+      master: "윤00",
     },
-    { title: "테스트룸A", env_sensor: [], facility: [] },
+    { title: "테스트룸A", env_sensor: [], facility: [], master: "정00" },
     {
       title: "테스트룸B",
       env_sensor: [],
       facility: [{ name: "설비A" }],
+      master: "윤00",
     },
   ];
-
-  // useEffect(() => {
-  //   if (zoneList.length === 0) {
-  //     setZoneList(initialZoneList);
-  //   }
-  // }, []);
-
+  
   // <---- mock-data 끝
 
   /* ────────────────────────────────
@@ -154,7 +151,7 @@ export default function Settings() {
     });
     // console.log(`공간명: ${selectedZone} 설비명: ${newValue}`);
     /* TODO :: 설비 목록 업데이트하기 */
-    // axios.post()
+    // axios.post() 
     /* 화면 표현하기 */
     const updated = zoneList.map((z) => {
       if (z.title !== selectedZone) return z;
