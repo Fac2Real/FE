@@ -87,7 +87,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
               </h3>
               <div>
                 <p>{toast.messageBody}</p>
-                <p>{new Date(toast.timestamp).toLocaleTimeString()}</p>
+                <p>{toast.time}</p>
               </div>
             </div>
           ))}

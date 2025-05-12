@@ -8,7 +8,7 @@ export interface AlarmEvent {
   sensorType: string;
   sensorValue: number;
   riskLevel: RiskLevel;
-  timestamp: string;
+  time: string;
   messageBody: string;
   source: string;
 }

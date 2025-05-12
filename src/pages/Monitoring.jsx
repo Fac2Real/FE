@@ -44,7 +44,7 @@ export default function Monitoring() {
 
   const mock_zoneList = [
     {
-      zoneId: "PID-791",
+      zoneId: "20250507165750-827",
       title: "테스트룸A",
       master: "정00",
       // level: 0,

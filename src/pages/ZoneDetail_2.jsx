@@ -7,7 +7,7 @@ export default function ZoneDetail_2() {
   const bottomRef = useRef(null);
 
   // Kibana 대시보드 ID (미리 저장해둔 고정된 dashboard)
-  const dashboardId = "469736c0-2c7b-11f0-b6d9-690198decade";
+  const dashboardId = "d9cad7d0-2d48-11f0-b003-9ddfbb58f11c";
 
   const sensorTypes = ["temp", "humid"]; // 원하는 센서 타입들 추가
 
@@ -33,7 +33,7 @@ export default function ZoneDetail_2() {
       { type: "humid", id: "SID-ZZZ" },
     ],
   };
-  console.log(mock_details_sensor.sensors);
+  console.log(mock_details_sensor.zoneId);
 
   const mapSensorType = (sensorType) => {
     const sensorMap = { temp: "온도 센서", humid: "습도 센서" };
