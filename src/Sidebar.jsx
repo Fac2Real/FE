@@ -22,16 +22,22 @@ export default function Sidebar() {
 
   const handleWebSocketMessage = useCallback((count) => {
     console.log("WebSocket message received:", count);
-    // 알림 개수 업데이트
+    // 웹소켓 알림 왔을 때 알림 개수 업데이트
     setAlramCount(count);
   }, []);
   // 웹소켓 연결
-  useWebSocket2("/topic/unread-count",handleWebSocketMessage);
+  useWebSocket2("/topic/unread-count", handleWebSocketMessage);
+
   // 첫 렌더링 시 알람 개수 초기화
   useEffect(() => {
-    axiosInstance.get("/api/abnormal/unread-count");
+    axiosInstance
+      .get("/api/abnormal/unread-count")
+      .then((res) => {
+        console.log("res data: ", res.data);
+        setAlramCount(res.data);
+      })
+      .catch((e) => console.log("e"));
   }, []);
-
 
   useEffect(() => {
     if (location.pathname === "/") setCurrentPage("Home");
@@ -217,10 +223,13 @@ export default function Sidebar() {
       </div>
       {
         <div className={isOpen ? "alram-box" : "alram-box sidebar-close"}>
-          <span className="icon"onClick={() => {
-              setIsModalOpen(true)
+          <span
+            className="icon"
+            onClick={() => {
+              setIsModalOpen(true);
               console.log("알람 모달 열기");
-              }}>
+            }}
+          >
             <span className="icon">
               <BellIcon
                 fill={

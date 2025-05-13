@@ -10,10 +10,12 @@ export default function MonitorBox({ zone }) {
       <div className="icon-container">
         <PageIcon width="2.3rem" stroke="gray" opacity="0.3" />
       </div>
-      <h3>{zone.title}</h3>
+      <h3>{zone.zoneName}</h3>
       {zone.level === 0 ? null : <p>문제 발생: {zone.abnormal_sensor}</p>}
-      {zone.level == 2 && (
-        <button className="no-flex-button urgent">담당자 긴급 호출</button>
+      {zone.level !== 0 && (
+        <button className="no-flex-button urgent">
+          {zone.level === 2 ? "긴급 알림" : "주의 알림"}
+        </button>
       )}
       <div className="spacer" />
     </div>

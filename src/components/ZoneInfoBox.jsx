@@ -70,10 +70,17 @@ export default function ZoneInfoBox({
                       <span className="sensor-id">({sen.sensorId})</span>{" "}
                     </div>
                     <span className="dash-line"></span>
-                    <div>현재 설정값: {sen.thres}</div>
+                    <div>
+                      현재 설정값: {sen.thres ?? "0"}(±{sen.margin ?? "0"})
+                    </div>
                     <span
                       onClick={() =>
-                        sensorModalBtn(title, sen.sensorId, sen.thres)
+                        sensorModalBtn(
+                          title,
+                          sen.sensorId,
+                          sen.thres,
+                          sen.margin
+                        )
                       }
                     >
                       <ToolIcon
@@ -137,6 +144,14 @@ export default function ZoneInfoBox({
           <div className="add-zone">
             <div className="input-flex">
               <label htmlFor="zoneName">공간 이름</label>
+              <input
+                id="zoneName"
+                name="zoneName"
+                value={newZone}
+                onChange={(e) => setNewZone(e.target.value)}
+                placeholder="공간 이름을 입력하세요"
+              />
+              <label htmlFor="zoneName">담당자 선택</label>
               <input
                 id="zoneName"
                 name="zoneName"

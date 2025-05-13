@@ -3,8 +3,9 @@ import XIcon from "../assets/x_icon.svg?react";
 
 export default function SensorModal({ isOpen, onClose, sensorInfo, onUpdate }) {
   if (isOpen) {
-    const { zoneName, sensorName, thres } = sensorInfo;
+    const { zoneName, sensorId, thres, margin } = sensorInfo;
     const [newThres, setNewThres] = useState(thres);
+    const [newMargin, setNewMargin] = useState(margin);
     console.log(sensorInfo);
     return (
       <>
@@ -15,7 +16,7 @@ export default function SensorModal({ isOpen, onClose, sensorInfo, onUpdate }) {
             </div>
             <div className="modal-contents">
               <span>
-                [{zoneName}]의 [{sensorName}] 임계값 변경
+                [{zoneName}]의 [{sensorId}] 임계값 변경
               </span>
               <div className="input-flex">
                 <span>센서 임계값</span>
@@ -26,9 +27,20 @@ export default function SensorModal({ isOpen, onClose, sensorInfo, onUpdate }) {
                     setNewThres(Number(e.target.value));
                   }}
                 ></input>
+                <span>허용 오차</span>
+                <input
+                  type="number"
+                  value={newMargin}
+                  onChange={(e) => {
+                    setNewMargin(Number(e.target.value));
+                  }}
+                ></input>
               </div>
+
               <div className="button-flex">
-                <button onClick={() => onUpdate(newThres)}>수정</button>
+                <button onClick={() => onUpdate(newThres, newMargin)}>
+                  수정
+                </button>
               </div>
             </div>
           </div>
