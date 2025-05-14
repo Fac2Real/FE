@@ -95,7 +95,13 @@ const AlarmModal = ({ isOpen, onClose }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="alarm-modal-box" onClick={(e) => e.stopPropagation()}>
-        <div>
+        <div
+          style={{
+            borderBottom: "1px solid #ddd",
+            backgroundColor: "#f6f6f6",
+            borderRadius: "1rem 1rem 0 0",
+          }}
+        >
           <div className="modal-header">
             <h2>알림 목록</h2>
             <button className="modal-close" onClick={onClose}>
