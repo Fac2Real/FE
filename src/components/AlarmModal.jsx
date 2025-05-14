@@ -61,7 +61,6 @@ const AlarmModal = ({ isOpen, onClose }) => {
     setAlarms((prev) => prev.filter((alarm) => alarm.id !== alarmId));
   };
   const handleAlarmClick = async (alarm) => {
-    // 알람 읽음 상태를 서버에 전달
     await axiosInstance(`/api/abnormal/${alarm.id}/read`, {
       method: "POST",
       headers: {
@@ -70,10 +69,21 @@ const AlarmModal = ({ isOpen, onClose }) => {
     });
     // 알람 삭제
     removeAlarm(alarm.id);
-
     // 알람 상세 페이지로 이동
-    // navigate(`/zone/${alarm.zoneId}`);
-    // onClose();
+    navigate(`/zone/${alarm.zoneId}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    onClose();
+  };
+
+  const handleCheckClick = async (alarm) => {
+    await axiosInstance(`/api/abnormal/${alarm.id}/read`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    // 알람 삭제
+    removeAlarm(alarm.id);
   };
 
   const [filter, setFilter] = useState(null);
@@ -136,15 +146,6 @@ const AlarmModal = ({ isOpen, onClose }) => {
             >
               주의
             </button>
-            <button
-              className="no-flex-button"
-              style={{ backgroundColor: "#009900" }}
-              onClick={() => {
-                setFilter("normal");
-              }}
-            >
-              정상
-            </button>
           </div>
         </div>
         {/* 모달 내용 */}
@@ -159,26 +160,39 @@ const AlarmModal = ({ isOpen, onClose }) => {
                 <li
                   key={alarm.id}
                   className="alarm-item"
-                  onClick={() => handleAlarmClick(alarm)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAlarmClick(alarm);
+                  }}
                 >
-                  <p>
-                    <strong
-                      className={
-                        alarm.abnormalType.includes("경고")
-                          ? "warning"
-                          : alarm.abnormalType.includes("위험")
-                          ? "urgent"
-                          : "normal"
-                      }
-                    >
-                      {alarm.abnormalType}
-                    </strong>{" "}
-                    - {alarm.zoneName}
-                  </p>
-                  <p>값: {alarm.abnVal}</p>
-                  <p className="alarm-timestamp">
-                    감지 시간: {new Date(alarm.detectedAt).toLocaleString()}
-                  </p>
+                  <div>
+                    <p>
+                      <strong
+                        className={
+                          alarm.abnormalType.includes("경고")
+                            ? "warning"
+                            : alarm.abnormalType.includes("위험")
+                            ? "urgent"
+                            : "normal"
+                        }
+                      >
+                        {alarm.abnormalType}
+                      </strong>{" "}
+                      - {alarm.zoneName}
+                    </p>
+                    {/* <p>값: {alarm.abnVal}</p> */}
+                    <p className="alarm-timestamp">
+                      감지 시간: {new Date(alarm.detectedAt).toLocaleString()}
+                    </p>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCheckClick(alarm);
+                    }}
+                  >
+                    확인
+                  </button>
                 </li>
               ))}
             </ul>

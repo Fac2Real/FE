@@ -15,7 +15,7 @@ export default function ZoneDetail_2() {
   /* zoneId로 detail 정보를 요청하면, 아래 정보를 줬으면 좋겠다...*/
 
   // 최종 프로젝트
-  // 시뮬레이션 시각화 
+  // 시뮬레이션 시각화
   // 핸드폰 앱으로 만들어서 센서 데이터 전송가능하게끔.
 
   // 데이터 기반 의사 결정
@@ -30,7 +30,6 @@ export default function ZoneDetail_2() {
     sensors: [
       { type: "temp", id: "SID-XXX" },
       { type: "humid", id: "SID-YYY" },
-      { type: "humid", id: "SID-ZZZ" },
     ],
   };
   console.log(mock_details_sensor.zoneId);
@@ -61,7 +60,7 @@ export default function ZoneDetail_2() {
   }, [isLogOpen]);
   return (
     <>
-      <h1>모니터링 현황</h1>
+      <h1>{mock_details_sensor.zoneName}</h1>
       {/* 환경 리포트 부분 :: ELK */}
       <div className="box-wrapper">
         <div className="top-box">환경 리포트</div>

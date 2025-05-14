@@ -739,10 +739,14 @@ iframe {
 .alarm-item {
   padding: 0.75rem;
   border-bottom: 1px solid #ddd;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.alarm-item:last-child {
-  border-bottom: none;
+.alarm-item button {
+  justify-self: center;
+  align-self: center;
 }
 
 .alarm-timestamp {
