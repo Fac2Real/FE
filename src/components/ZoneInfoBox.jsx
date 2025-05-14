@@ -12,6 +12,8 @@ export default function ZoneInfoBox({
   const [isOpen, setIsOpen] = useState(false);
   const addZone = zone === "공간 추가";
   const [newZone, setNewZone] = useState("");
+  const [newZoneManager, setNewZoneManager] = useState("");
+
   const [facilityInfoOpen, setFacilityInfoOpen] = useState({});
 
   const toggleFacility = (i) => {
@@ -151,13 +153,13 @@ export default function ZoneInfoBox({
                 onChange={(e) => setNewZone(e.target.value)}
                 placeholder="공간 이름을 입력하세요"
               />
-              <label htmlFor="zoneName">담당자 선택</label>
+              <label htmlFor="managerName">담당자 선택</label>
               <input
-                id="zoneName"
-                name="zoneName"
-                value={newZone}
-                onChange={(e) => setNewZone(e.target.value)}
-                placeholder="공간 이름을 입력하세요"
+                id="managerName"
+                name="managerName"
+                value={newZoneManager}
+                onChange={(e) => setNewZoneManager(e.target.value)}
+                placeholder="담당자 이름을 입력하세요"
               />
             </div>
             <div className="button-flex">

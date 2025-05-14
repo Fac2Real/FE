@@ -9,7 +9,7 @@ export default function Safety() {
       <h1>작업자 안전관리</h1>
       {/* 정상 작업자 */}
       <div className="box-wrapper">
-        <div className="top-box" style={{ backgroundColor: "#D9FFD0" }}>
+        <div className="top-box" style={{ backgroundColor: "#ebf8fe" }}>
           정상
         </div>
         <div className="bottom-box">
@@ -29,7 +29,7 @@ export default function Safety() {
       </div>
       {/* 연결되지 않은 작업자 */}
       <div className="box-wrapper">
-        <div className="top-box" style={{ backgroundColor: "#DADADA" }}>
+        <div className="top-box" style={{ backgroundColor: "#f6f6f6" }}>
           연결되지 않은 사용자
         </div>
         <div className="bottom-box"></div>

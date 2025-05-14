@@ -17,6 +17,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
       // 모달이 열릴 때 데이터 초기화 및 첫 페이지 로드
       setPage(0);
       setAlarms([]);
+      setFilter(null);
       setHasMore(true);
     }
   }, [isOpen]);
@@ -75,27 +76,80 @@ const AlarmModal = ({ isOpen, onClose }) => {
     // onClose();
   };
 
-  if (!isOpen) return null;
+  const [filter, setFilter] = useState(null);
 
+  const filteredAlarms = filter
+    ? alarms.filter((alarm) =>
+        filter === "urgent"
+          ? alarm.abnormalType.includes("위험")
+          : filter === "warning"
+          ? alarm.abnormalType.includes("경고")
+          : filter === "normal"
+          ? !alarm.abnormalType.includes("위험") &&
+            !alarm.abnormalType.includes("경고")
+          : true
+      )
+    : alarms;
+
+  if (!isOpen) return null;
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="alarm-modal-box" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2>알림 목록</h2>
-          <button className="modal-close" onClick={onClose}>
-            <XIcon width="1.5rem" height="1.5rem" />
-          </button>
+        <div>
+          <div className="modal-header">
+            <h2>알림 목록</h2>
+            <button className="modal-close" onClick={onClose}>
+              <XIcon width="1.5rem" height="1.5rem" />
+            </button>
+          </div>
+          <div className="button-container">
+            <button
+              className="no-flex-button"
+              style={{ backgroundColor: "#608dff" }}
+              onClick={() => {
+                setFilter(null);
+              }}
+            >
+              전체
+            </button>
+            <button
+              className="no-flex-button"
+              style={{ backgroundColor: "#cb3701" }}
+              onClick={() => {
+                setFilter("urgent");
+              }}
+            >
+              위험
+            </button>
+            <button
+              className="no-flex-button"
+              style={{ backgroundColor: "#c58000" }}
+              onClick={() => {
+                setFilter("warning");
+              }}
+            >
+              주의
+            </button>
+            <button
+              className="no-flex-button"
+              style={{ backgroundColor: "#009900" }}
+              onClick={() => {
+                setFilter("normal");
+              }}
+            >
+              정상
+            </button>
+          </div>
         </div>
-
         {/* 모달 내용 */}
         <div
           className="alarm-modal-contents"
           ref={modalContentRef}
           onScroll={handleScroll}
         >
-          {alarms.length > 0 ? (
+          {filteredAlarms.length > 0 ? (
             <ul className="alarm-list">
-              {alarms.map((alarm) => (
+              {filteredAlarms.map((alarm) => (
                 <li
                   key={alarm.id}
                   className="alarm-item"
