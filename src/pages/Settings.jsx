@@ -4,6 +4,7 @@ import ZoneInfoBox from "../components/ZoneInfoBox";
 import axiosInstance from "../api/axiosInstance";
 import FacilityModal from "../components/FacilityModal";
 import EditModal from "../components/EditModal";
+import axios from "axios";
 /* ────────────────────────────────
    1. 센서 타입 → 한글 명/분류 매핑
 ──────────────────────────────── */
@@ -33,82 +34,39 @@ export default function Settings() {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [zoneList, setZoneList] = useState([]); // 존 추가하고 열기
 
-  // mock-data 시작 -->
-  const initialZoneList = [
-    {
-      title: "보일러실",
-      env_sensor: [
-        { name: "온도 센서", thres: 60, sensorId: "TEMP001" },
-        { name: "습도 센서", thres: 75, sensorId: "HUMID001" },
-      ],
-      facility: [
-        {
-          name: "설비A",
-          fac_sensor: [
-            { name: "진동 센서", id: "UA10T-VIB-24060890" },
-            { name: "온도 센서", id: "UA10T-TEM-24060890" },
-          ],
-        },
-      ],
-      master: "김00",
-    },
-    {
-      title: "휴게실",
-      env_sensor: [],
-      facility: [
-        {
-          name: "설비B",
-          fac_sensor: [
-            { name: "진동 센서", id: "UA10T-VIB-24060891" },
-            { name: "온도 센서", id: "UA10T-TEM-24060891" },
-          ],
-        },
-      ],
-      master: "윤00",
-    },
-    { title: "테스트룸A", env_sensor: [], facility: [], master: "정00" },
-    {
-      title: "테스트룸B",
-      env_sensor: [],
-      facility: [{ name: "설비A" }],
-      master: "윤00",
-    },
-  ];
-  
-  // <---- mock-data 끝
-
   /* ────────────────────────────────
        2. ① 공간 + ② 센서를 한 번에 받아서 매핑
     ───────────────────────────────── */
   useEffect(() => {
-  Promise.all([
-      axiosInstance.get("/api/zones/zoneitems"),    // zoneItems 1개만 써도 OK
+    Promise.all([
+      axiosInstance.get("/api/zones/zoneitems"), // zoneItems 1개만 써도 OK
     ])
       .then(([res]) => {
         const list = res.data.map((z) => ({
           title: z.title,
           env_sensor: z.env_sensor.map((s) => ({
-            name:  toKoName(s.sensorType),        // 한글 변환
-            thres: s.thres ?? "-",                // thres 없으면 “-”
+            name: toKoName(s.sensorType), // 한글 변환
+            thres: s.thres,
+            margin: s.margin,
             sensorId: s.sensorId,
           })),
           facility: z.facility.map((f) => ({
             name: f.name,
             fac_sensor: f.fac_sensor.map((s) => ({
               name: toKoName(s.sensorType),
-              id:   s.sensorId,
+              id: s.sensorId,
             })),
           })),
         }));
-  
+
         setZoneList(list.length ? list : initialZoneList);
-        })
-        .catch(console.error);
+      })
+      .catch(console.error);
   }, []);
 
   /* 모달 여는 동작 전용 함수 */
-  const handleOpenSensorModal = (zoneName, sensorId, thres) => {
-    setSensorInfo({ zoneName, sensorId, thres });
+  const handleOpenSensorModal = (zoneName, sensorId, thres, margin) => {
+    setSensorInfo({ zoneName, sensorId, thres, margin });
     setSensorModalOpen(true);
   };
 
@@ -122,10 +80,14 @@ export default function Settings() {
     setEditModalOpen(true);
   };
 
-  const handleThresUpdate = (newValue) => {
+  const handleThresUpdate = (newThres, newMargin) => {
     /* TODO :: 임계값 업데이트하기 */
-    /* 화면 표현하기 (완료) */
-    const value = Number(newValue);
+    axios
+      .post("")
+      .then((res) => console.log("임계값 업데이트 완료", res))
+      .catch((e) => console.log("임계값 업데이트 실패", e));
+
+    /* 화면 표현하기 (완료) => 이후 then으로 옮기기 */
     const updated = zoneList.map((zone) => {
       if (zone.title !== sensorInfo.zoneName) {
         return zone;
@@ -136,7 +98,7 @@ export default function Settings() {
           if (sen.sensorId !== sensorInfo.sensorId) {
             return sen;
           }
-          return { ...sen, thres: value };
+          return { ...sen, thres: newThres, margin: newMargin };
         }),
       };
     });
@@ -151,7 +113,7 @@ export default function Settings() {
     });
     // console.log(`공간명: ${selectedZone} 설비명: ${newValue}`);
     /* TODO :: 설비 목록 업데이트하기 */
-    // axios.post() 
+    // axios.post()
     /* 화면 표현하기 */
     const updated = zoneList.map((z) => {
       if (z.title !== selectedZone) return z;

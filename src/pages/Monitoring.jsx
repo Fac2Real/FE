@@ -2,6 +2,8 @@ import { useEffect, useState, useCallback } from "react";
 import MonitorBox from "../components/MonitorBox";
 import useWebSocket from "../websocket/useWebSocket";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 // import mockZoneList from "../mock_data/mock_zonelist";
 
 // 메모...
@@ -10,7 +12,7 @@ import { Link } from "react-router-dom";
 
 export default function Monitoring() {
   const [zoneList, setZoneList] = useState([]);
-  
+
   // 렌더링 될때마다 불필요한 websocket 연결을 피하기 위해 useCallback 사용
   const handleWebSocketMessage = useCallback((data) => {
     setZoneList((prev) =>
@@ -32,49 +34,22 @@ export default function Monitoring() {
   // 2. 공간아이디: 웹소켓에서 준 거랑 매핑해주기!
   // 3. 담당자 정보??
 
-  //   useEffect(() => {
-  //     fetch("../mock_data/mock_zonelist.json")
-  //       .then((res) => {
-  //         setZoneList(res.data);
-  //       })
-  //       .catch((err) => {
-  //         console.error("데이터 불러오기 실패", err);
-  //       });
-  //   }, []);
-
-  const mock_zoneList = [
-    {
-      zoneId: "20250507165750-827",
-      title: "테스트룸A",
-      master: "정00",
-      // level: 0,
-      // abnormal_sensor: null,
-    },
-    {
-      zoneId: "PID-002",
-      title: "테스트룸B",
-      master: "정00",
-      // level: 0,
-      // abnormal_sensor: null,
-    },
-    {
-      zoneId: "PID-003",
-      title: "테스트룸C",
-      master: "정00",
-      // level: 0,
-      // abnormal_sensor: null,
-    },
-  ];
-
   useEffect(() => {
-    setZoneList(
-      mock_zoneList.map((z) => ({
-        ...z,
-        level: 0,
-        abnormal_sensor: null,
-      })) // mock data의 주석처리한 부분을 여기서 붙여줌
-    );
+    axiosInstance
+      .get("/api/zones")
+      .then((res) => setZoneList(res.data))
+      .catch((e) => console.log("실시간 모니터링 페이지 : 로딩 실패", e));
   }, []);
+
+  // useEffect(() => {
+  //   setZoneList(
+  //     mock_zoneList.map((z) => ({
+  //       ...z,
+  //       level: 1,
+  //       abnormal_sensor: "온도",
+  //     })) // mock data의 주석처리한 부분을 여기서 붙여줌
+  //   );
+  // }, []);
 
   // console.log(zoneList); // 확인 완료 ~ !
   return (
@@ -82,11 +57,21 @@ export default function Monitoring() {
       <h1>Monitoring</h1>
       <div className="monitor-body">
         <div>
-          {zoneList.map((z, i) => (
-            <Link key={i} to={`/zone/${z.zoneId}`} className="link-as-contents">
-              <MonitorBox zone={z} />
+          {zoneList.length !== 0 &&
+            zoneList.map((z, i) => (
+              <Link
+                key={i}
+                to={`/zone/${z.zoneId}`}
+                className="link-as-contents"
+              >
+                <MonitorBox zone={z} />
+              </Link>
+            ))}
+          {zoneList.length === 0 && (
+            <Link to="/settings">
+              센서 관리 페이지에서 새 공간을 등록하세요(click)
             </Link>
-          ))}
+          )}
         </div>
       </div>
     </>

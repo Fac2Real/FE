@@ -17,6 +17,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
       // 모달이 열릴 때 데이터 초기화 및 첫 페이지 로드
       setPage(0);
       setAlarms([]);
+      setFilter(null);
       setHasMore(true);
     }
   }, [isOpen]);
@@ -45,7 +46,8 @@ const AlarmModal = ({ isOpen, onClose }) => {
   }, [page, isOpen]);
 
   const handleScroll = () => {
-    if (!modalContentRef.current || loading || (!hasMore && alarms.length > 0)) return;
+    if (!modalContentRef.current || loading || (!hasMore && alarms.length > 0))
+      return;
 
     const { scrollTop, scrollHeight, clientHeight } = modalContentRef.current;
 
@@ -57,7 +59,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
 
   const removeAlarm = (alarmId) => {
     setAlarms((prev) => prev.filter((alarm) => alarm.id !== alarmId));
-  }
+  };
   const handleAlarmClick = async (alarm) => {
     // 알람 읽음 상태를 서버에 전달
     await axiosInstance(`/api/abnormal/${alarm.id}/read`, {
@@ -72,37 +74,106 @@ const AlarmModal = ({ isOpen, onClose }) => {
     // 알람 상세 페이지로 이동
     // navigate(`/zone/${alarm.zoneId}`);
     // onClose();
-  }
+  };
+
+  const [filter, setFilter] = useState(null);
+
+  const filteredAlarms = filter
+    ? alarms.filter((alarm) =>
+        filter === "urgent"
+          ? alarm.abnormalType.includes("위험")
+          : filter === "warning"
+          ? alarm.abnormalType.includes("경고")
+          : filter === "normal"
+          ? !alarm.abnormalType.includes("위험") &&
+            !alarm.abnormalType.includes("경고")
+          : true
+      )
+    : alarms;
 
   if (!isOpen) return null;
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="alarm-modal-box" onClick={(e) => e.stopPropagation()}>
-        {/* 모달 헤더 */}
-        <div className="modal-header">
-          <h2>알림 목록</h2>
-          <button className="modal-close" onClick={onClose}>
-            <XIcon width="1.5rem" height="1.5rem" />
-          </button>
+        <div
+          style={{
+            borderBottom: "1px solid #ddd",
+            backgroundColor: "#f6f6f6",
+            borderRadius: "1rem 1rem 0 0",
+          }}
+        >
+          <div className="modal-header">
+            <h2>알림 목록</h2>
+            <button className="modal-close" onClick={onClose}>
+              <XIcon width="1.5rem" height="1.5rem" />
+            </button>
+          </div>
+          <div className="button-container">
+            <button
+              className="no-flex-button"
+              style={{ backgroundColor: "#608dff" }}
+              onClick={() => {
+                setFilter(null);
+              }}
+            >
+              전체
+            </button>
+            <button
+              className="no-flex-button"
+              style={{ backgroundColor: "#cb3701" }}
+              onClick={() => {
+                setFilter("urgent");
+              }}
+            >
+              위험
+            </button>
+            <button
+              className="no-flex-button"
+              style={{ backgroundColor: "#c58000" }}
+              onClick={() => {
+                setFilter("warning");
+              }}
+            >
+              주의
+            </button>
+            <button
+              className="no-flex-button"
+              style={{ backgroundColor: "#009900" }}
+              onClick={() => {
+                setFilter("normal");
+              }}
+            >
+              정상
+            </button>
+          </div>
         </div>
-
         {/* 모달 내용 */}
         <div
           className="alarm-modal-contents"
           ref={modalContentRef}
           onScroll={handleScroll}
         >
-          {alarms.length > 0 ? (
+          {filteredAlarms.length > 0 ? (
             <ul className="alarm-list">
-              {alarms.map((alarm) => (
+              {filteredAlarms.map((alarm) => (
                 <li
                   key={alarm.id}
                   className="alarm-item"
                   onClick={() => handleAlarmClick(alarm)}
                 >
                   <p>
-                    <strong>{alarm.abnormalType}</strong> - {alarm.zoneName}
+                    <strong
+                      className={
+                        alarm.abnormalType.includes("경고")
+                          ? "warning"
+                          : alarm.abnormalType.includes("위험")
+                          ? "urgent"
+                          : "normal"
+                      }
+                    >
+                      {alarm.abnormalType}
+                    </strong>{" "}
+                    - {alarm.zoneName}
                   </p>
                   <p>값: {alarm.abnVal}</p>
                   <p className="alarm-timestamp">
@@ -113,7 +184,11 @@ const AlarmModal = ({ isOpen, onClose }) => {
             </ul>
           ) : (
             <div className="empty-state">
-              <p className="no-alarms">새로운 알림이 없습니다.</p>
+              <p className="no-alarms">
+                {hasMore
+                  ? `스크롤해서 새로운 알림을 더 확인하세요!`
+                  : "새로운 알림이 없습니다."}
+              </p>
             </div>
           )}
         </div>
