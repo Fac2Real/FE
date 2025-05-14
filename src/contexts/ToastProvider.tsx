@@ -4,6 +4,7 @@ import { AlarmEvent, RiskLevel } from "../types/Alarm";
 import useWebSocket3 from "../websocket/useWebSocket";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
+import MonitorIcon from "../components/MonitorIcon";
 
 type ToastContextType = {
   showToast: (alarm: AlarmEvent) => void;
@@ -30,7 +31,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   const removeToast = (id: string) => {
     setToasts((prev) => prev.filter((t) => t.eventId !== id));
   };
-  
+
   const handleToastClick = async (toast: AlarmEvent) => {
     // 알람 읽음 상태를 서버에 전달
     await axiosInstance(`/api/abnormal/${toast.eventId}/read`, {
@@ -44,7 +45,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
 
     // 알람 상세 페이지로 이동
     navigate(`/zone/${toast.zoneId}`);
-  }
+  };
 
   const getColor = (riskLevel: RiskLevel) => {
     switch (riskLevel) {
@@ -61,8 +62,8 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     console.log("Received message:", message);
 
     showToast(message);
-  }
-  useWebSocket3("/topic/alarm",handleWebSocketMessage);
+  };
+  useWebSocket3("/topic/alarm", handleWebSocketMessage);
 
   // useEffect(() => {
   //   const handleWebSocketMessage = (event: MessageEvent) => {
@@ -75,22 +76,43 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     <ToastContext.Provider value={{ showToast }}>
       {children}
       {ReactDOM.createPortal(
-        <div className="fixed top-4 right-4 space-y-2 z-50">
-          {toasts.map((toast) => (
-            <div
-              key={toast.eventId}
-              onClick={() => handleToastClick(toast)}
-              className={`px-4 py-3 rounded shadow-md cursor-pointer transition-all animate-fade-in ${getColor(toast.riskLevel)}`}
-            >
-              <h3>
-                {toast.riskLevel} - {toast.sensorType}
-              </h3>
-              <div>
-                <p>{toast.messageBody}</p>
-                <p>{toast.time}</p>
+        <div className="fixed top-4 right-4 space-y-2 z-50 pointer-events-none">
+          <div className="absolute top-4 right-4 space-y-2 pointer-events-auto">
+            {toasts.map((toast) => (
+              <div
+                key={toast.eventId}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleToastClick(toast);
+                }}
+                className={`px-4 py-3 rounded shadow-md cursor-pointer transition-all animate-fade-in ${getColor(
+                  toast.riskLevel
+                )}`}
+              >
+                <MonitorIcon
+                  abnormal_sensor={toast.sensorType}
+                  level={toast.riskLevel}
+                  color={"white"}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <h3>
+                    {toast.riskLevel} - {toast.sensorType}
+                  </h3>
+                  <div>
+                    <p>{toast.messageBody}</p>
+                    <p>{toast.time}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>,
         document.getElementById("toast-root") as HTMLElement
       )}

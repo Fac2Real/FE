@@ -7,6 +7,7 @@ export default function MonitorBox({ zone }) {
     e.stopPropagation();
     console.log("알림용 모달을 열까...");
   };
+  zone.level = 0;
   return (
     <div
       className={`monitor-box moving-box click-box ${
