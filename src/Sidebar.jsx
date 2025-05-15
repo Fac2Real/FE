@@ -11,7 +11,7 @@ import { useEffect, useCallback, useState } from "react";
 
 import AlarmModal from "./components/AlarmModal";
 import axiosInstance from "./api/axiosInstance";
-import useWebSocket2 from "./websocket/useWebSocket";
+import { useWebSocket2 } from "./websocket/useWebSocket";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);

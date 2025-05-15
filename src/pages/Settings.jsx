@@ -47,8 +47,8 @@ export default function Settings() {
           title: z.title,
           env_sensor: z.env_sensor.map((s) => ({
             name: toKoName(s.sensorType), // 한글 변환
-            thres: s.thres,
-            margin: s.margin, // JSON 내용 확인해서 변경해야댐..
+            thres: s.sensorThres,
+            margin: s.allowVal, // JSON 내용 확인해서 변경해야댐..
             sensorId: s.sensorId,
           })),
           facility: z.facility.map((f) => ({
@@ -89,6 +89,7 @@ export default function Settings() {
         allowVal: newMargin,
       })
       .then((res) => {
+        console.log(sensorInfo.sensorId);
         console.log("임계값 업데이트 완료", res);
         /* 화면 표현하기 (완료) => 이후 then으로 옮기기 */
         const updated = zoneList.map((zone) => {
