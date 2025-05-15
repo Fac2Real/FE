@@ -15,7 +15,7 @@ export interface AlarmEvent {
 
 export interface AbnormalLogDto {
   id: number;
-  targetType: 'Sensor' | 'Worker' | 'Equip'; // LogType enum에 따라 수정 필요
+  targetType: "Sensor" | "Worker" | "Equip"; // LogType enum에 따라 수정 필요
   targetId: string;
   abnormalType: string;
   abnVal: number;
