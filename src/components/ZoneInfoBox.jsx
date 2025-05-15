@@ -8,7 +8,8 @@ export default function ZoneInfoBox({
   editModalBtn,
   onAddZone = null,
 }) {
-  const { title, env_sensor = [], facility = [], master = "" } = zone;
+  // const { title, env_sensor = [], facility = [], master = "" } = zone;
+  const { title, env_sensor = [], facility = [] } = zone;
   const [isOpen, setIsOpen] = useState(false);
   const addZone = zone === "공간 추가";
   const [newZone, setNewZone] = useState("");
@@ -135,11 +136,11 @@ export default function ZoneInfoBox({
                 </button>
               </p>
             </div>
-            <div className="sensorlist">
+            {/* <div className="sensorlist">
               <div className="sensorlist-underbar">담당자</div>
               {master == "" && <p>담당자가 없습니다</p>}
               {master && <p>{master}</p>}
-            </div>
+            </div> */}
           </>
         )}
         {addZone && (
@@ -152,15 +153,16 @@ export default function ZoneInfoBox({
                 value={newZone}
                 onChange={(e) => setNewZone(e.target.value)}
                 placeholder="공간 이름을 입력하세요"
+                style={{ maxWidth: "50%" }}
               />
-              <label htmlFor="managerName">담당자 선택</label>
+              {/* <label htmlFor="managerName">담당자 선택</label>
               <input
                 id="managerName"
                 name="managerName"
                 value={newZoneManager}
                 onChange={(e) => setNewZoneManager(e.target.value)}
                 placeholder="담당자 이름을 입력하세요"
-              />
+              /> */}
             </div>
             <div className="button-flex">
               <button

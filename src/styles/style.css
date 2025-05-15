@@ -214,7 +214,7 @@ p.sidebar-open {
 }
 
 .main-box > :first-child {
-  width: 25%;
+  width: 30%;
   height: 100%;
   text-align: center;
   display: flex;
@@ -520,6 +520,7 @@ p.sidebar-open {
   border-radius: 2rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   transform: translateY(1px);
+  margin-bottom: 3rem;
 }
 .monitor-body > div {
   margin: 1rem;

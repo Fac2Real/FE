@@ -8,7 +8,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false); // 로딩 상태
   const [page, setPage] = useState(0); // 현재 페이지
   const [size] = useState(5); // 페이지 크기
-  const [hasMore, setHasMore] = useState(true); // 더 많은 데이터 여부
+  const [hasMore, setHasMore] = useState(false); // 더 많은 데이터 여부
   const modalContentRef = useRef(null); // 스크롤 이벤트를 감지할 Ref
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
       setPage(0);
       setAlarms([]);
       setFilter(null);
-      setHasMore(true);
+      setHasMore(false);
     }
   }, [isOpen]);
 
