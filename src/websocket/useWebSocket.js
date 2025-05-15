@@ -16,12 +16,18 @@ export default function useWebSocket(topic, onMessage) {
 
             // onConnect: 연결 성공 시 호출할 함수
             onConnect: () => {
-                console.log("웹소켓 연결 성공");
+                console.log("웹소켓 연결 성공1");
                 // topic으로부터 메시지를 구독하고, 메시지를 받으면 JSON으로 파싱해서 콜백함수로 전달합니다.
                 client.subscribe(topic, (message) => {
                     const payload = JSON.parse(message.body);
                     onMessage(payload);
-                    console.log(payload);
+
+                    // 세션스토리지에 값 저장
+                    const { zoneId, level } = payload;
+                    const stored = localStorage.getItem("zoneLevels");
+                    const zoneLevels = stored ? JSON.parse(stored) : {};
+                    zoneLevels[zoneId] = level;
+                    localStorage.setItem("zoneLevels", JSON.stringify(zoneLevels));
                 })
             },
             onStompError: (frame) => {
@@ -51,12 +57,11 @@ export function useWebSocket2(topic, onMessage) {
 
             // onConnect: 연결 성공 시 호출할 함수
             onConnect: () => {
-                console.log("웹소켓 연결 성공");
+                console.log("웹소켓 연결 성공2");
                 // topic으로부터 메시지를 구독하고, 메시지를 받으면 JSON으로 파싱해서 콜백함수로 전달합니다.
                 client.subscribe(topic, (message) => {
                     const payload = JSON.parse(message.body);
                     onMessage(payload);
-                    console.log(payload);
                 })
             },
             onStompError: (frame) => {
@@ -85,12 +90,11 @@ export function useWebSocket3(topic, onMessage) {
 
             // onConnect: 연결 성공 시 호출할 함수
             onConnect: () => {
-                console.log("웹소켓 연결 성공");
+                console.log("웹소켓 연결 성공3");
                 // topic으로부터 메시지를 구독하고, 메시지를 받으면 JSON으로 파싱해서 콜백함수로 전달합니다.
                 client.subscribe(topic, (message) => {
                     const payload = JSON.parse(message.body);
                     onMessage(payload);
-                    console.log(payload);
                 })
             },
             onStompError: (frame) => {

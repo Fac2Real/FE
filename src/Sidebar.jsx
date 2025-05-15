@@ -11,7 +11,7 @@ import { useEffect, useCallback, useState } from "react";
 
 import AlarmModal from "./components/AlarmModal";
 import axiosInstance from "./api/axiosInstance";
-import useWebSocket2 from "./websocket/useWebSocket";
+import { useWebSocket2 } from "./websocket/useWebSocket";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
@@ -240,7 +240,7 @@ export default function Sidebar() {
             </span>
             {isOpen && (
               <p className="alram-text">
-                {alram_count}건의 새로운 알림이 도착했습니다
+                읽지 않은 알림이 {alram_count}건 있습니다
               </p>
             )}
           </span>

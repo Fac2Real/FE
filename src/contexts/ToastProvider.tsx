@@ -1,7 +1,7 @@
 import React, { createContext, useState, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { AlarmEvent, RiskLevel } from "../types/Alarm";
-import useWebSocket3 from "../websocket/useWebSocket";
+import { useWebSocket3 } from "../websocket/useWebSocket";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 import MonitorIcon from "../components/MonitorIcon";
