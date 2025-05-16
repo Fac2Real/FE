@@ -41,7 +41,7 @@ export default function ZoneDetail_2() {
   const buildKibanaUrl = (sensorType) =>
     `http://localhost:5601/app/dashboards#/view/${dashboardId}?embed=true&_g=(
       filters:!(
-        (query:(match_phrase:(zoneId.keyword:${zoneId}))),
+        (query:(match_phrase:(zoneId.keyword:"${zoneId}"))),
         (query:(match_phrase:(sensorType.keyword:${sensorType})))
       ),
       refreshInterval:(pause:!f,value:5000),
@@ -72,10 +72,16 @@ export default function ZoneDetail_2() {
                   {mapSensorType(sensor.type)} ({sensor.id})
                 </p>
                 <div>
-                  <iframe
+                  {/* <iframe
                     src={buildKibanaUrl(sensor.type)}
                     title={`Dashboard for ${zoneId} - ${sensor.type}`}
-                  />
+                  /> */}
+                  {zoneId && (
+                    <iframe
+                      src={buildKibanaUrl(sensor.type)}
+                      title={`Dashboard for ${zoneId} - ${sensor.type}`}
+                    />
+                  )}
                 </div>
               </div>
             ))}
