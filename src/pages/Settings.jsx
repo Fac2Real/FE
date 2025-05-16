@@ -166,7 +166,7 @@ export default function Settings() {
         alert(`${selectedZone}이 ${newZoneName}로 변경되었습니다`); // 없애도 되려나..
         setSelectedZone(newZoneName);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => alert("이름 변경에 실패하였습니다"));
     setEditModalOpen(false);
   };
 
