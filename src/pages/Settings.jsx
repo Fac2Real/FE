@@ -118,47 +118,55 @@ export default function Settings() {
           };
         });
         setZoneList(updated);
-        setSensorModalOpen(false);
       })
       .catch((e) => console.log("임계값 업데이트 실패", e));
+    setSensorModalOpen(false);
   };
 
   const handleFacilityUpdate = (newValue) => {
-    axiosInstance.post("/api/equips", {
-      zoneName: selectedZone,
-      equipName: newValue,
-    });
-    const updated = zoneList.map((z) => {
-      if (z.title !== selectedZone) return z;
-      return {
-        ...z,
-        facility: [
-          ...(z.facility || []),
-          {
-            name: newValue,
-            fac_sensor: [],
-          },
-        ],
-      };
-    });
-    setZoneList(updated);
+    axiosInstance
+      .post("/api/equips", {
+        zoneName: selectedZone,
+        equipName: newValue,
+      })
+      .then(() => {
+        const updated = zoneList.map((z) => {
+          if (z.title !== selectedZone) return z;
+          return {
+            ...z,
+            facility: [
+              ...(z.facility || []),
+              {
+                name: newValue,
+                fac_sensor: [],
+              },
+            ],
+          };
+        });
+        setZoneList(updated);
+      })
+      .catch((e) => console.log(e));
     setFacilityModalOpen(false);
   };
 
   const handleEditZone = (newZoneName) => {
-    axiosInstance.post(`/api/zones/${selectedZone}`, {
-      zoneName: newZoneName,
-    });
-    const updated = zoneList.map((z) => {
-      if (z.title !== selectedZone) return z;
-      return {
-        ...z,
-        title: newZoneName,
-      };
-    });
-    setZoneList(updated);
-    alert(`${selectedZone}이 ${newZoneName}로 변경되었습니다`); // 없애도 되려나..
-    setSelectedZone(newZoneName);
+    axiosInstance
+      .post(`/api/zones/${selectedZone}`, {
+        zoneName: newZoneName,
+      })
+      .then(() => {
+        const updated = zoneList.map((z) => {
+          if (z.title !== selectedZone) return z;
+          return {
+            ...z,
+            title: newZoneName,
+          };
+        });
+        setZoneList(updated);
+        alert(`${selectedZone}이 ${newZoneName}로 변경되었습니다`); // 없애도 되려나..
+        setSelectedZone(newZoneName);
+      })
+      .catch((e) => console.log(e));
     setEditModalOpen(false);
   };
 
@@ -167,24 +175,25 @@ export default function Settings() {
       .post(`/api/equips/${equipId}`, {
         equipName: newFacName,
       })
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        const updated = zoneList.map((z) => {
+          return {
+            ...z,
+            facility: z.facility.map((fac) => {
+              if (fac.id !== equipId) return fac;
+
+              return {
+                ...fac,
+                name: newFacName,
+              };
+            }),
+          };
+        });
+
+        setZoneList(updated);
+      })
       .catch((e) => console.log(e));
 
-    const updated = zoneList.map((z) => {
-      return {
-        ...z,
-        facility: z.facility.map((fac) => {
-          if (fac.id !== equipId) return fac;
-
-          return {
-            ...fac,
-            name: newFacName,
-          };
-        }),
-      };
-    });
-
-    setZoneList(updated);
     setFacEditOpen(false);
   };
 
@@ -192,23 +201,24 @@ export default function Settings() {
     const confirmed = window.confirm(`[${newZone}]을 추가하시겠습니까?`);
     if (!confirmed) return;
     else {
-      try {
-        axiosInstance.post("/api/zones", {
+      axiosInstance
+        .post("/api/zones", {
           zoneName: newZone,
+        })
+        .then((res) => {
+          console.log(res);
+          const newItem = {
+            title: newZone,
+            env_sensor: [],
+            facility: [],
+            // master: "",
+          };
+
+          setZoneList((prev) => [...prev, newItem]);
+        })
+        .catch((e) => {
+          alert("공간 생성에 실패하였습니다.", e);
         });
-
-        const newItem = {
-          title: newZone,
-          env_sensor: [],
-          facility: [],
-          // master: "",
-        };
-
-        setZoneList((prev) => [...prev, newItem]);
-      } catch (err) {
-        console.error(err);
-        alert("공간 생성에 실패했습니다.");
-      }
     }
   };
 
