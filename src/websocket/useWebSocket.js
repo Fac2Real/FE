@@ -21,13 +21,6 @@ export default function useWebSocket(topic, onMessage) {
                 client.subscribe(topic, (message) => {
                     const payload = JSON.parse(message.body);
                     onMessage(payload);
-
-                    // 세션스토리지에 값 저장
-                    const { zoneId, level } = payload;
-                    const stored = localStorage.getItem("zoneLevels");
-                    const zoneLevels = stored ? JSON.parse(stored) : {};
-                    zoneLevels[zoneId] = level;
-                    localStorage.setItem("zoneLevels", JSON.stringify(zoneLevels));
                 })
             },
             onStompError: (frame) => {
@@ -45,6 +38,7 @@ export default function useWebSocket(topic, onMessage) {
     }, [topic, onMessage])
 }
 
+// 왼쪽 하단 갯수
 export function useWebSocket2(topic, onMessage) {
     const clientRef = useRef(); // 웹소켓 연결 객체 저장할 변수
     useEffect(() => {
@@ -78,6 +72,8 @@ export function useWebSocket2(topic, onMessage) {
         };
     }, [topic, onMessage])
 }
+
+// 오른쪽 하단 알림
 export function useWebSocket3(topic, onMessage) {
     const clientRef = useRef(); // 웹소켓 연결 객체 저장할 변수
     useEffect(() => {
@@ -95,6 +91,15 @@ export function useWebSocket3(topic, onMessage) {
                 client.subscribe(topic, (message) => {
                     const payload = JSON.parse(message.body);
                     onMessage(payload);
+                    // 세션스토리지에 값 저장
+                    console.log(payload);
+
+                    const { zoneId, riskLevel } = payload;
+                    const level = (riskLevel == "CRITICAL" ? 2 : (riskLevel == "WARNING" ? 1 : 0))
+                    const stored = localStorage.getItem("zoneLevels");
+                    const zoneLevels = stored ? JSON.parse(stored) : {};
+                    zoneLevels[zoneId] = level;
+                    localStorage.setItem("zoneLevels", JSON.stringify(zoneLevels));
                 })
             },
             onStompError: (frame) => {
