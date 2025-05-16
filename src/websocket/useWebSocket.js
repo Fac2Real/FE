@@ -91,8 +91,8 @@ export function useWebSocket3(topic, onMessage) {
                 client.subscribe(topic, (message) => {
                     const payload = JSON.parse(message.body);
                     onMessage(payload);
-                    // 세션스토리지에 값 저장
 
+                    // 세션스토리지에 값 저장
                     const { zoneId, riskLevel } = payload;
                     const level = (riskLevel == "CRITICAL" ? 2 : (riskLevel == "WARNING" ? 1 : 0));
                     if (level == 0) { console.log(`정상: ${payload}`) }
