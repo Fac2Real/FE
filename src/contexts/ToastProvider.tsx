@@ -21,11 +21,13 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   const navigate = useNavigate();
 
   const showToast = (alarm: AlarmEvent) => {
-    setToasts((prev) => [...prev, alarm]);
+    if (alarm.riskLevel == "CRITICAL" || alarm.riskLevel == "WARNING") {
+      setToasts((prev) => [...prev, alarm]);
 
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.eventId !== alarm.eventId));
-    }, 10000);
+      setTimeout(() => {
+        setToasts((prev) => prev.filter((t) => t.eventId !== alarm.eventId));
+      }, 10000);
+    }
   };
 
   const removeToast = (id: string) => {
@@ -63,6 +65,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
 
     showToast(message);
   };
+
   useWebSocket3("/topic/alarm", handleWebSocketMessage);
 
   // useEffect(() => {
@@ -103,7 +106,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
                   }}
                 >
                   <h3>
-                    {toast.riskLevel} - {toast.sensorType}
+                    {toast.riskLevel} - {toast.zoneName}
                   </h3>
                   <div>
                     <p>{toast.messageBody}</p>
