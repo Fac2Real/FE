@@ -21,7 +21,7 @@ export default function Sidebar() {
   const [currentPage, setCurrentPage] = useState("Home");
 
   const handleWebSocketMessage = useCallback((count) => {
-    console.log("WebSocket message received:", count);
+    // console.log("WebSocket message received:", count);
     // 웹소켓 알림 왔을 때 알림 개수 업데이트
     setAlramCount(count);
   }, []);
@@ -33,7 +33,7 @@ export default function Sidebar() {
     axiosInstance
       .get("/api/abnormal/unread-count")
       .then((res) => {
-        console.log("res data: ", res.data);
+        // console.log("res data: ", res.data);
         setAlramCount(res.data);
       })
       .catch((e) => console.log("e"));

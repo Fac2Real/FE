@@ -59,7 +59,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
   const handleWebSocketMessage = (message: AlarmEvent) => {
-    console.log("Received message:", message);
+    // console.log("Received message:", message);
 
     showToast(message);
   };
