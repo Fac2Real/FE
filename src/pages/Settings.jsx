@@ -129,7 +129,8 @@ export default function Settings() {
         zoneName: selectedZone,
         equipName: newValue,
       })
-      .then(() => {
+      .then((res) => {
+        const newId = res.data.equipId;
         const updated = zoneList.map((z) => {
           if (z.title !== selectedZone) return z;
           return {
@@ -138,6 +139,7 @@ export default function Settings() {
               ...(z.facility || []),
               {
                 name: newValue,
+                id: newId,
                 fac_sensor: [],
               },
             ],
