@@ -180,7 +180,6 @@ const AlarmModal = ({ isOpen, onClose }) => {
                       </strong>{" "}
                       - {alarm.zoneName}
                     </p>
-                    {/* <p>값: {alarm.abnVal}</p> */}
                     <p className="alarm-timestamp">
                       감지 시간: {new Date(alarm.detectedAt).toLocaleString()}
                     </p>

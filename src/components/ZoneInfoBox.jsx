@@ -5,7 +5,8 @@ export default function ZoneInfoBox({
   zone,
   sensorModalBtn,
   facilityModalBtn,
-  editModalBtn,
+  zoneEditModalBtn,
+  facEditModalBtn,
   onAddZone = null,
 }) {
   // const { title, env_sensor = [], facility = [], master = "" } = zone;
@@ -14,7 +15,6 @@ export default function ZoneInfoBox({
   const addZone = zone === "공간 추가";
   const [newZone, setNewZone] = useState("");
   const [newZoneManager, setNewZoneManager] = useState("");
-
   const [facilityInfoOpen, setFacilityInfoOpen] = useState({});
 
   const toggleFacility = (i) => {
@@ -45,7 +45,7 @@ export default function ZoneInfoBox({
                   transform: "translateY(1.5px)",
                   cursor: "pointer",
                 }}
-                onClick={() => editModalBtn(title)}
+                onClick={() => zoneEditModalBtn(title)}
               />
             </span>
           </>
@@ -97,14 +97,29 @@ export default function ZoneInfoBox({
                 ))}
             </div>
             <div className="sensorlist">
-              <div className="sensorlist-underbar">설비 관리 센서</div>
+              <div className="sensorlist-underbar">설비 목록</div>
               {facility.length === 0 && <p>등록된 설비가 없습니다</p>}
               {facility.length !== 0 &&
                 facility.map((f, i) => (
                   <div key={i}>
                     {/* 설비 목록 */}
                     <div className="list-text">
-                      <div>{f.name}</div>
+                      <div>
+                        {f.name}
+                        <EditIcon
+                          width="1rem"
+                          opacity="0.4"
+                          style={{
+                            marginLeft: "0.7rem",
+                            transform: "translateY(1.5px)",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            console.log(f);
+                            facEditModalBtn(f.name, f.id);
+                          }}
+                        />
+                      </div>
                       <span className="dash-line"></span>
                       <span className="arrow" onClick={() => toggleFacility(i)}>
                         {facilityInfoOpen[i] ? "▲" : "▼"}

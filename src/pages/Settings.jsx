@@ -4,7 +4,7 @@ import ZoneInfoBox from "../components/ZoneInfoBox";
 import axiosInstance from "../api/axiosInstance";
 import FacilityModal from "../components/FacilityModal";
 import EditModal from "../components/EditModal";
-import axios from "axios";
+import FacEditModal from "../components/FacEditModal";
 /* ────────────────────────────────
    1. 센서 타입 → 한글 명/분류 매핑
 ──────────────────────────────── */
@@ -29,9 +29,12 @@ const toKoName = (type) => {
 export default function Settings() {
   const [sensorInfo, setSensorInfo] = useState(); // 모달 전달용
   const [selectedZone, setSelectedZone] = useState(); // 모달 전달용
+  const [selectedFac, setSelectedFac] = useState();
+  const [selectedFacId, setSelectedFacId] = useState();
   const [isSensorModalOpen, setSensorModalOpen] = useState(false); // 모달 열기
   const [isFacilityModalOpen, setFacilityModalOpen] = useState(false); // 모달 열기
   const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [isFacEditModalOpen, setFacEditOpen] = useState(false);
   const [zoneList, setZoneList] = useState([]); // 존 추가하고 열기
 
   /* ────────────────────────────────
@@ -53,6 +56,7 @@ export default function Settings() {
           })),
           facility: z.facility.map((f) => ({
             name: f.name,
+            id: f.id,
             fac_sensor: f.fac_sensor.map((s) => ({
               name: toKoName(s.sensorType),
               id: s.sensorId,
@@ -76,9 +80,16 @@ export default function Settings() {
     setFacilityModalOpen(true);
   };
 
-  const handleOpenEditModal = (zoneName) => {
+  const handleOpenZoneEditModal = (zoneName) => {
     setSelectedZone(zoneName);
     setEditModalOpen(true);
+  };
+
+  const handleOpenFacEditModal = (facName, equipId) => {
+    console.log(facName, equipId);
+    setSelectedFac(facName);
+    setSelectedFacId(equipId);
+    setFacEditOpen(true);
   };
 
   const handleThresUpdate = (newThres, newMargin) => {
@@ -151,6 +162,32 @@ export default function Settings() {
     setEditModalOpen(false);
   };
 
+  const handleEditFac = (newFacName, equipId) => {
+    axiosInstance
+      .post(`/api/equips/${equipId}`, {
+        equipName: newFacName,
+      })
+      .then((res) => console.log(res.data))
+      .catch((e) => console.log(e));
+
+    const updated = zoneList.map((z) => {
+      return {
+        ...z,
+        facility: z.facility.map((fac) => {
+          if (fac.id !== equipId) return fac;
+
+          return {
+            ...fac,
+            name: newFacName,
+          };
+        }),
+      };
+    });
+
+    setZoneList(updated);
+    setFacEditOpen(false);
+  };
+
   const handleAddZone = async (newZone) => {
     const confirmed = window.confirm(`[${newZone}]을 추가하시겠습니까?`);
     if (!confirmed) return;
@@ -195,6 +232,13 @@ export default function Settings() {
         zoneName={selectedZone}
         onUpdate={handleEditZone}
       />
+      <FacEditModal
+        isOpen={isFacEditModalOpen}
+        onClose={() => setFacEditOpen(false)}
+        facName={selectedFac}
+        equipId={selectedFacId}
+        onUpdate={handleEditFac}
+      />
       <h1>센서 관리</h1>
       {zoneList.map((z, i) => (
         <ZoneInfoBox
@@ -202,7 +246,8 @@ export default function Settings() {
           key={z.title}
           sensorModalBtn={handleOpenSensorModal}
           facilityModalBtn={handleOpenFacilityModal}
-          editModalBtn={handleOpenEditModal}
+          zoneEditModalBtn={handleOpenZoneEditModal}
+          facEditModalBtn={handleOpenFacEditModal}
         />
       ))}
       <ZoneInfoBox zone="공간 추가" onAddZone={handleAddZone} />

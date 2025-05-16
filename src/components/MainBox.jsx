@@ -8,8 +8,8 @@ export default function MainBox() {
 
   // test :: A등급 예
   const [rank, setRank] = useState("A");
-  const safetyRank = true;
-  const facilityRank = true;
+  let safetyRank = true;
+  let facilityRank = true;
 
   let title;
   let color = { boxColor: null, donutColor: null, textColor: null };
@@ -29,6 +29,8 @@ export default function MainBox() {
   } else {
     // rank == null 일 때
     title = "인증서 정보를 불러오지 못했어요 🤧";
+    safetyRank = false;
+    facilityRank = false;
   }
 
   return (
