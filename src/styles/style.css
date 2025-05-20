@@ -7,6 +7,7 @@
 
   --box-color: #f6f6f6;
   --blue: #1d4a7a;
+  --warning: #fde1ad;
 }
 #root {
   position: relative;
@@ -48,8 +49,9 @@ a:visited {
 .contents {
   display: flex;
   flex-direction: column;
-  margin: 4rem 7.5% 0 7.5%;
+  margin: 4rem auto 0 auto;
   width: 100%;
+  max-width: 70vw;
 }
 
 /* 사이드바 설정 */
@@ -566,7 +568,7 @@ p.sidebar-open {
 }
 
 .monitor-box.warn {
-  background-color: #fde1ad;
+  background-color: var(--warning);
 }
 
 .icon-container {
@@ -827,4 +829,74 @@ strong.normal {
   font-size: 200%;
   font-weight: bold;
   color: var(--blue);
+}
+
+.table-container {
+  width: 100%;
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-container {
+  text-align: end;
+  margin-bottom: 0.5rem;
+}
+
+.worker-table {
+  width: calc(100% - 4rem);
+  border-collapse: collapse;
+  text-align: center;
+  overflow: hidden;
+  margin: auto;
+}
+
+.table-container th {
+  background-color: transparent;
+  border: none;
+}
+
+.table-header th {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  background-color: var(--c4);
+  width: 7.5%;
+}
+
+.worker-table td {
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.worker-table th:nth-child(4) {
+  width: 15%;
+}
+
+.worker-table th:nth-child(5) {
+  width: auto;
+}
+
+.worker-table .critical td {
+  background-color: var(--warning);
+}
+
+.search-container input {
+  border: none;
+  border-bottom: 1px solid black;
+  background-color: transparent;
+  margin: 0.5rem;
+  outline: none;
+  margin-left: 1rem;
+  max-width: 5rem;
+}
+
+.search-field {
+  display: inline;
+  margin-left: 1rem;
+}
+
+.search-field select {
+  margin-left: 0.2rem;
 }
