@@ -846,7 +846,7 @@ strong.normal {
 }
 
 .search-container {
-  text-align: end;
+  text-align: start;
   margin-bottom: 0.5rem;
 }
 
@@ -897,16 +897,6 @@ strong.normal {
   margin: 0.5rem;
   outline: none;
   margin-left: 1rem;
-  max-width: 5rem;
-}
-
-.search-field {
-  display: inline;
-  margin-left: 1rem;
-}
-
-.search-field select {
-  margin-left: 0.2rem;
 }
 
 .safety-body {
@@ -926,4 +916,25 @@ strong.normal {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+}
+
+.radio {
+  margin-left: 0 !important;
+}
+
+.search-field {
+  margin-left: 0.5rem;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+  width: 10rem;
+}
+
+select.search-field {
+  border-radius: 0.5rem;
+}
+
+.search-field:disabled {
+  color: var(--box-color);
+  border-color: var(--box-color);
+  cursor: not-allowed;
 }

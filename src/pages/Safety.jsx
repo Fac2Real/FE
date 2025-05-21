@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
 import WorkerInfoModal from "../components/modal/WorkerInfoModal";
 import WorkerTable from "../components/WorkerTable";
 
 export default function Safety() {
+  const [workerList, setWorkerList] = useState([]);
   const mock_workers = [
     {
       name: "김00",
@@ -34,13 +35,20 @@ export default function Safety() {
     },
   ];
 
-  useEffect(() => {
+  const fetchWorkers = () => {
     axiosInstance
       .get("/api/workers")
       .then(() => {
         console.log("작업자 정보 get!");
       })
-      .catch((e) => console.log("작업자 정보 조회 실패", e));
+      .catch((e) => {
+        console.log("작업자 정보 조회 실패 - mock data를 불러옵니다", e);
+        setWorkerList(mock_workers);
+      });
+  };
+
+  useEffect(() => {
+    fetchWorkers();
   }, []);
 
   return (
@@ -49,7 +57,7 @@ export default function Safety() {
 
       <h1>작업자 안전관리</h1>
       <div className="safety-body">
-        <WorkerTable worker_list={mock_workers} />
+        <WorkerTable worker_list={workerList} />
       </div>
     </>
   );
