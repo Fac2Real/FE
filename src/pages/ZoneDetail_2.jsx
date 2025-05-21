@@ -12,6 +12,9 @@ export default function ZoneDetail_2() {
   const [refreshLog, setRefreshLog] = useState(0);
   const [logs, setLogs] = useState([]);
 
+  const [refreshWorkers, setRefreshWorkers] = useState(0);
+  const [workerList, setWorkerList] = useState([]);
+
   // 작업자 정보
   const mock_workers = [
     {
@@ -77,24 +80,32 @@ export default function ZoneDetail_2() {
   ];
 
   // 공간의 작업자 정보 받아오기
-  useEffect(() => {
+  const fetchWorkers = () => {
     axiosInstance
       .get(`/api/workers/${zoneId}`)
       .then(() => {
         console.log(`${zoneId}의 작업자 정보 get!`);
       })
-      .catch((e) => console.log(`${zoneId}의 작업자 로드 실패`, e));
-  }, []); // 여기서 리프레시 버튼을 추가해도 좋을 것 같네요!
+      .catch((e) => {
+        console.log(`${zoneId}의 작업자 로드 실패 - mock data를 불러옵니다`, e);
+        setWorkerList(mock_workers);
+      });
+  };
+
+  useEffect(() => {
+    fetchWorkers();
+    const interval = setInterval(() => {
+      fetchWorkers();
+    }, 60000); // 1분!
+    return () => clearInterval(interval);
+  }, [refreshWorkers]); // 여기서 리프레시 버튼을 추가해도 좋을 것 같네요!
 
   // 로그 상세조회
   useEffect(() => {
     if (refreshLog) {
       axiosInstance
         .get(`/api/system-logs/zone/${zoneId}`)
-        .then((res) => {
-          // console.log(res.data);
-          // setLogs();
-        })
+        .then((res) => {})
         .catch((e) => {
           console.log("로그 조회 실패 - mock-data를 불러옵니다", e);
           setLogs(mock_loglist);
@@ -117,7 +128,7 @@ export default function ZoneDetail_2() {
       { type: "humid", id: "SID-YYY" },
     ],
   };
-  console.log(mock_details_sensor.zoneId);
+  // console.log("(확인완료)", mock_details_sensor.zoneId);
 
   const mapSensorType = (sensorType) => {
     const sensorMap = { temp: "온도 센서", humid: "습도 센서" };
@@ -176,9 +187,17 @@ export default function ZoneDetail_2() {
       </div>
       {/* 근무자 현황 :: 스프린트2 */}
       <div className="box-wrapper">
-        <div className="top-box">근무자 현황</div>
+        <div className="top-box">
+          근무자 현황
+          <span
+            className="refresh"
+            onClick={() => setRefreshWorkers((prev) => prev + 1)}
+          >
+            <RefreshIcon width="1.2rem" fill="#000" />
+          </span>
+        </div>
         <div className="bottom-box">
-          <WorkerTable worker_list={mock_workers} isDetail={true} />
+          <WorkerTable worker_list={workerList} isDetail={true} />
         </div>
       </div>
       {/* 담당자 :: 스프린트2 */}

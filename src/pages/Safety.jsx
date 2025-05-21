@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
 import WorkerInfoModal from "../components/modal/WorkerInfoModal";
 import WorkerTable from "../components/WorkerTable";
@@ -35,7 +35,7 @@ export default function Safety() {
     },
   ];
 
-  const fetchWorkers = () => {
+  const fetchWorkers = useCallback(() => {
     axiosInstance
       .get("/api/workers")
       .then(() => {
@@ -45,12 +45,17 @@ export default function Safety() {
         console.log("작업자 정보 조회 실패 - mock data를 불러옵니다", e);
         setWorkerList(mock_workers);
       });
-  };
+  });
 
   useEffect(() => {
     fetchWorkers();
+    const interval = setInterval(() => {
+      fetchWorkers();
+    }, 60000); // 1분!
+    return () => clearInterval(interval);
   }, []);
 
+  console.log("rerendering");
   return (
     <>
       <WorkerInfoModal />

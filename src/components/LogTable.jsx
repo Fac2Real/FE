@@ -1,5 +1,4 @@
 export default function LogTable({ logs }) {
-  console.log(logs);
   return (
     <>
       <div className="table-container">
