@@ -7,7 +7,7 @@ export default function Safety() {
   const mock_workers = [
     {
       name: "김00",
-      role: "사원",
+      // role: "사원",
       status: "위험",
       zone: "포장 구역 A",
       wearableId: "WEARABLE000111000",
@@ -16,7 +16,7 @@ export default function Safety() {
     },
     {
       name: "윤00",
-      role: "공장장",
+      // role: "공장장",
       status: "정상",
       zone: "휴게실",
       wearableId: "인식되지 않음",
@@ -25,7 +25,7 @@ export default function Safety() {
     },
     {
       name: "정00",
-      role: "반장",
+      // role: "반장",
       status: "정상",
       zone: "조립 구역 B",
       wearableId: "WEARABLE111111111",
@@ -42,11 +42,13 @@ export default function Safety() {
       })
       .catch((e) => console.log("작업자 정보 조회 실패", e));
   }, []);
+
   return (
     <>
       <WorkerInfoModal />
+
       <h1>작업자 안전관리</h1>
-      <div className="monitor-body">
+      <div className="safety-body">
         <WorkerTable worker_list={mock_workers} />
       </div>
     </>

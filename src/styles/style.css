@@ -180,6 +180,12 @@ p.sidebar-open {
   cursor: pointer;
 }
 
+.refresh {
+  cursor: pointer;
+  margin-right: 0.25rem;
+  transform: translateY(1px);
+}
+
 .moving-box:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transform: translateY(-3px);
@@ -833,7 +839,6 @@ strong.normal {
 
 .table-container {
   width: 100%;
-  margin: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -870,12 +875,12 @@ strong.normal {
   background-color: white;
 }
 
-.worker-table th:nth-child(4) {
+.worker-table th:nth-child(3) {
   width: 15%;
 }
 
-.worker-table th:nth-child(5) {
-  width: auto;
+.id-row {
+  width: auto !important;
 }
 
 .worker-table .critical td {
@@ -899,4 +904,23 @@ strong.normal {
 
 .search-field select {
   margin-left: 0.2rem;
+}
+
+.safety-body {
+  height: auto;
+  width: 100%;
+  background-color: var(--box-color);
+  border-radius: 2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px);
+  margin-bottom: 3rem;
+}
+.safety-body > div {
+  margin: 1rem 0;
+  height: auto;
+  width: 100%;
+  gap: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }

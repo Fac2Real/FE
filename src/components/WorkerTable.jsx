@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function WorkerTable({ worker_list }) {
+export default function WorkerTable({ worker_list, isDetail = false }) {
   const [searchType, setSearchType] = useState("byName");
   const [search, setSearch] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("전체");
@@ -76,10 +76,10 @@ export default function WorkerTable({ worker_list }) {
             </tr>
             <tr className="table-header">
               <th>상태</th> {/* 초록색 빨간색 동그라미 */}
-              <th>직급</th>
+              {/* <th>직급</th> */}
               <th>이름</th>
-              <th>현재 위치</th>
-              <th>웨어러블 ID</th>
+              {!isDetail && <th>현재 위치</th>}
+              <th className="id-row">웨어러블 ID</th>
               <th>호출</th>
             </tr>
           </thead>
@@ -92,10 +92,10 @@ export default function WorkerTable({ worker_list }) {
               return (
                 <tr key={i} className={tmp}>
                   <td>{worker.status}</td>
-                  <td>{worker.role}</td>
+                  {/* <td>{worker.role}</td> */}
                   <td>{worker.name}</td>
-                  <td>{worker.zone}</td>
-                  <td>{worker.wearableId}</td>
+                  {!isDetail && <td>{worker.zone}</td>}
+                  <td className="id-row">{worker.wearableId}</td>
                   <td style={{ fontSize: "1.2rem" }}>🚨</td>
                 </tr>
               );
