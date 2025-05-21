@@ -7,7 +7,6 @@ import LogTable from "../components/LogTable";
 
 export default function ZoneDetail_2() {
   const { zoneId } = useParams();
-  const [isLogOpen, setLogOpen] = useState(false);
   const bottomRef = useRef(null);
 
   const [refreshLog, setRefreshLog] = useState(0);
@@ -59,7 +58,7 @@ export default function ZoneDetail_2() {
       zoneId: "zone123",
       targetType: "환경",
       sensorType: "TEMPERATURE",
-      dangerLevel: 2,
+      dangerLevel: 1,
       value: 35.5,
       timestamp: "2024-03-20T14:30:00",
       abnormalType: "온도 위험",
@@ -69,10 +68,10 @@ export default function ZoneDetail_2() {
       zoneId: "zone123",
       targetType: "환경",
       sensorType: "TEMPERATURE",
-      dangerLevel: 2,
+      dangerLevel: 0,
       value: 35.5,
       timestamp: "2024-03-20T14:30:00",
-      abnormalType: "온도 위험",
+      abnormalType: "온도 안정",
       targetId: "sensor456",
     },
   ];
@@ -89,16 +88,18 @@ export default function ZoneDetail_2() {
 
   // 로그 상세조회
   useEffect(() => {
-    axiosInstance
-      .get(`/api/system-logs/zone/${zoneId}`)
-      .then((res) => {
-        // console.log(res.data);
-        // setLogs();
-      })
-      .catch((e) => {
-        console.log("로그 조회 실패 - mock-data를 불러옵니다", e);
-        setLogs(mock_loglist);
-      });
+    if (refreshLog) {
+      axiosInstance
+        .get(`/api/system-logs/zone/${zoneId}`)
+        .then((res) => {
+          // console.log(res.data);
+          // setLogs();
+        })
+        .catch((e) => {
+          console.log("로그 조회 실패 - mock-data를 불러옵니다", e);
+          setLogs(mock_loglist);
+        });
+    }
   }, [refreshLog]);
 
   // Kibana 대시보드 ID (미리 저장해둔 고정된 dashboard)

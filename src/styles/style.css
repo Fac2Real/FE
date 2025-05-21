@@ -850,7 +850,8 @@ strong.normal {
   margin-bottom: 0.5rem;
 }
 
-.worker-table {
+.worker-table,
+.logs-table {
   width: calc(100% - 4rem);
   border-collapse: collapse;
   text-align: center;
@@ -870,7 +871,8 @@ strong.normal {
   width: 7.5%;
 }
 
-.worker-table td {
+.worker-table td,
+.logs-table td {
   border: 1px solid #ccc;
   background-color: white;
 }
@@ -883,7 +885,8 @@ strong.normal {
   width: auto !important;
 }
 
-.worker-table .critical td {
+.worker-table .critical td,
+.logs-table .critical td {
   background-color: var(--warning);
 }
 
