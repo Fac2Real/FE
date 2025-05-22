@@ -176,7 +176,7 @@ export default function ZoneDetail_2() {
   // 공간의 작업자 정보 받아오기
   const fetchWorkers = () => {
     axiosInstance
-      .get(`/api/workers/zone/${zoneId}/manager`)
+      .get(`/api/workers/zone/${zoneId}`)
       .then((res) => {
         console.log(res.data);
         setWorkerList(res.data);
