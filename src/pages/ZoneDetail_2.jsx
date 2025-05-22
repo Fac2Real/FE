@@ -6,12 +6,83 @@ import RefreshIcon from "../assets/refresh_icon.svg?react";
 import LogTable from "../components/LogTable";
 import WorkerInfoModal from "../components/modal/WorkerInfoModal";
 
-function ManagerSetting({ manager, workerList, modalParam }) {
+// Mock data 시작
+const mock_workers = [
+  {
+    name: "S00",
+    status: "위험",
+    workerId: "WEARABLE000111000",
+    email: "test@example.com",
+    phoneNumber: "01022222222",
+  },
+  {
+    name: "Y00",
+    status: "정상",
+    workerId: "인식되지 않음",
+    email: "test@example.com",
+    phoneNumber: "01033333333",
+  },
+  {
+    name: "J00",
+    status: "정상",
+    workerId: "WEARABLE111111111",
+    email: "test@example.com",
+    phoneNumber: "01011112222",
+  },
+];
+
+const mock_loglist = [
+  {
+    zoneId: "zone123",
+    targetType: "환경",
+    sensorType: "TEMPERATURE",
+    dangerLevel: 2,
+    value: 35.5,
+    timestamp: "2024-03-20T14:30:00",
+    abnormalType: "온도 위험",
+    targetId: "sensor456",
+  },
+  {
+    zoneId: "zone123",
+    targetType: "환경",
+    sensorType: "TEMPERATURE",
+    dangerLevel: 1,
+    value: 35.5,
+    timestamp: "2024-03-20T14:30:00",
+    abnormalType: "온도 위험",
+    targetId: "sensor456",
+  },
+  {
+    zoneId: "zone123",
+    targetType: "환경",
+    sensorType: "TEMPERATURE",
+    dangerLevel: 0,
+    value: 35.5,
+    timestamp: "2024-03-20T14:30:00",
+    abnormalType: "온도 안정",
+    targetId: "sensor456",
+  },
+];
+
+const mock_manager = {
+  workerId: "WKR20250521001",
+  name: "홍길동",
+  phoneNumber: "010-1234-5678",
+  email: "honggildong@example.com",
+  zoneId: "ZONE001",
+  zone: "포장 구역 A",
+  status: "정상",
+};
+
+// const mock_manager = null;
+// mock data 끝
+
+function ManagerSetting({ manager, workerList, modalParam, zoneId }) {
   const [mode, setMode] = useState("");
   const [cand, setCand] = useState([]);
   const fetchCand = () => {
     axiosInstance
-      .get(``)
+      .get(`/api/zone-managers/candidates/${zoneId}`)
       .then((res) => {
         console.log(res.data);
       })
@@ -69,8 +140,15 @@ function ManagerSetting({ manager, workerList, modalParam }) {
           <div className="edit-manager">
             <div className="select-flex">
               <p>담당자 선택</p>
-              <select></select>
-              <select></select>
+              <select>
+                {cand.map((c, i) => {
+                  return (
+                    <option key={i} value={c.workerId}>
+                      {c.name} ({c.workerId})
+                    </option>
+                  );
+                })}
+              </select>
               {!manager && mode == "add" && (
                 <button className="no-flex-button">등록</button>
               )}
@@ -95,84 +173,12 @@ export default function ZoneDetail_2() {
   const [refreshWorkers, setRefreshWorkers] = useState(0);
   const [workerList, setWorkerList] = useState([]);
 
-  // Mock data 시작
-  const mock_workers = [
-    {
-      name: "S00",
-      status: "위험",
-      wearableId: "WEARABLE000111000",
-      email: "test@example.com",
-      phone: "01022222222",
-    },
-    {
-      name: "Y00",
-      status: "정상",
-      wearableId: "인식되지 않음",
-      email: "test@example.com",
-      phone: "01033333333",
-    },
-    {
-      name: "J00",
-      status: "정상",
-      wearableId: "WEARABLE111111111",
-      email: "test@example.com",
-      phone: "01011112222",
-    },
-  ];
-
-  const mock_loglist = [
-    {
-      zoneId: "zone123",
-      targetType: "환경",
-      sensorType: "TEMPERATURE",
-      dangerLevel: 2,
-      value: 35.5,
-      timestamp: "2024-03-20T14:30:00",
-      abnormalType: "온도 위험",
-      targetId: "sensor456",
-    },
-    {
-      zoneId: "zone123",
-      targetType: "환경",
-      sensorType: "TEMPERATURE",
-      dangerLevel: 1,
-      value: 35.5,
-      timestamp: "2024-03-20T14:30:00",
-      abnormalType: "온도 위험",
-      targetId: "sensor456",
-    },
-    {
-      zoneId: "zone123",
-      targetType: "환경",
-      sensorType: "TEMPERATURE",
-      dangerLevel: 0,
-      value: 35.5,
-      timestamp: "2024-03-20T14:30:00",
-      abnormalType: "온도 안정",
-      targetId: "sensor456",
-    },
-  ];
-
-  const mock_manager = {
-    wearableId: "WKR20250521001",
-    name: "홍길동",
-    phone: "010-1234-5678",
-    email: "honggildong@example.com",
-    zoneId: "ZONE001",
-    zone: "포장 구역 A",
-    status: "정상",
-  };
-
-  // const mock_manager = null;
-  // mock data 끝
-
   // 공간의 작업자 정보 받아오기
   const fetchWorkers = () => {
     axiosInstance
-      .get(`/api/workers/zone/${zoneId}`)
+      .get(`/api/workers/zone/${zoneId}/manager`)
       .then((res) => {
-        // console.log(`${zoneId}의 작업자 정보 get!`);
-        // console.log(res.data);
+        console.log(res.data);
         setWorkerList(res.data);
       })
       .catch((e) => {
@@ -217,7 +223,7 @@ export default function ZoneDetail_2() {
   // 매니저 정보 받아오기
   useEffect(() => {
     axiosInstance
-      .get(``)
+      .get(`/api/workers/zone/${zoneId}/manager`)
       .then((res) => {
         console.log(res.data);
       })
@@ -337,6 +343,7 @@ export default function ZoneDetail_2() {
           <ManagerSetting
             manager={manager}
             workerList={workerList}
+            zoneId={zoneId}
             modalParam={{
               selectedWorker: setSelectedWorker,
               openModal: setIsOpen,
@@ -367,7 +374,7 @@ export default function ZoneDetail_2() {
             logs.length == 0 ? "closed" : "open"
           }`}
         >
-          <LogTable logs={logs} />
+          <LogTable logs={logs} currentPage={currentPage.current} />
         </div>
       </div>
       <div ref={bottomRef} style={{ height: 0 }}></div>
