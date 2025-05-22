@@ -285,7 +285,7 @@ p.sidebar-open {
   width: 100%;
   background-color: var(--c4);
   padding: 10px 20px;
-  border-radius: 5rem;
+  border-radius: 0.5rem;
   font-size: 1.2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 2;
@@ -298,7 +298,7 @@ p.sidebar-open {
   width: 100%;
   padding: 60px 20px 20px 20px;
   border: 1px solid #dddbdb;
-  border-radius: 2rem;
+  border-radius: 1.25rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 1;

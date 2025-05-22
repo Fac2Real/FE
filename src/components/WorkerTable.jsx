@@ -101,10 +101,10 @@ export default function WorkerTable({
               <th>사번</th>
               <th>이름</th>
               {!isDetail && <th>현재 위치</th>}
-              <th>연락처</th>
-              <th>전화번호</th>
+              <th className="contact-row">이메일</th>
+              <th className="contact-row">전화번호</th>
               <th style={{ width: "5%" }}>호출</th>
-              <th>상세정보</th>
+              <th style={{ width: "5%" }}>상세정보</th>
             </tr>
           </thead>
           <tbody>

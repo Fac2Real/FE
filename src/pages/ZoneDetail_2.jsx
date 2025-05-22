@@ -65,7 +65,7 @@ const mock_loglist = [
 ];
 
 const mock_manager = {
-  workerId: "WKR20250521001",
+  workerId: "22220000",
   name: "홍길동",
   phoneNumber: "010-1234-5678",
   email: "honggildong@example.com",
