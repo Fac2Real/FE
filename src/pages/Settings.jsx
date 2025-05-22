@@ -124,6 +124,9 @@ export default function Settings() {
   };
 
   const handleFacilityUpdate = (newValue) => {
+    if (newValue.length == 0) {
+      return;
+    }
     axiosInstance
       .post("/api/equips", {
         zoneName: selectedZone,
@@ -152,6 +155,9 @@ export default function Settings() {
   };
 
   const handleEditZone = (newZoneName) => {
+    if (newZoneName.length == 0) {
+      return;
+    }
     axiosInstance
       .post(`/api/zones/${selectedZone}`, {
         zoneName: newZoneName,
@@ -173,6 +179,9 @@ export default function Settings() {
   };
 
   const handleEditFac = (newFacName, equipId) => {
+    if (newFacName.length == 0) {
+      return;
+    }
     axiosInstance
       .post(`/api/equips/${equipId}`, {
         equipName: newFacName,

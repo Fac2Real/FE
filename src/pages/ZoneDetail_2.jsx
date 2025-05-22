@@ -4,6 +4,71 @@ import WorkerTable from "../components/WorkerTable";
 import axiosInstance from "../api/axiosInstance";
 import RefreshIcon from "../assets/refresh_icon.svg?react";
 import LogTable from "../components/LogTable";
+import WorkerInfoModal from "../components/modal/WorkerInfoModal";
+
+function ManagerSetting({ manager, workerList, modalParam }) {
+  const [mode, setMode] = useState("");
+
+  return (
+    <>
+      {/* 매니저 존재 여부에 따라 매니저 정보 표 보여줌 */}
+      {manager && (
+        <>
+          <div className="button-flex manager-button">
+            <button
+              onClick={() => {
+                setMode("edit");
+              }}
+            >
+              수정
+            </button>
+          </div>
+          <WorkerTable
+            worker_list={[manager]}
+            selectWorker={modalParam.selectedWorker}
+            openModal={modalParam.openModal}
+            isManager={true}
+          />
+        </>
+      )}
+      {!manager && (
+        <>
+          <div
+            className="button-flex manager-button"
+            style={{ justifyContent: "space-between" }}
+          >
+            <p>매니저가 할당되지 않았습니다</p>
+            <button
+              onClick={() => {
+                setMode("add");
+              }}
+            >
+              등록
+            </button>
+          </div>
+        </>
+      )}
+      {/* 모드에 따라 추가하는 부분 보여주기 */}
+      {mode && (
+        <>
+          <div className="edit-manager">
+            <div className="select-flex">
+              <p>담당자 선택</p>
+              <select></select>
+              <select></select>
+              {!manager && mode == "add" && (
+                <button className="no-flex-button">등록</button>
+              )}
+              {manager && mode == "edit" && (
+                <button className="no-flex-button">변경</button>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+    </>
+  );
+}
 
 export default function ZoneDetail_2() {
   const { zoneId } = useParams();
@@ -15,31 +80,25 @@ export default function ZoneDetail_2() {
   const [refreshWorkers, setRefreshWorkers] = useState(0);
   const [workerList, setWorkerList] = useState([]);
 
-  // 작업자 정보
+  // Mock data 시작
   const mock_workers = [
     {
       name: "S00",
-      role: "사원",
       status: "위험",
-      // zone: "포장 구역 A",
       wearableId: "WEARABLE000111000",
       email: "test@example.com",
-      phone: "01011112222",
+      phone: "01022222222",
     },
     {
       name: "Y00",
-      role: "공장장",
       status: "정상",
-      // zone: "휴게실",
       wearableId: "인식되지 않음",
       email: "test@example.com",
-      phone: "01011112222",
+      phone: "01033333333",
     },
     {
       name: "J00",
-      role: "반장",
       status: "정상",
-      // zone: "조립 구역 B",
       wearableId: "WEARABLE111111111",
       email: "test@example.com",
       phone: "01011112222",
@@ -79,6 +138,19 @@ export default function ZoneDetail_2() {
     },
   ];
 
+  const mock_manager = {
+    wearableId: "WKR20250521001",
+    name: "홍길동",
+    phone: "010-1234-5678",
+    email: "honggildong@example.com",
+    zoneId: "ZONE001",
+    zone: "포장 구역 A",
+    status: "정상",
+  };
+
+  // const mock_manager = null;
+  // mock data 끝
+
   // 공간의 작업자 정보 받아오기
   const fetchWorkers = () => {
     axiosInstance
@@ -100,7 +172,7 @@ export default function ZoneDetail_2() {
     return () => clearInterval(interval);
   }, [refreshWorkers]); // 여기서 리프레시 버튼을 추가해도 좋을 것 같네요!
 
-  // 로그 상세조회
+  // 로그 정보 받아오기
   useEffect(() => {
     if (refreshLog) {
       axiosInstance
@@ -113,12 +185,25 @@ export default function ZoneDetail_2() {
     }
   }, [refreshLog]);
 
+  const [manager, setManager] = useState();
+
+  // 매니저 정보 받아오기
+  useEffect(() => {
+    axiosInstance
+      .get(``)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log("매니저 정보 조회에 실패했습니다.", e);
+        console.log("mock data를 불러옵니다.");
+        setManager(mock_manager);
+      });
+  }, []);
+
   // Kibana 대시보드 ID (미리 저장해둔 고정된 dashboard)
   const dashboardId = "d9cad7d0-2d48-11f0-b003-9ddfbb58f11c";
   const sensorTypes = ["temp", "humid"]; // 원하는 센서 타입들 추가
-
-  /* mock data */
-  /* zoneId로 detail 정보를 요청하면, 아래 정보를 줬으면 좋겠다...*/
 
   const mock_details_sensor = {
     zoneId: zoneId,
@@ -128,7 +213,6 @@ export default function ZoneDetail_2() {
       { type: "humid", id: "SID-YYY" },
     ],
   };
-  // console.log("(확인완료)", mock_details_sensor.zoneId);
 
   const mapSensorType = (sensorType) => {
     const sensorMap = { temp: "온도 센서", humid: "습도 센서" };
@@ -155,8 +239,22 @@ export default function ZoneDetail_2() {
       }, 200);
     }
   }, [logs.length]);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => {
+    setSelectedWorker();
+    setIsOpen(false);
+  };
+  const [selectedWorkerInfo, setSelectedWorker] = useState();
   return (
     <>
+      <WorkerInfoModal
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false);
+        }}
+        workerInfo={selectedWorkerInfo}
+      />
       <h1>{mock_details_sensor.zoneName}</h1>
       {/* 환경 리포트 부분 :: ELK */}
       <div className="box-wrapper">
@@ -197,14 +295,26 @@ export default function ZoneDetail_2() {
           </span>
         </div>
         <div className="bottom-box">
-          <WorkerTable worker_list={workerList} isDetail={true} />
+          <WorkerTable
+            worker_list={workerList}
+            isDetail={true}
+            selectWorker={setSelectedWorker}
+            openModal={setIsOpen}
+          />
         </div>
       </div>
       {/* 담당자 :: 스프린트2 */}
       <div className="box-wrapper">
         <div className="top-box">담당자 정보</div>
         <div className="bottom-box">
-          <p>스프린트2에서 진행 예정</p>
+          <ManagerSetting
+            manager={manager}
+            workerList={workerList}
+            modalParam={{
+              selectedWorker: setSelectedWorker,
+              openModal: setIsOpen,
+            }}
+          />
         </div>
       </div>
       {/* 설비 현황 :: 스프린트3 */}

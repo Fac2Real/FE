@@ -8,6 +8,8 @@
   --box-color: #f6f6f6;
   --blue: #1d4a7a;
   --warning: #fde1ad;
+  --warning2: #f2c97e;
+  --warning3: #fcbc45;
 }
 #root {
   position: relative;
@@ -375,6 +377,7 @@ p.sidebar-open {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   transform: translateY(1px);
 }
+
 .button-flex {
   display: flex;
   justify-content: flex-end;
@@ -437,6 +440,7 @@ p.sidebar-open {
 }
 .modal-box {
   background-color: var(--c4);
+  /* background-color: white; */
   border-radius: 2rem;
   width: 40vw;
   height: auto;
@@ -868,7 +872,7 @@ strong.normal {
   padding: 0.5rem;
   border: 1px solid #ccc;
   background-color: var(--c4);
-  width: 7.5%;
+  width: 10%;
 }
 
 .worker-table td,
@@ -937,4 +941,72 @@ select.search-field {
   color: var(--box-color);
   border-color: var(--box-color);
   cursor: not-allowed;
+}
+
+/* 연락처용 표 */
+.contact-table {
+  width: 80%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.contact-table th,
+.contact-table td {
+  text-align: center;
+  word-wrap: break-word;
+  height: 3rem;
+}
+
+.contact-table th {
+  background-color: var(--box-color);
+  width: 40%;
+  border-bottom: 1px solid var(--box-color);
+}
+
+.contact-table td {
+  background-color: white;
+  color: #555;
+  border-bottom: 1px solid var(--box-color);
+}
+
+.manager-button button {
+  width: 5rem;
+  height: 1.75rem;
+  font-size: 1rem;
+  margin: 0.5rem 2rem 0.5rem 0;
+  align-self: center;
+}
+
+.edit-manager {
+  margin: 2rem;
+}
+
+.select-flex {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.select-flex select {
+  width: 15rem;
+  height: 2rem;
+}
+
+.edit-manager button {
+  background-color: var(--warning2);
+  color: white;
+  font-size: 1rem;
+}
+
+.edit-manager button:hover {
+  background-color: #fcbc45;
+}
+
+.edit-manager button:active {
+  background-color: #f7a816;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px);
 }
