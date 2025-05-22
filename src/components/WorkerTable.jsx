@@ -23,11 +23,11 @@ export default function WorkerTable({
     return true;
   });
 
-  const directCall = (email, phone) => {
+  const directCall = (email, phoneNumber) => {
     const confirmed = window.confirm(`작업자를 호출하시겠습니까?`);
     if (confirmed) {
       /* To-Do: 긴급 호출 기능 구현하면 됨!! */
-      console.log("긴급 호출!!!!!", `${email} ${phone}`);
+      console.log("긴급 호출!!!!!", `${email} ${phoneNumber}`);
     }
   };
   return (
@@ -98,11 +98,13 @@ export default function WorkerTable({
             )}
             <tr className="table-header">
               <th>상태</th>
+              <th>사번</th>
               <th>이름</th>
               {!isDetail && <th>현재 위치</th>}
-              <th className="id-row">웨어러블 ID</th>
-              <th>연락처</th>
-              <th>호출</th>
+              <th className="contact-row">이메일</th>
+              <th className="contact-row">전화번호</th>
+              <th style={{ width: "5%" }}>호출</th>
+              <th style={{ width: "5%" }}>상세정보</th>
             </tr>
           </thead>
           <tbody>
@@ -114,9 +116,17 @@ export default function WorkerTable({
               return (
                 <tr key={i} className={tmp}>
                   <td>{worker.status}</td>
+                  <td>{worker.workerId}</td>
                   <td>{worker.name}</td>
                   {!isDetail && <td>{worker.zone}</td>}
-                  <td className="id-row">{worker.wearableId}</td>
+                  <td className="contact-row">{worker.email}</td>
+                  <td className="contact-row">{worker.phoneNumber}</td>
+                  <td
+                    style={{ fontSize: "1.2rem", cursor: "pointer" }}
+                    onClick={() => directCall(worker.email, worker.phoneNumber)}
+                  >
+                    🚨
+                  </td>
                   <td
                     style={{ cursor: "pointer", textDecoration: "underline" }}
                     onClick={() => {
@@ -125,12 +135,6 @@ export default function WorkerTable({
                     }}
                   >
                     조회
-                  </td>
-                  <td
-                    style={{ fontSize: "1.2rem", cursor: "pointer" }}
-                    onClick={() => directCall(worker.email, worker.phone)}
-                  >
-                    🚨
                   </td>
                 </tr>
               );

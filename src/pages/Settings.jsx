@@ -123,6 +123,7 @@ export default function Settings() {
     setSensorModalOpen(false);
   };
 
+  // 설비 추가
   const handleFacilityUpdate = (newValue) => {
     if (newValue.length == 0) {
       return;
@@ -154,6 +155,7 @@ export default function Settings() {
     setFacilityModalOpen(false);
   };
 
+  // 공간명 수정
   const handleEditZone = (newZoneName) => {
     if (newZoneName.length == 0) {
       return;
@@ -178,6 +180,7 @@ export default function Settings() {
     setEditModalOpen(false);
   };
 
+  // 설비 이름 수정
   const handleEditFac = (newFacName, equipId) => {
     if (newFacName.length == 0) {
       return;
@@ -208,6 +211,7 @@ export default function Settings() {
     setFacEditOpen(false);
   };
 
+  // 공간 생성
   const handleAddZone = async (newZone) => {
     const confirmed = window.confirm(`[${newZone}]을 추가하시겠습니까?`);
     if (!confirmed) return;
