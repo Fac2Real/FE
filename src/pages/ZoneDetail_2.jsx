@@ -8,6 +8,19 @@ import WorkerInfoModal from "../components/modal/WorkerInfoModal";
 
 function ManagerSetting({ manager, workerList, modalParam }) {
   const [mode, setMode] = useState("");
+  const [cand, setCand] = useState([]);
+  const fetchCand = () => {
+    axiosInstance
+      .get(``)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log("매니저 후보 조회에 실패했습니다.", e);
+        console.log("현재 위치 작업자 mock data를 대신 불러옵니다.");
+        setCand(mock_workers);
+      });
+  };
 
   return (
     <>
@@ -18,6 +31,7 @@ function ManagerSetting({ manager, workerList, modalParam }) {
             <button
               onClick={() => {
                 setMode("edit");
+                fetchCand();
               }}
             >
               수정
@@ -41,6 +55,7 @@ function ManagerSetting({ manager, workerList, modalParam }) {
             <button
               onClick={() => {
                 setMode("add");
+                fetchCand();
               }}
             >
               등록
@@ -170,14 +185,16 @@ export default function ZoneDetail_2() {
       fetchWorkers();
     }, 60000); // 1분!
     return () => clearInterval(interval);
-  }, [refreshWorkers]); // 여기서 리프레시 버튼을 추가해도 좋을 것 같네요!
+  }, [refreshWorkers]);
 
   // 로그 정보 받아오기
   useEffect(() => {
     if (refreshLog) {
       axiosInstance
         .get(`/api/system-logs/zone/${zoneId}`)
-        .then((res) => {})
+        .then((res) => {
+          console.log(res.data);
+        })
         .catch((e) => {
           console.log("로그 조회 실패 - mock-data를 불러옵니다", e);
           setLogs(mock_loglist);
