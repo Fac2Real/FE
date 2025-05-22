@@ -23,11 +23,11 @@ export default function WorkerTable({
     return true;
   });
 
-  const directCall = (email, phone) => {
+  const directCall = (email, phoneNumber) => {
     const confirmed = window.confirm(`작업자를 호출하시겠습니까?`);
     if (confirmed) {
       /* To-Do: 긴급 호출 기능 구현하면 됨!! */
-      console.log("긴급 호출!!!!!", `${email} ${phone}`);
+      console.log("긴급 호출!!!!!", `${email} ${phoneNumber}`);
     }
   };
   return (

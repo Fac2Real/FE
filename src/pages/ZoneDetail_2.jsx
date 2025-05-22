@@ -169,10 +169,11 @@ export default function ZoneDetail_2() {
   // 공간의 작업자 정보 받아오기
   const fetchWorkers = () => {
     axiosInstance
-      .get(`/api/workers/${zoneId}`)
+      .get(`/api/workers/zone/${zoneId}`)
       .then((res) => {
-        console.log(`${zoneId}의 작업자 정보 get!`);
-        console.log(res.data);
+        // console.log(`${zoneId}의 작업자 정보 get!`);
+        // console.log(res.data);
+        setWorkerList(res.data);
       })
       .catch((e) => {
         console.log(`${zoneId}의 작업자 로드 실패 - mock data를 불러옵니다`, e);
@@ -189,12 +190,20 @@ export default function ZoneDetail_2() {
   }, [refreshWorkers]);
 
   // 로그 정보 받아오기
+  const currentPage = useRef();
   useEffect(() => {
     if (refreshLog) {
       axiosInstance
-        .get(`/api/system-logs/zone/${zoneId}`)
+        .get(`/api/system-logs/zone/${zoneId}`, {
+          params: {
+            page: 0,
+            size: 10,
+          },
+        })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data.content);
+          currentPage.current = 0;
+          setLogs(res.data.content);
         })
         .catch((e) => {
           console.log("로그 조회 실패 - mock-data를 불러옵니다", e);
