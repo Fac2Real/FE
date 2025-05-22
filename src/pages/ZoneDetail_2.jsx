@@ -170,8 +170,9 @@ export default function ZoneDetail_2() {
   const fetchWorkers = () => {
     axiosInstance
       .get(`/api/workers/${zoneId}`)
-      .then(() => {
+      .then((res) => {
         console.log(`${zoneId}의 작업자 정보 get!`);
+        console.log(res.data);
       })
       .catch((e) => {
         console.log(`${zoneId}의 작업자 로드 실패 - mock data를 불러옵니다`, e);

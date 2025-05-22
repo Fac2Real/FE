@@ -1,6 +1,6 @@
 import XIcon from "../../assets/x_icon.svg?react";
 
-function ContactTable({ email, phone, id }) {
+function ContactTable({ email, phoneNumber }) {
   return (
     <div className="table-container">
       <table className="contact-table">
@@ -13,11 +13,11 @@ function ContactTable({ email, phone, id }) {
         <tbody>
           <tr>
             <th scope="row">휴대폰 번호</th>
-            <td>{phone}</td>
+            <td>{phoneNumber}</td>
           </tr>
           <tr>
-            <th scope="row">웨어러블 ID</th>
-            <td>{id}</td>
+            <th scope="row">출입 가능한 지역</th>
+            <td>미구현</td>
           </tr>
         </tbody>
       </table>
@@ -40,8 +40,7 @@ export default function WorkerInfoModal({ isOpen, onClose, workerInfo }) {
             </p>
             <ContactTable
               email={workerInfo.email}
-              phone={workerInfo.phone}
-              id={workerInfo.wearableId}
+              phoneNumber={workerInfo.phoneNumber}
             />
           </div>
         </div>
