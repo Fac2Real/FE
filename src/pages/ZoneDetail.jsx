@@ -33,27 +33,28 @@ export default function ZoneDetail() {
   const [selectedWorkerInfo, setSelectedWorker] = useState();
 
   // 2) 모든 useEffect (조건 없이 항상 선언)
-  // useEffect(() => {
-  //   setLoading(true);
-  //   const url =
-  //     import.meta.env.VITE_BACKEND_URL +
-  //     `/api/grafana-zone/${zoneId}/dashboards`;
+  useEffect(() => {
+    setLoading(true);
+    const url =
+      import.meta.env.VITE_BACKEND_URL +
+      `/api/grafana-zone/${zoneId}/dashboards`;
 
-  //   fetch(url)
-  //     .then((res) => {
-  //       if (!res.ok) throw new Error(`Status ${res.status}`);
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setDashboards(data);
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //       setError(err.message);
-  //       setLoading(false);
-  //     });
-  // }, [zoneId]);
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Status ${res.status}`);
+        return res.json();
+      })
+      .then((res) => {
+        setDashboards(res.data);
+        console.log(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError(err.message);
+        setLoading(false);
+      });
+  }, [zoneId]);
 
   // 로그 펴질 때 화면 부드럽게 펼쳐지기
   useEffect(() => {
@@ -113,8 +114,8 @@ export default function ZoneDetail() {
   }, [refreshLog]);
 
   // 3) 조건부 렌더링
-  // if (loading) return <div>로딩 중…</div>;
-  // if (error) return <div>에러 발생: {error}</div>;
+  if (loading) return <div>로딩 중…</div>;
+  if (error) return <div>에러 발생: {error}</div>;
 
   return (
     <>
@@ -131,21 +132,22 @@ export default function ZoneDetail() {
         <div className="top-box">환경 리포트</div>
         <div className="bottom-box">
           <div className="grafana-wrapper">
-            {/* {dashboards?.map(({ sensorId, sensorType, iframeUrl }) => (
-              <div key={sensorId} className="grafana-box">
-                <p>
-                  {sensorType} 센서 ({sensorId})
-                </p>
-                <div>
-                  <iframe
-                    src={iframeUrl}
-                    title={`grafana-${sensorId}`}
-                    style={{ width: "100%", height: "100%", border: 0 }}
-                    loading="lazy"
-                  />
+            {dashboards &&
+              dashboards.map(({ sensorId, sensorType, iframeUrl }) => (
+                <div key={sensorId} className="grafana-box">
+                  <p>
+                    {sensorType} 센서 ({sensorId})
+                  </p>
+                  <div>
+                    <iframe
+                      src={iframeUrl}
+                      title={`grafana-${sensorId}`}
+                      style={{ width: "100%", height: "100%", border: 0 }}
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
-              </div>
-            ))} */}
+              ))}
           </div>
         </div>
       </div>
