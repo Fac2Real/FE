@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
-export default function Zonedetail() {
+export default function ZoneDetail() {
   const { zoneId } = useParams();
   const { state } = useLocation();
   const zoneName = state?.zoneName;
