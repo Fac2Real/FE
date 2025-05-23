@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 
-export default function ZoneDetail() {
+export default function ZoneDetailDummy() {
   const { zoneId } = useParams();
 
   // const sensorType = "temp";  // 여기에 원하는 센서 타입 입력

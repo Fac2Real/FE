@@ -57,6 +57,7 @@ export default function Monitoring() {
               <Link
                 key={i}
                 to={`/zone/${z.zoneId}`}
+                state={{ zoneName: z.zoneName }}
                 className="link-as-contents"
               >
                 <MonitorBox zone={z} />
