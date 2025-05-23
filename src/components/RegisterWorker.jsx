@@ -13,7 +13,7 @@ export default function RegisterWorker() {
   useEffect(() => {
     axiosInstance
       .get("/api/zones")
-      .then((res) => setZoneList(res.data))
+      .then((res) => setZoneList(res.data.data))
       .catch((e) => console.log(e));
   }, []);
 

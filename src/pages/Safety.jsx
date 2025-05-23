@@ -20,8 +20,8 @@ export default function Safety() {
       .get("/api/workers")
       .then((res) => {
         console.log("작업자 정보 get!");
-        console.log(res.data);
-        setWorkerList(res.data);
+        console.log(res.data.data);
+        setWorkerList(res.data.data);
       })
       .catch((e) => {
         console.log("작업자 정보 조회 실패 - mock data를 불러옵니다", e);

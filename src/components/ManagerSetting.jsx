@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
-import { mock_workers } from "../mock_data/mock_workers";
+import { mock_workers, mock_manager } from "../mock_data/mock_workers";
 import WorkerTable from "./WorkerTable";
 export default function ManagerSetting({ modalParam, zoneId }) {
   const [mode, setMode] = useState("");
@@ -15,7 +15,7 @@ export default function ManagerSetting({ modalParam, zoneId }) {
     axiosInstance
       .get(`/api/zone-managers/${zoneId}`)
       .then((res) => {
-        setManager(res.data);
+        setManager(res.data.data);
       })
       .catch((e) => {
         console.log("매니저 정보 조회에 실패했습니다.", e);
@@ -28,7 +28,7 @@ export default function ManagerSetting({ modalParam, zoneId }) {
     axiosInstance
       .get(`/api/zone-managers/candidates/${zoneId}`)
       .then((res) => {
-        setCand(res.data);
+        setCand(res.data.data);
       })
       .catch((e) => {
         console.log("매니저 후보 조회에 실패했습니다.", e);

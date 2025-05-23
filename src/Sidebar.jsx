@@ -33,7 +33,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       .get("/api/abnormal/unread-count")
       .then((res) => {
         // console.log("res data: ", res.data);
-        setAlramCount(res.data);
+        setAlramCount(res.data.data);
       })
       .catch((e) => console.log("e"));
   }, []);

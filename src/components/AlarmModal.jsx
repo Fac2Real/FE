@@ -31,9 +31,9 @@ const AlarmModal = ({ isOpen, onClose }) => {
           const response = await axiosInstance.get("/api/abnormal/unread", {
             params: { page, size }, // 쿼리 파라미터로 페이지와 크기 전달
           });
-          const newAlarms = response.data.content; // Page 객체의 content를 사용
+          const newAlarms = response.data.data.content; // Page 객체의 content를 사용
           setAlarms((prev) => [...prev, ...newAlarms]); // 기존 알람에 새 알람 추가
-          setHasMore(!response.data.last); // 마지막 페이지 여부 확인
+          setHasMore(!response.data.data.last); // 마지막 페이지 여부 확인
         } catch (error) {
           console.error("Failed to fetch alarms:", error);
         } finally {

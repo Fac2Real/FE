@@ -45,19 +45,19 @@ export default function Settings() {
       axiosInstance.get("/api/zones/zoneitems"), // zoneItems 1개만 써도 OK
     ])
       .then(([res]) => {
-        console.log(res.data);
-        const list = res.data.map((z) => ({
-          title: z.title,
-          env_sensor: z.env_sensor.map((s) => ({
+        console.log(res.data.data);
+        const list = res.data.data.map((z) => ({
+          title: z.zoneName,
+          env_sensor: z.zoneSensorList.map((s) => ({
             name: toKoName(s.sensorType), // 한글 변환
             thres: s.sensorThres,
             margin: s.allowVal, // JSON 내용 확인해서 변경해야댐..
             sensorId: s.sensorId,
           })),
-          facility: z.facility.map((f) => ({
-            name: f.name,
-            id: f.id,
-            fac_sensor: f.fac_sensor.map((s) => ({
+          facility: z.equipList.map((f) => ({
+            name: f.equipName,
+            id: f.equipId,
+            fac_sensor: f.facSensor.map((s) => ({
               name: toKoName(s.sensorType),
               id: s.sensorId,
             })),
@@ -134,7 +134,7 @@ export default function Settings() {
         equipName: newValue,
       })
       .then((res) => {
-        const newId = res.data.equipId;
+        const newId = res.data.data.equipId;
         const updated = zoneList.map((z) => {
           if (z.title !== selectedZone) return z;
           return {

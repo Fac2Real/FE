@@ -72,8 +72,8 @@ export default function ZoneDetail() {
     axiosInstance
       .get(`/api/workers/zone/${zoneId}`)
       .then((res) => {
-        console.log(res.data);
-        setWorkerList(res.data);
+        console.log(res.data.data);
+        setWorkerList(res.data.data);
       })
       .catch((e) => {
         console.log(`${zoneId}의 작업자 로드 실패 - mock data를 불러옵니다`, e);
