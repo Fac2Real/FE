@@ -16,7 +16,11 @@ export default function Zonedetail() {
   // 2) 모든 useEffect (조건 없이 항상 선언)
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:8080/api/grafana-zone/${zoneId}/dashboards`)
+    const url =
+      import.meta.env.VITE_BACKEND_URL +
+      `/api/grafana-zone/${zoneId}/dashboards`;
+
+    fetch(url)
       .then((res) => {
         if (!res.ok) throw new Error(`Status ${res.status}`);
         return res.json();
