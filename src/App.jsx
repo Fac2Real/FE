@@ -9,13 +9,16 @@ import Safety from "./pages/Safety";
 import Facility from "./pages/Facility";
 import ZoneDetail from "./pages/ZoneDetail";
 import { ToastProvider } from "./contexts/ToastProvider";
+import { useState } from "react";
 
 export default function App() {
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <BrowserRouter>
       <ToastProvider>
         <div className="main">
-          <Sidebar />
+          <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+          <div className={`sidebar-guard ${isOpen ? "open" : "close"}`}></div>
           <div className="contents">
             <Routes>
               <Route path="/" element={<Home />} />
