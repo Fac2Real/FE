@@ -13,8 +13,7 @@ import AlarmModal from "./components/AlarmModal";
 import axiosInstance from "./api/axiosInstance";
 import { useWebSocket2 } from "./websocket/useWebSocket";
 
-export default function Sidebar() {
-  const [isOpen, setIsOpen] = useState(true);
+export default function Sidebar({ isOpen, setIsOpen }) {
   const [alram_count, setAlramCount] = useState(0); // 알림 개수
   const [isModalOpen, setIsModalOpen] = useState(false); // 알림 모달 상태
   const location = useLocation();
