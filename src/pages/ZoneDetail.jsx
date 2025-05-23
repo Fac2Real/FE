@@ -6,11 +6,7 @@ import LogTable from "../components/LogTable";
 import WorkerInfoModal from "../components/modal/WorkerInfoModal";
 import WorkerTable from "../components/WorkerTable";
 import ManagerSetting from "../components/ManagerSetting";
-import {
-  mock_loglist,
-  mock_manager,
-  mock_workers,
-} from "../mock_data/mock_workers";
+import { mock_loglist, mock_workers } from "../mock_data/mock_workers";
 
 export default function ZoneDetail() {
   const { zoneId } = useParams();
@@ -116,22 +112,6 @@ export default function ZoneDetail() {
     }
   }, [refreshLog]);
 
-  const [manager, setManager] = useState();
-
-  // 매니저 정보 받아오기
-  useEffect(() => {
-    axiosInstance
-      .get(`/api/workers/zone/${zoneId}/manager`)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((e) => {
-        console.log("매니저 정보 조회에 실패했습니다.", e);
-        console.log("mock data를 불러옵니다.");
-        setManager(mock_manager);
-      });
-  }, []);
-
   // 3) 조건부 렌더링
   // if (loading) return <div>로딩 중…</div>;
   // if (error) return <div>에러 발생: {error}</div>;
@@ -194,7 +174,6 @@ export default function ZoneDetail() {
         <div className="top-box">담당자 정보</div>
         <div className="bottom-box">
           <ManagerSetting
-            manager={manager}
             workerList={workerList}
             zoneId={zoneId}
             modalParam={{
