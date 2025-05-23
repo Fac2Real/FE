@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
 import WorkerTable from "../components/WorkerTable";
 import WorkerInfoModal from "../components/modal/WorkerInfoModal";
+import RegisterWorker from "../components/RegisterWorker";
+import { mock_workers } from "../mock_data/mock_workers";
 
 export default function Safety() {
   const [workerList, setWorkerList] = useState([]);
@@ -12,35 +14,6 @@ export default function Safety() {
     setIsOpen(false);
   };
   const [selectedWorkerInfo, setSelectedWorker] = useState();
-
-  const mock_workers = [
-    {
-      name: "김00",
-      status: "위험",
-      zone: "포장 구역 A",
-      wearableId: "WEARABLE000111000", // workerId
-      email: "test1@example.com",
-      phone: "010111111111", // phoneNumber
-    },
-    {
-      name: "윤00",
-      // role: "공장장",
-      status: "정상",
-      zone: "휴게실",
-      wearableId: "인식되지 않음",
-      email: "test2@example.com",
-      phone: "010222222222",
-    },
-    {
-      name: "정00",
-      // role: "반장",
-      status: "정상",
-      zone: "조립 구역 B",
-      wearableId: "WEARABLE111111111",
-      email: "test3@example.com",
-      phone: "01033333333",
-    },
-  ];
 
   const fetchWorkers = useCallback(() => {
     axiosInstance
@@ -56,6 +29,7 @@ export default function Safety() {
       });
   });
 
+  // 1분에 한 번씩 작업자 정보를 리프레시해준다.
   useEffect(() => {
     fetchWorkers();
     const interval = setInterval(() => {
@@ -64,7 +38,6 @@ export default function Safety() {
     return () => clearInterval(interval);
   }, []);
 
-  console.log("rerendering");
   return (
     <>
       <WorkerInfoModal
@@ -79,6 +52,9 @@ export default function Safety() {
           selectWorker={setSelectedWorker}
           openModal={setIsOpen}
         />
+      </div>
+      <div className="safety-body" style={{ height: "auto" }}>
+        <RegisterWorker />
       </div>
     </>
   );
