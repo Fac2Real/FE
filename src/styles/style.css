@@ -49,15 +49,21 @@ a:visited {
 }
 
 .contents {
+  flex: 1;
   display: flex;
   flex-direction: column;
   margin: 4rem auto 0 auto;
   width: 100%;
-  max-width: 70vw;
+  max-width: 70%;
 }
 
 /* 사이드바 설정 */
 aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  height: 100vh;
   height: auto;
   min-height: 100vh;
   background-color: black;
@@ -71,13 +77,23 @@ aside {
   flex-shrink: 0;
 }
 
-aside.sidebar-open {
+.sidebar-guard {
+  width: 12rem;
+  flex-shrink: 0;
+  pointer-events: none;
+  background: transparent;
+  transition: width 0.3s ease;
+}
+
+aside.sidebar-open,
+.sidebar-guard.open {
   width: 12rem;
   padding: 0 1rem;
   letter-spacing: 0.05em;
 }
 
-aside.sidebar-close {
+aside.sidebar-close,
+.sidebar-guard.close {
   width: 4rem;
   text-align: center;
 }
