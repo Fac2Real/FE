@@ -39,6 +39,20 @@ export default function RegisterWorker() {
       `전달할 정보: ${formData.workerId} ${formData.name} ${formData.phoneNumber} ${formData.email}`
     );
     console.log(`출입가능 공간: ${selectedZones}`);
+    axiosInstance
+      .post(`/api/workers`, {
+        workerId: formData.workerId,
+        name: formData.name,
+        phoneNumber: formData.phoneNumber,
+        email: formData.email,
+        zoneNames: selectedZones,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log("작업자 등록 실패");
+      });
   };
 
   return (
