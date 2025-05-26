@@ -27,7 +27,7 @@ export default function ZoneInfoBox({
   return (
     <div className="box-wrapper">
       <div
-        className={`top-box ${isOpen ? "" : "moving-box"} ${
+        className={`top-box ${isOpen ? "" : "moving-box top-box-closed"} ${
           addZone && "add-zone"
         }`}
       >

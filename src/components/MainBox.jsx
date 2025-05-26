@@ -13,6 +13,7 @@ const renderActiveShape = (props) => {
     endAngle,
     fill,
     payload,
+    showLabel,
   } = props;
 
   const sin = Math.sin(-RADIAN * midAngle);
@@ -21,17 +22,23 @@ const renderActiveShape = (props) => {
 
   return (
     <g>
-      <text
-        x={cx}
-        y={cy}
-        dy={8}
-        textAnchor="middle"
-        fill={fill}
-        fontSize="2rem"
-        fontWeight="bold"
-      >
-        {payload.name}
-      </text>
+      {showLabel && (
+        <text
+          x={cx}
+          y={cy}
+          dy={8}
+          textAnchor="middle"
+          fill={fill}
+          fontSize="2rem"
+          fontWeight="bold"
+          style={{
+            opacity: showLabel ? 1 : 0,
+            transition: "opacity 0.5s ease-in-out",
+          }}
+        >
+          {payload.name}
+        </text>
+      )}
       <Sector
         cx={cx}
         cy={cy}
@@ -56,6 +63,7 @@ const renderActiveShape = (props) => {
 
 export default function MainBox() {
   const [rank, setRank] = useState("");
+  const [showLabel, setShowLabel] = useState(false);
   let safetyRank = true;
   let facilityRank = true;
 
@@ -90,14 +98,17 @@ export default function MainBox() {
           <PieChart>
             <Pie
               activeIndex={0}
-              activeShape={renderActiveShape}
-              data={[{ name: rank ?? "-", value: 1 }]}
+              activeShape={(props) =>
+                renderActiveShape({ ...props, showLabel })
+              }
+              data={[{ name: rank ? rank : "-", value: 1 }]}
               cx="50%"
               cy="50%"
               innerRadius={60}
               outerRadius={80}
               fill={color.donutColor}
               dataKey="value"
+              onAnimationEnd={() => setShowLabel(true)}
             />
           </PieChart>
         </ResponsiveContainer>

@@ -8,6 +8,7 @@ import WorkerTable from "../components/WorkerTable";
 import ManagerSetting from "../components/ManagerSetting";
 import { mock_loglist, mock_workers } from "../mock_data/mock_workers";
 import Equip from "../components/Equip";
+import { mock_equips } from "../mock_data/mock_equips";
 
 export default function ZoneDetail() {
   const { zoneId } = useParams();
@@ -21,6 +22,7 @@ export default function ZoneDetail() {
   const bottomRef = useRef(null);
 
   const [refreshLog, setRefreshLog] = useState(0);
+  const [refreshEquip, setRefreshEquip] = useState(0);
   const [logs, setLogs] = useState([]);
   const [refreshWorkers, setRefreshWorkers] = useState(0);
   const [workerList, setWorkerList] = useState([]);
@@ -101,7 +103,6 @@ export default function ZoneDetail() {
           },
         })
         .then((res) => {
-          // console.log(res.data.content);
           currentPage.current = 0;
           setLogs(res.data.content);
         })
@@ -112,9 +113,21 @@ export default function ZoneDetail() {
     }
   }, [refreshLog]);
 
-  // 3) 조건부 렌더링
-  // if (loading) return <div>로딩 중…</div>;
-  // if (error) return <div>에러 발생: {error}</div>;
+  const [equips, setEquips] = useState([]);
+  useEffect(() => {
+    axiosInstance
+      .get(`/api/equip/${zoneId}`)
+      .then((res) => {
+        console.log("설비 목록 받아옴...");
+        console.log(res.data);
+        setEquips(res.data);
+      })
+      .catch((e) => {
+        console.log("설비 목록 로딩 실패", e);
+        console.log("mock data로 대체합니다");
+        setEquips(mock_equips);
+      });
+  }, [refreshEquip]);
 
   return (
     <>
@@ -188,9 +201,17 @@ export default function ZoneDetail() {
       </div>
       {/* 설비 현황 :: 스프린트3 */}
       <div className="box-wrapper">
-        <div className="top-box">설비 현황</div>
+        <div className="top-box">
+          설비 현황
+          <span
+            className="refresh"
+            onClick={() => setRefreshEquip((prev) => prev + 1)}
+          >
+            <RefreshIcon width="1.2rem" fill="#FFF" />
+          </span>
+        </div>
         <div className="bottom-box">
-          <Equip />
+          <Equip zoneId={zoneId} equips={equips} />
         </div>
       </div>
       {/* 시스템 로그 조회 :: 토글해야 호출! */}
@@ -201,7 +222,7 @@ export default function ZoneDetail() {
             className="refresh"
             onClick={() => setRefreshLog((prev) => prev + 1)}
           >
-            <RefreshIcon width="1.2rem" fill="#000" />
+            <RefreshIcon width="1.2rem" fill="#FFF" />
           </span>
         </div>
         <div
