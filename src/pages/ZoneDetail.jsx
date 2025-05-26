@@ -59,7 +59,7 @@ export default function ZoneDetail() {
 
   // 로그 펴질 때 화면 부드럽게 펼쳐지기
   useEffect(() => {
-    if (logs.length !== 0 && bottomRef.current) {
+    if (refreshLog !== 0 && bottomRef.current) {
       setTimeout(() => {
         bottomRef.current.scrollIntoView({
           behavior: "smooth",
@@ -67,7 +67,7 @@ export default function ZoneDetail() {
         });
       }, 200);
     }
-  }, [logs.length]);
+  }, [logs?.length, refreshLog]);
 
   // 공간의 작업자 정보 받아오기
   const fetchWorkers = () => {
@@ -96,15 +96,16 @@ export default function ZoneDetail() {
   useEffect(() => {
     if (refreshLog) {
       axiosInstance
-        .get(`/api/system-logs/zone/${zoneId}`, {
+        .get(`/api/zones/${zoneId}/logs`, {
           params: {
             page: 0,
             size: 10,
           },
         })
         .then((res) => {
+          console.log(res);
           currentPage.current = 0;
-          setLogs(res.data.content);
+          setLogs(res.data.data.content);
         })
         .catch((e) => {
           console.log("로그 조회 실패 - mock-data를 불러옵니다", e);
@@ -227,7 +228,7 @@ export default function ZoneDetail() {
         </div>
         <div
           className={`bottom-box last-box ${
-            logs.length == 0 ? "closed" : "open"
+            refreshLog == 0 ? "closed" : "open"
           }`}
         >
           <LogTable logs={logs} currentPage={currentPage.current} />

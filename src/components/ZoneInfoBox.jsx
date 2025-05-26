@@ -151,11 +151,6 @@ export default function ZoneInfoBox({
                 </button>
               </p>
             </div>
-            {/* <div className="sensorlist">
-              <div className="sensorlist-underbar">담당자</div>
-              {master == "" && <p>담당자가 없습니다</p>}
-              {master && <p>{master}</p>}
-            </div> */}
           </>
         )}
         {addZone && (
@@ -170,14 +165,6 @@ export default function ZoneInfoBox({
                 placeholder="공간 이름을 입력하세요"
                 style={{ maxWidth: "50%" }}
               />
-              {/* <label htmlFor="managerName">담당자 선택</label>
-              <input
-                id="managerName"
-                name="managerName"
-                value={newZoneManager}
-                onChange={(e) => setNewZoneManager(e.target.value)}
-                placeholder="담당자 이름을 입력하세요"
-              /> */}
             </div>
             <div className="button-flex">
               <button
