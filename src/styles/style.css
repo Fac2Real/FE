@@ -829,32 +829,9 @@ strong.normal {
 
 /* 메인화면 내 인증서 정보 */
 
-.donut-outer {
-  width: 12rem;
-  height: 12rem;
-  border-radius: 50%;
-  background-color: #afafaf;
-  position: relative;
-  margin: 2rem;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.donut-inner {
-  width: 7.5rem;
-  height: 7.5rem;
-  border-radius: 50%;
-  background-color: var(--box-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-
-  font-size: 200%;
-  font-weight: bold;
-  color: var(--blue);
+.donut-box {
+  align-self: center;
+  justify-self: center;
 }
 
 .table-container {

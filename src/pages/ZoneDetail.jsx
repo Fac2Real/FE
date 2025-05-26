@@ -7,6 +7,7 @@ import WorkerInfoModal from "../components/modal/WorkerInfoModal";
 import WorkerTable from "../components/WorkerTable";
 import ManagerSetting from "../components/ManagerSetting";
 import { mock_loglist, mock_workers } from "../mock_data/mock_workers";
+import Equip from "../components/Equip";
 
 export default function ZoneDetail() {
   const { zoneId } = useParams();
@@ -17,20 +18,18 @@ export default function ZoneDetail() {
   const [dashboards, setDashboards] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isLogOpen, setLogOpen] = useState(false);
   const bottomRef = useRef(null);
 
   const [refreshLog, setRefreshLog] = useState(0);
   const [logs, setLogs] = useState([]);
   const [refreshWorkers, setRefreshWorkers] = useState(0);
   const [workerList, setWorkerList] = useState([]);
-
+  const [selectedWorkerInfo, setSelectedWorker] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const onClose = () => {
     setSelectedWorker();
     setIsOpen(false);
   };
-  const [selectedWorkerInfo, setSelectedWorker] = useState();
 
   // 2) 모든 useEffect (조건 없이 항상 선언)
   useEffect(() => {
@@ -114,16 +113,14 @@ export default function ZoneDetail() {
   }, [refreshLog]);
 
   // 3) 조건부 렌더링
-  if (loading) return <div>로딩 중…</div>;
-  if (error) return <div>에러 발생: {error}</div>;
+  // if (loading) return <div>로딩 중…</div>;
+  // if (error) return <div>에러 발생: {error}</div>;
 
   return (
     <>
       <WorkerInfoModal
         isOpen={isOpen}
-        onClose={() => {
-          setIsOpen(false);
-        }}
+        onClose={onClose}
         workerInfo={selectedWorkerInfo}
       />
       <h1>{zoneName}</h1>
@@ -131,24 +128,28 @@ export default function ZoneDetail() {
       <div className="box-wrapper">
         <div className="top-box">환경 리포트</div>
         <div className="bottom-box">
-          <div className="grafana-wrapper">
-            {dashboards &&
-              dashboards.map(({ sensorId, sensorType, iframeUrl }) => (
-                <div key={sensorId} className="grafana-box">
-                  <p>
-                    {sensorType} 센서 ({sensorId})
-                  </p>
-                  <div>
-                    <iframe
-                      src={iframeUrl}
-                      title={`grafana-${sensorId}`}
-                      style={{ width: "100%", height: "100%", border: 0 }}
-                      loading="lazy"
-                    />
+          {loading && <div>로딩 중…</div>}
+          {error && <div>에러 발생: {error}</div>}
+          {!loading && !error && (
+            <div className="grafana-wrapper">
+              {dashboards &&
+                dashboards.map(({ sensorId, sensorType, iframeUrl }) => (
+                  <div key={sensorId} className="grafana-box">
+                    <p>
+                      {sensorType} 센서 ({sensorId})
+                    </p>
+                    <div>
+                      <iframe
+                        src={iframeUrl}
+                        title={`grafana-${sensorId}`}
+                        style={{ width: "100%", height: "100%", border: 0 }}
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
-          </div>
+                ))}
+            </div>
+          )}
         </div>
       </div>
       {/* 근무자 현황 :: 스프린트2 */}
@@ -189,7 +190,7 @@ export default function ZoneDetail() {
       <div className="box-wrapper">
         <div className="top-box">설비 현황</div>
         <div className="bottom-box">
-          <p>스프린트3에서 진행 예정</p>
+          <Equip />
         </div>
       </div>
       {/* 시스템 로그 조회 :: 토글해야 호출! */}
