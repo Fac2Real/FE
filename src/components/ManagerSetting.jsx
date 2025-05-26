@@ -78,6 +78,7 @@ export default function ManagerSetting({ modalParam, zoneId }) {
           >
             <p>매니저가 할당되지 않았습니다</p>
             <button
+              style={{ marginRight: 0 }}
               onClick={() => {
                 setMode("add");
                 fetchCand();
