@@ -102,7 +102,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                     currentPage === "Home" ? "current-page" : ""
                   } sidebar-open`}
                 >
-                  대시보드
+                  메인화면
                 </p>
               )}
             </Link>
@@ -168,7 +168,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                     currentPage === "Sensor" ? "current-page" : ""
                   } sidebar-open`}
                 >
-                  센서 관리
+                  설비/센서 관리
                 </p>
               )}
             </Link>
