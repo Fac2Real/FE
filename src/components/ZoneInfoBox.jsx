@@ -8,13 +8,13 @@ export default function ZoneInfoBox({
   zoneEditModalBtn,
   facEditModalBtn,
   onAddZone = null,
+  isFirst = false,
 }) {
   // const { title, env_sensor = [], facility = [], master = "" } = zone;
   const { title, env_sensor = [], facility = [] } = zone;
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(isFirst);
   const addZone = zone === "공간 추가";
   const [newZone, setNewZone] = useState("");
-  const [newZoneManager, setNewZoneManager] = useState("");
   const [facilityInfoOpen, setFacilityInfoOpen] = useState({});
 
   const toggleFacility = (i) => {
