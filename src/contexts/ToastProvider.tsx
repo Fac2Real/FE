@@ -22,7 +22,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const showToast = (alarm: AlarmEvent) => {
     if (alarm.riskLevel == "CRITICAL" || alarm.riskLevel == "WARNING") {
-      setToasts((prev) => [...prev, alarm]);
+      setToasts((prev) => [alarm, ...prev]);
 
       setTimeout(() => {
         setToasts((prev) => prev.filter((t) => t.eventId !== alarm.eventId));
@@ -81,17 +81,27 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
       {ReactDOM.createPortal(
         <div className="fixed top-4 right-4 space-y-2 z-50 pointer-events-none">
           <div className="absolute top-4 right-4 space-y-2 pointer-events-auto">
-            {toasts.map((toast) => (
-              <div
-                key={toast.eventId}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleToastClick(toast);
-                }}
-                className={`px-4 py-3 rounded shadow-md cursor-pointer transition-all animate-fade-in ${getColor(
-                  toast.riskLevel
-                )}`}
+            {toasts
+              .reduce<AlarmEvent[]>((uniqueToasts, toast) => {
+                const isDuplicate = uniqueToasts.some(
+                  (t: AlarmEvent) => t.zoneId === toast.zoneId && t.equipId === toast.equipId
+                );
+                if (!isDuplicate) {
+                  uniqueToasts.push(toast);
+                }
+                return uniqueToasts;
+              }, [])
+              .map((toast) => (
+                <div
+                  key={toast.eventId}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleToastClick(toast);
+                  }}
+                  className={`px-4 py-3 rounded shadow-md cursor-pointer transition-all animate-fade-in ${getColor(
+                    toast.riskLevel
+                  )}`}
               >
                 <MonitorIcon
                   abnormal_sensor={toast.sensorType}

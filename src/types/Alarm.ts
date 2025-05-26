@@ -11,6 +11,7 @@ export interface AlarmEvent {
   time: string;
   messageBody: string;
   source: string;
+  zoneName: string;
 }
 
 export interface AbnormalLogDto {
@@ -18,6 +19,7 @@ export interface AbnormalLogDto {
   targetType: "Sensor" | "Worker" | "Equip"; // LogType enum에 따라 수정 필요
   targetId: string;
   abnormalType: string;
+  dangerLevel: number;
   abnVal: number;
   detectedAt: string; // ISO 문자열 (e.g., "2025-05-10T12:00:00Z")
   zoneId: string;
