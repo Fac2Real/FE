@@ -8,13 +8,23 @@ export default function LogTable({ logs }) {
               <th style={{ width: "1%" }}>분류</th>
               <th style={{ width: "6%" }}>세분류</th>
               {/* <th style={{ width: "2%" }}>위험도</th> */}
-              <th style={{ width: "5%" }}>발생 시각</th>
-              <th style={{ width: "2%" }}>센서ID</th>
+              <th style={{ width: "3%" }}>발생 시각</th>
+              <th style={{ width: "4%" }}>센서ID</th>
               <th style={{ width: "2%" }}>측정값</th>
             </tr>
           </thead>
           <tbody>
-            {logs.map((l, i) => {
+            {!logs?.length && (
+              <tr>
+                <td
+                  colSpan="6"
+                  style={{ textAlign: "center", padding: "0.5rem" }}
+                >
+                  로그가 없습니다
+                </td>
+              </tr>
+            )}
+            {logs?.map((l, i) => {
               return (
                 <tr
                   key={i}

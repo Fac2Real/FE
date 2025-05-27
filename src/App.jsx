@@ -6,7 +6,6 @@ import Settings from "./pages/Settings";
 import Monitoring from "./pages/Monitoring";
 import Certification from "./pages/Certifiaction";
 import Safety from "./pages/Safety";
-import Facility from "./pages/Facility";
 import ZoneDetail from "./pages/ZoneDetail";
 import { ToastProvider } from "./contexts/ToastProvider";
 import { useState } from "react";
@@ -25,7 +24,6 @@ export default function App() {
               <Route path="/settings" element={<Settings />} />
               <Route path="/monitoring" element={<Monitoring />} />
               <Route path="/safety" element={<Safety />} />
-              <Route path="/facility" element={<Facility />} />
               <Route path="/certification" element={<Certification />} />
               <Route path="/zone/:zoneId" element={<ZoneDetail />} />
             </Routes>

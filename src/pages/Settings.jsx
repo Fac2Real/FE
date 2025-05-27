@@ -48,7 +48,7 @@ export default function Settings() {
         console.log(res.data.data);
         const list = res.data.data.map((z) => ({
           title: z.zoneName,
-          env_sensor: z.zoneSensorList.map((s) => ({
+          env_sensor: z.envList.map((s) => ({
             name: toKoName(s.sensorType), // 한글 변환
             thres: s.sensorThres,
             margin: s.allowVal, // JSON 내용 확인해서 변경해야댐..
@@ -102,7 +102,6 @@ export default function Settings() {
       .then((res) => {
         console.log(sensorInfo.sensorId);
         console.log("임계값 업데이트 완료", res);
-        /* 화면 표현하기 (완료) => 이후 then으로 옮기기 */
         const updated = zoneList.map((zone) => {
           if (zone.title !== sensorInfo.zoneName) {
             return zone;
@@ -273,6 +272,7 @@ export default function Settings() {
           facilityModalBtn={handleOpenFacilityModal}
           zoneEditModalBtn={handleOpenZoneEditModal}
           facEditModalBtn={handleOpenFacEditModal}
+          isFirst={i === 0}
         />
       ))}
       <ZoneInfoBox zone="공간 추가" onAddZone={handleAddZone} />

@@ -10,6 +10,8 @@
   --warning: #fde1ad;
   --warning2: #f2c97e;
   --warning3: #fcbc45;
+
+  --healthy1: green;
 }
 #root {
   position: relative;
@@ -299,7 +301,6 @@ p.sidebar-open {
   justify-content: space-between;
   position: absolute;
   width: 100%;
-  background-color: var(--c4);
   padding: 10px 20px;
   border-radius: 0.5rem;
   font-size: 1.2rem;
@@ -308,6 +309,15 @@ p.sidebar-open {
   display: flex;
   align-items: center;
   gap: 8px;
+
+  /* background-color: var(--c4); */
+  background-color: black;
+  color: white;
+}
+
+.top-box-closed {
+  background-color: var(--box-color);
+  color: black;
 }
 
 .bottom-box {
@@ -334,7 +344,8 @@ p.sidebar-open {
 }
 
 .top-box.add-zone {
-  background-color: var(--box-color);
+  background-color: var(--warning);
+  color: black;
 }
 
 .sensorlist {
@@ -404,6 +415,7 @@ p.sidebar-open {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .dash-line {
@@ -829,32 +841,9 @@ strong.normal {
 
 /* 메인화면 내 인증서 정보 */
 
-.donut-outer {
-  width: 12rem;
-  height: 12rem;
-  border-radius: 50%;
-  background-color: #afafaf;
-  position: relative;
-  margin: 2rem;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.donut-inner {
-  width: 7.5rem;
-  height: 7.5rem;
-  border-radius: 50%;
-  background-color: var(--box-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-
-  font-size: 200%;
-  font-weight: bold;
-  color: var(--blue);
+.donut-box {
+  align-self: center;
+  justify-self: center;
 }
 
 .table-container {
@@ -872,7 +861,7 @@ strong.normal {
 
 .worker-table,
 .logs-table {
-  width: calc(100% - 4rem);
+  width: calc(100%);
   border-collapse: collapse;
   text-align: center;
   overflow: hidden;
@@ -1115,4 +1104,19 @@ select.search-field {
 
 .checkbox-group input:checked {
   background-color: var(--warning3);
+}
+
+/* 게이지바 관련 */
+.gauge-bar {
+  flex: 1;
+  height: 1.5rem;
+  background-color: var(--box-color);
+  border-radius: 999px;
+  border: 2px solid gray;
+  margin-left: 1rem;
+}
+.gauge-fill {
+  border-radius: 999px;
+  height: 100%;
+  transition: width 0.8s ease-in-out, background-color 0.3s;
 }

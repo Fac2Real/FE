@@ -7,6 +7,9 @@ import WorkerInfoModal from "../components/modal/WorkerInfoModal";
 import WorkerTable from "../components/WorkerTable";
 import ManagerSetting from "../components/ManagerSetting";
 import { mock_loglist, mock_workers } from "../mock_data/mock_workers";
+import Equip from "../components/Equip";
+import { mock_equips } from "../mock_data/mock_equips";
+import EquipDateModal from "../components/modal/EquipDateModal";
 
 export default function ZoneDetail() {
   const { zoneId } = useParams();
@@ -17,20 +20,25 @@ export default function ZoneDetail() {
   const [dashboards, setDashboards] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isLogOpen, setLogOpen] = useState(false);
   const bottomRef = useRef(null);
 
   const [refreshLog, setRefreshLog] = useState(0);
+  const [refreshEquip, setRefreshEquip] = useState(0);
   const [logs, setLogs] = useState([]);
   const [refreshWorkers, setRefreshWorkers] = useState(0);
   const [workerList, setWorkerList] = useState([]);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const onClose = () => {
-    setSelectedWorker();
-    setIsOpen(false);
-  };
   const [selectedWorkerInfo, setSelectedWorker] = useState();
+  const [selectedEquipInfo, setSelectedEquip] = useState();
+  const [isWorkerOpen, setIsWorkerOpen] = useState(false);
+  const [isEquipOpen, setIsEquipOpen] = useState(false);
+  const onCloseWorker = () => {
+    setSelectedWorker();
+    setIsWorkerOpen(false);
+  };
+  const onCloseEquip = () => {
+    // setSelectedWorker();
+    setIsEquipOpen(false);
+  };
 
   // 2) 모든 useEffect (조건 없이 항상 선언)
   useEffect(() => {
@@ -58,7 +66,7 @@ export default function ZoneDetail() {
 
   // 로그 펴질 때 화면 부드럽게 펼쳐지기
   useEffect(() => {
-    if (logs.length !== 0 && bottomRef.current) {
+    if (refreshLog !== 0 && bottomRef.current) {
       setTimeout(() => {
         bottomRef.current.scrollIntoView({
           behavior: "smooth",
@@ -66,7 +74,7 @@ export default function ZoneDetail() {
         });
       }, 200);
     }
-  }, [logs.length]);
+  }, [logs?.length, refreshLog]);
 
   // 공간의 작업자 정보 받아오기
   const fetchWorkers = () => {
@@ -95,16 +103,16 @@ export default function ZoneDetail() {
   useEffect(() => {
     if (refreshLog) {
       axiosInstance
-        .get(`/api/system-logs/zone/${zoneId}`, {
+        .get(`/api/zones/${zoneId}/logs`, {
           params: {
             page: 0,
             size: 10,
           },
         })
         .then((res) => {
-          // console.log(res.data.content);
+          console.log(res);
           currentPage.current = 0;
-          setLogs(res.data.content);
+          setLogs(res.data.data.content);
         })
         .catch((e) => {
           console.log("로그 조회 실패 - mock-data를 불러옵니다", e);
@@ -113,17 +121,55 @@ export default function ZoneDetail() {
     }
   }, [refreshLog]);
 
-  // 3) 조건부 렌더링
-  if (loading) return <div>로딩 중…</div>;
-  if (error) return <div>에러 발생: {error}</div>;
+  const [equips, setEquips] = useState([]);
 
+  useEffect(() => {
+    axiosInstance
+      .get(`/api/equips/zone/${zoneId}`)
+      .then((res) => {
+        // console.log("설비 목록 받아옴...");
+        // console.log(res.data.data);
+        // setEquips(res.data.data);
+        setEquips(mock_equips);
+      })
+      .catch((e) => {
+        console.log("설비 목록 로딩 실패", e);
+        console.log("mock data로 대체합니다");
+        setEquips(mock_equips);
+      });
+  }, [refreshEquip]);
+
+  const handleUpdateDate = (newDate, equipInfo) => {
+    axiosInstance
+      .post(`/api/update-date/${equipInfo.equipId}`, {
+        updatedDate: newDate,
+      })
+      .then((res) => {
+        console.log(res.data);
+        console.log(newDate, equipInfo);
+        setEquips((prev) =>
+          prev.map((equip) =>
+            equip.equipId === equipInfo.equipId
+              ? { ...equip, last: newDate }
+              : equip
+          )
+        );
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <>
+      <EquipDateModal
+        isOpen={isEquipOpen}
+        onClose={onCloseEquip}
+        equipInfo={selectedEquipInfo}
+        onUpdate={handleUpdateDate}
+      />
       <WorkerInfoModal
-        isOpen={isOpen}
-        onClose={() => {
-          setIsOpen(false);
-        }}
+        isOpen={isWorkerOpen}
+        onClose={onCloseWorker}
         workerInfo={selectedWorkerInfo}
       />
       <h1>{zoneName}</h1>
@@ -131,24 +177,28 @@ export default function ZoneDetail() {
       <div className="box-wrapper">
         <div className="top-box">환경 리포트</div>
         <div className="bottom-box">
-          <div className="grafana-wrapper">
-            {dashboards &&
-              dashboards.map(({ sensorId, sensorType, iframeUrl }) => (
-                <div key={sensorId} className="grafana-box">
-                  <p>
-                    {sensorType} 센서 ({sensorId})
-                  </p>
-                  <div>
-                    <iframe
-                      src={iframeUrl}
-                      title={`grafana-${sensorId}`}
-                      style={{ width: "100%", height: "100%", border: 0 }}
-                      loading="lazy"
-                    />
+          {loading && <div>로딩 중…</div>}
+          {error && <div>에러 발생: {error}</div>}
+          {!loading && !error && (
+            <div className="grafana-wrapper">
+              {dashboards &&
+                dashboards.map(({ sensorId, sensorType, iframeUrl }) => (
+                  <div key={sensorId} className="grafana-box">
+                    <p>
+                      {sensorType} 센서 ({sensorId})
+                    </p>
+                    <div>
+                      <iframe
+                        src={iframeUrl}
+                        title={`grafana-${sensorId}`}
+                        style={{ width: "100%", height: "100%", border: 0 }}
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
-          </div>
+                ))}
+            </div>
+          )}
         </div>
       </div>
       {/* 근무자 현황 :: 스프린트2 */}
@@ -167,7 +217,7 @@ export default function ZoneDetail() {
             worker_list={workerList}
             isDetail={true}
             selectWorker={setSelectedWorker}
-            openModal={setIsOpen}
+            openModal={setIsWorkerOpen}
           />
         </div>
       </div>
@@ -180,16 +230,30 @@ export default function ZoneDetail() {
             zoneId={zoneId}
             modalParam={{
               selectedWorker: setSelectedWorker,
-              openModal: setIsOpen,
+              openModal: setIsWorkerOpen,
             }}
           />
         </div>
       </div>
       {/* 설비 현황 :: 스프린트3 */}
       <div className="box-wrapper">
-        <div className="top-box">설비 현황</div>
+        <div className="top-box">
+          설비 현황
+          <span
+            className="refresh"
+            onClick={() => setRefreshEquip((prev) => prev + 1)}
+          >
+            <RefreshIcon width="1.2rem" fill="#FFF" />
+          </span>
+        </div>
         <div className="bottom-box">
-          <p>스프린트3에서 진행 예정</p>
+          <Equip
+            equips={equips}
+            modalParam={{
+              setSelectedEquip: setSelectedEquip,
+              openModal: setIsEquipOpen,
+            }}
+          />
         </div>
       </div>
       {/* 시스템 로그 조회 :: 토글해야 호출! */}
@@ -200,12 +264,12 @@ export default function ZoneDetail() {
             className="refresh"
             onClick={() => setRefreshLog((prev) => prev + 1)}
           >
-            <RefreshIcon width="1.2rem" fill="#000" />
+            <RefreshIcon width="1.2rem" fill="#FFF" />
           </span>
         </div>
         <div
           className={`bottom-box last-box ${
-            logs.length == 0 ? "closed" : "open"
+            refreshLog == 0 ? "closed" : "open"
           }`}
         >
           <LogTable logs={logs} currentPage={currentPage.current} />

@@ -7,6 +7,7 @@ import AwardIcon from "./assets/award_icon.svg?react";
 import BellIcon from "./assets/bell_icon.svg?react";
 import CloseIcon from "./assets/close_icon.svg?react";
 import Logo from "./assets/temp_logo.svg?react";
+import WorkerIcon from "./assets/worker_icon.svg?react";
 import { useEffect, useCallback, useState } from "react";
 
 import AlarmModal from "./components/AlarmModal";
@@ -101,7 +102,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                     currentPage === "Home" ? "current-page" : ""
                   } sidebar-open`}
                 >
-                  대시보드
+                  메인화면
                 </p>
               )}
             </Link>
@@ -114,19 +115,13 @@ export default function Sidebar({ isOpen, setIsOpen }) {
           >
             <Link to="/monitoring">
               <MonitorIcon
-                fill={
-                  ["Monitor", "Facility", "Safety"].includes(currentPage)
-                    ? "#608DFF"
-                    : "#FFF"
-                }
+                fill={currentPage == "Monitor" ? "#608DFF" : "#FFF"}
                 width="1.5rem"
               />
               {isOpen && (
                 <p
                   className={`${
-                    ["Monitor", "Facility", "Safety"].includes(currentPage)
-                      ? "current-page"
-                      : ""
+                    currentPage == "Monitor" ? "current-page" : ""
                   } sidebar-open`}
                 >
                   모니터링
@@ -134,46 +129,28 @@ export default function Sidebar({ isOpen, setIsOpen }) {
               )}
             </Link>
           </span>
-          {isOpen &&
-            ["Monitor", "Facility", "Safety"].includes(currentPage) && (
-              <>
-                <div className="mini-menu">
-                  <div className="side-opt">
-                    <Link to="/monitoring">
-                      <p
-                        className={`${
-                          currentPage === "Monitor" ? "current-page" : ""
-                        }`}
-                      >
-                        실시간 모니터링
-                      </p>
-                    </Link>
-                  </div>
-                  <div className="side-opt">
-                    <Link to="/safety">
-                      <p
-                        className={`${
-                          currentPage === "Safety" ? "current-page" : ""
-                        }`}
-                      >
-                        작업자 안전관리
-                      </p>
-                    </Link>
-                  </div>
-                  <div className="side-opt">
-                    <Link to="/facility">
-                      <p
-                        className={`${
-                          currentPage === "Facility" ? "current-page" : ""
-                        }`}
-                      >
-                        설비 관리
-                      </p>
-                    </Link>
-                  </div>
-                </div>
-              </>
-            )}
+        </div>
+        <div>
+          <span
+            className="icon side-opt"
+            onClick={() => setCurrentPage("Safety")}
+          >
+            <Link to="/safety">
+              <WorkerIcon
+                fill={currentPage === "Safety" ? "#608DFF" : "#FFF"}
+                width="1.5rem"
+              />
+              {isOpen && (
+                <p
+                  className={`${
+                    currentPage === "Safety" ? "current-page" : ""
+                  } sidebar-open`}
+                >
+                  직원 관리
+                </p>
+              )}
+            </Link>
+          </span>
         </div>
         <div>
           <span
@@ -191,7 +168,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                     currentPage === "Sensor" ? "current-page" : ""
                   } sidebar-open`}
                 >
-                  센서 관리
+                  설비/센서 관리
                 </p>
               )}
             </Link>
