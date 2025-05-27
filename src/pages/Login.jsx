@@ -12,7 +12,7 @@ export default function Login() {
     <>
       <div className="login-body">
         <div className="login-container">
-          <h2>로그인</h2>
+          <h2 style={{ color: "var(--warning3" }}>LOG IN</h2>
           <div className="login-input">
             <input
               type="text"

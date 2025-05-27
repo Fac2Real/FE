@@ -344,8 +344,8 @@ p.sidebar-open {
 }
 
 .top-box.add-zone {
-  background-color: var(--warning);
-  color: black;
+  background-color: #000;
+  color: var(--warning2);
 }
 
 .sensorlist {
@@ -988,7 +988,7 @@ select.search-field {
   width: 5rem;
   height: 1.75rem;
   font-size: 1rem;
-  margin: 0.5rem 2rem 0.5rem 0;
+  margin: 0.5rem 0;
   align-self: center;
 }
 
