@@ -106,6 +106,8 @@ export default function MainBox() {
               cy="50%"
               innerRadius={60}
               outerRadius={80}
+              startAngle={-270}
+              endAngle={90}
               fill={color.donutColor}
               dataKey="value"
               onAnimationEnd={() => setShowLabel(true)}
