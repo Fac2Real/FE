@@ -1,5 +1,15 @@
 import { useState } from "react";
 
+const statusKor = (status) => {
+  if (status == 0) {
+    return "정상";
+  } else if (status == 1) {
+    return "주의";
+  } else {
+    return "오류";
+  }
+};
+
 export default function WorkerTable({
   worker_list,
   isDetail = false, // "현재 위치" 포함 여부 (Y=false, N=true)
@@ -108,37 +118,45 @@ export default function WorkerTable({
             </tr>
           </thead>
           <tbody>
-            {filteredWorkers.map((worker, i) => {
-              let tmp = "";
-              if (worker.status == "위험") {
-                tmp = "critical";
-              }
-              return (
-                <tr key={i} className={tmp}>
-                  <td>{worker.status}</td>
-                  <td>{worker.workerId}</td>
-                  <td>{worker.name}</td>
-                  {!isDetail && <td>{worker.currentZoneName}</td>}
-                  <td className="contact-row">{worker.email}</td>
-                  <td className="contact-row">{worker.phoneNumber}</td>
-                  <td
-                    style={{ fontSize: "1.2rem", cursor: "pointer" }}
-                    onClick={() => directCall(worker.email, worker.phoneNumber)}
-                  >
-                    🚨
-                  </td>
-                  <td
-                    style={{ cursor: "pointer", textDecoration: "underline" }}
-                    onClick={() => {
-                      selectWorker(worker);
-                      openModal(true);
-                    }}
-                  >
-                    조회
-                  </td>
-                </tr>
-              );
-            })}
+            {filteredWorkers.length == 0 && (
+              <tr>
+                <td colSpan={8}>조건에 맞는 직원 정보가 없습니다</td>
+              </tr>
+            )}
+            {filteredWorkers &&
+              filteredWorkers.map((worker, i) => {
+                let tmp = "normal";
+                if (worker.status == "위험") {
+                  tmp = "critical";
+                }
+                return (
+                  <tr key={i} className={tmp}>
+                    <td>{statusKor(worker.status)}</td>
+                    <td>{worker.workerId}</td>
+                    <td>{worker.name}</td>
+                    {!isDetail && <td>{worker.currentZoneName}</td>}
+                    <td className="contact-row">{worker.email}</td>
+                    <td className="contact-row">{worker.phoneNumber}</td>
+                    <td
+                      style={{ fontSize: "1.2rem", cursor: "pointer" }}
+                      onClick={() =>
+                        directCall(worker.email, worker.phoneNumber)
+                      }
+                    >
+                      🚨
+                    </td>
+                    <td
+                      style={{ cursor: "pointer", textDecoration: "underline" }}
+                      onClick={() => {
+                        selectWorker(worker);
+                        openModal(true);
+                      }}
+                    >
+                      조회
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>

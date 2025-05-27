@@ -13,8 +13,9 @@ export default function ManagerSetting({ modalParam, zoneId }) {
   useEffect(() => {
     console.log("???");
     axiosInstance
-      .get(`/api/zone-managers/${zoneId}`)
+      .get(`/api/workers/zone/${zoneId}/manager`)
       .then((res) => {
+        console.log(res.data.data);
         setManager(res.data.data);
       })
       .catch((e) => {

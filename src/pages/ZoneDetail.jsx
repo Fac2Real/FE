@@ -54,7 +54,6 @@ export default function ZoneDetail() {
       })
       .then((res) => {
         setDashboards(res.data);
-        console.log(res);
         setLoading(false);
       })
       .catch((err) => {
@@ -127,10 +126,7 @@ export default function ZoneDetail() {
     axiosInstance
       .get(`/api/equips/zone/${zoneId}`)
       .then((res) => {
-        // console.log("설비 목록 받아옴...");
-        // console.log(res.data.data);
-        // setEquips(res.data.data);
-        setEquips(mock_equips);
+        setEquips(res.data.data);
       })
       .catch((e) => {
         console.log("설비 목록 로딩 실패", e);
@@ -156,7 +152,7 @@ export default function ZoneDetail() {
         );
       })
       .catch((e) => {
-        console.log(e);
+        console.log("설비 교체일 수정 실패", e);
       });
   };
   return (
