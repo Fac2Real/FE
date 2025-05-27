@@ -9,9 +9,12 @@ import Safety from "./pages/Safety";
 import ZoneDetail from "./pages/ZoneDetail";
 import { ToastProvider } from "./contexts/ToastProvider";
 import { useState } from "react";
+import Login from "./pages/Login";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(true);
+  // const [isLogin, setLogin] = useState(true); // 추후 쿠키/토큰 여부로 바꿀 것
+
   return (
     <BrowserRouter>
       <ToastProvider>
@@ -21,6 +24,7 @@ export default function App() {
           <div className="contents">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/monitoring" element={<Monitoring />} />
               <Route path="/safety" element={<Safety />} />
