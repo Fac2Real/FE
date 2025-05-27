@@ -1,27 +1,32 @@
 
 export const mock_equips = [
     {
-        name: "설비A",
+        equipId: "20250507171316-389",
+        equipName: "222",
+        zoneName: "fffff",
+        zoneId: "20250507165750-827",
         sensors: [
-            { name: "온도 센서", id: "123123" },
-            { name: "진동 센서", id: "222222" },
-            { name: "진동 센서", id: "33232" },
+            {
+                sensorId: "UA10D-DST-24060890",
+                sensorType: "dust",
+                zoneId: "20250507165750-827",
+                equipId: "20250507171316-389",
+                sensorThres: null,
+                allowVal: null,
+                isZone: null
+            },
+            {
+                sensorId: "UA10T-TEM-34060890",
+                sensorType: "temp",
+                zoneId: "20250507165750-827",
+                equipId: "20250507171316-389",
+                sensorThres: null,
+                allowVal: null,
+                isZone: 0
+            }
         ],
-    },
-    {
-        name: "설비B",
-        sensors: [
-            { name: "진동 센서", id: "aaaaaa" },
-            { name: "진동 센서", id: "2ddddddd" },
-            { name: "진동 센서", id: "fffffff" },
-        ],
-    },
-    {
-        name: "설비C",
-        sensors: [
-            { name: "진동 센서", id: "999999" },
-            { name: "진동 센서", id: "9111111" },
-            { name: "진동 센서", id: "9933333" },
-        ],
-    },
+        last: "2025-01-01",
+        pred: "2026-02-28"
+    }
+    ,
 ];

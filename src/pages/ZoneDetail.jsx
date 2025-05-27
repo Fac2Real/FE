@@ -9,6 +9,7 @@ import ManagerSetting from "../components/ManagerSetting";
 import { mock_loglist, mock_workers } from "../mock_data/mock_workers";
 import Equip from "../components/Equip";
 import { mock_equips } from "../mock_data/mock_equips";
+import EquipDateModal from "../components/modal/EquipDateModal";
 
 export default function ZoneDetail() {
   const { zoneId } = useParams();
@@ -27,10 +28,16 @@ export default function ZoneDetail() {
   const [refreshWorkers, setRefreshWorkers] = useState(0);
   const [workerList, setWorkerList] = useState([]);
   const [selectedWorkerInfo, setSelectedWorker] = useState();
-  const [isOpen, setIsOpen] = useState(false);
-  const onClose = () => {
+  const [selectedEquipInfo, setSelectedEquip] = useState();
+  const [isWorkerOpen, setIsWorkerOpen] = useState(false);
+  const [isEquipOpen, setIsEquipOpen] = useState(false);
+  const onCloseWorker = () => {
     setSelectedWorker();
-    setIsOpen(false);
+    setIsWorkerOpen(false);
+  };
+  const onCloseEquip = () => {
+    // setSelectedWorker();
+    setIsEquipOpen(false);
   };
 
   // 2) 모든 useEffect (조건 없이 항상 선언)
@@ -115,13 +122,15 @@ export default function ZoneDetail() {
   }, [refreshLog]);
 
   const [equips, setEquips] = useState([]);
+
   useEffect(() => {
     axiosInstance
-      .get(`/api/equip/${zoneId}`)
+      .get(`/api/equips/zone/${zoneId}`)
       .then((res) => {
-        console.log("설비 목록 받아옴...");
-        console.log(res.data);
-        setEquips(res.data);
+        // console.log("설비 목록 받아옴...");
+        // console.log(res.data.data);
+        // setEquips(res.data.data);
+        setEquips(mock_equips);
       })
       .catch((e) => {
         console.log("설비 목록 로딩 실패", e);
@@ -130,11 +139,37 @@ export default function ZoneDetail() {
       });
   }, [refreshEquip]);
 
+  const handleUpdateDate = (newDate, equipInfo) => {
+    axiosInstance
+      .post(`/api/update-date/${equipInfo.equipId}`, {
+        updatedDate: newDate,
+      })
+      .then((res) => {
+        console.log(res.data);
+        console.log(newDate, equipInfo);
+        setEquips((prev) =>
+          prev.map((equip) =>
+            equip.equipId === equipInfo.equipId
+              ? { ...equip, last: newDate }
+              : equip
+          )
+        );
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <>
+      <EquipDateModal
+        isOpen={isEquipOpen}
+        onClose={onCloseEquip}
+        equipInfo={selectedEquipInfo}
+        onUpdate={handleUpdateDate}
+      />
       <WorkerInfoModal
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isWorkerOpen}
+        onClose={onCloseWorker}
         workerInfo={selectedWorkerInfo}
       />
       <h1>{zoneName}</h1>
@@ -182,7 +217,7 @@ export default function ZoneDetail() {
             worker_list={workerList}
             isDetail={true}
             selectWorker={setSelectedWorker}
-            openModal={setIsOpen}
+            openModal={setIsWorkerOpen}
           />
         </div>
       </div>
@@ -195,7 +230,7 @@ export default function ZoneDetail() {
             zoneId={zoneId}
             modalParam={{
               selectedWorker: setSelectedWorker,
-              openModal: setIsOpen,
+              openModal: setIsWorkerOpen,
             }}
           />
         </div>
@@ -212,7 +247,13 @@ export default function ZoneDetail() {
           </span>
         </div>
         <div className="bottom-box">
-          <Equip zoneId={zoneId} equips={equips} />
+          <Equip
+            equips={equips}
+            modalParam={{
+              setSelectedEquip: setSelectedEquip,
+              openModal: setIsEquipOpen,
+            }}
+          />
         </div>
       </div>
       {/* 시스템 로그 조회 :: 토글해야 호출! */}

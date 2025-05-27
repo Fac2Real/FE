@@ -118,7 +118,7 @@ export default function WorkerTable({
                   <td>{worker.status}</td>
                   <td>{worker.workerId}</td>
                   <td>{worker.name}</td>
-                  {!isDetail && <td>{worker.zone}</td>}
+                  {!isDetail && <td>{worker.currentZoneName}</td>}
                   <td className="contact-row">{worker.email}</td>
                   <td className="contact-row">{worker.phoneNumber}</td>
                   <td

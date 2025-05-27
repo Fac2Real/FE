@@ -48,8 +48,7 @@ export default function Settings() {
         console.log(res.data.data);
         const list = res.data.data.map((z) => ({
           title: z.zoneName,
-          env_sensor: z.zoneSensorList.map((s) => ({
-            // envList로 바꿀 것
+          env_sensor: z.envList.map((s) => ({
             name: toKoName(s.sensorType), // 한글 변환
             thres: s.sensorThres,
             margin: s.allowVal, // JSON 내용 확인해서 변경해야댐..
