@@ -861,7 +861,7 @@ strong.normal {
 
 .worker-table,
 .logs-table {
-  width: calc(100% - 4rem);
+  width: calc(100%);
   border-collapse: collapse;
   text-align: center;
   overflow: hidden;
