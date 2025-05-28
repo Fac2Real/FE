@@ -54,6 +54,10 @@ export default function Sidebar({ isOpen, setIsOpen }) {
   }, [location.pathname]);
 
   const handleButtonClick = () => {
+    const result = confirm("로그아웃하시겠습니까?");
+    if (!result) {
+      return;
+    }
     axiosInstance
       .post("/api/auth/logout")
       .then(() => {

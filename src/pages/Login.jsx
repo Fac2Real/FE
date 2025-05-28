@@ -7,21 +7,24 @@ export default function Login() {
   const [userPassword, setUserPassword] = useState("");
   const nav = useNavigate();
   const handleLogin = () => {
-    const response = axiosInstance.post("/api/auth/login", {
-      username: userId,
-      password: userPassword,
-    }).then((res) => {
-      console.log("로그인 성공");
-      console.log(res.data);
-      localStorage.setItem("accessToken", res.data.accessToken);
-      localStorage.setItem("userId", userId);
-    }).catch((e) => {
-      console.log("로그인 실패");
-      console.log(e);
-      alert("아이디 또는 비밀번호가 잘못되었습니다.");
-    });
+    const response = axiosInstance
+      .post("/api/auth/login", {
+        username: userId,
+        password: userPassword,
+      })
+      .then((res) => {
+        console.log("로그인 성공");
+        console.log(res.data);
+        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("userId", userId);
+        nav(`/`);
+      })
+      .catch((e) => {
+        console.log("로그인 실패");
+        console.log(e);
+        alert("아이디 또는 비밀번호가 잘못되었습니다.");
+      });
     console.log(response);
-    nav(`/`);
   };
   return (
     <>
