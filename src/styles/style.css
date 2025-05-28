@@ -108,14 +108,14 @@ aside.sidebar-close,
 }
 
 aside > div {
-  margin: 2rem 0;
+  margin: 1.5rem 0;
 }
 
 div.sidebar-open {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 2rem 0;
+  margin: 1.5rem 0;
 }
 
 p.sidebar-open {
@@ -1192,6 +1192,11 @@ select.search-field {
   color: orange;
   border-bottom: 1px solid orange;
   transform: translateY(1px);
+}
+
+.logout-button {
+  margin-top: 1.5rem;
+  cursor: pointer;
 }
 
 .character-circle {
