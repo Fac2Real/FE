@@ -51,7 +51,17 @@ export default function Sidebar({ isOpen, setIsOpen }) {
     else if (location.pathname.startsWith("/certification"))
       setCurrentPage("Certification");
   }, [location.pathname]);
-
+  const handleButtonClick = () => {
+    axiosInstance.post("/api/auth/logout").then(() => {
+      console.log("로그아웃 성공");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("userId");
+      window.location.href = "/login"; // 로그인 페이지로 리다이렉트
+    }).catch((e) => {
+      console.error("로그아웃 실패", e);
+      alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
+    });
+  }
   return (
     <aside className={isOpen ? "sidebar-open" : "sidebar-close"}>
       {!isOpen && (
@@ -86,6 +96,24 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         </div>
       )}
       <div className="sidebar-menu">
+        <button
+          className="logout-button"
+          onClick={handleButtonClick}
+          style={{
+            backgroundColor: "var(--warning3)", // 로그인 버튼과 동일한 색상
+            color: "#FFF", // 텍스트 색상
+            border: "none",
+            borderRadius: "5px",
+            padding: "0.5rem 1rem",
+            fontSize: "1rem",
+            cursor: "pointer",
+            transition: "background-color 0.3s ease",
+          }}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = "var(--warning2)")} // 호버 효과
+          onMouseLeave={(e) => (e.target.style.backgroundColor = "var(--warning3)")}
+        >
+          로그아웃 ⇀
+        </button>
         <div>
           <span
             className="icon side-opt"
