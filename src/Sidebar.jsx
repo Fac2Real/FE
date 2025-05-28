@@ -246,11 +246,21 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         <div className="logout-button">
           <span className="icon side-opt" onClick={handleButtonClick}>
             <a>
-              <LogoutIcon stroke="red" fill="red" width="1.5rem" />
+              <LogoutIcon
+                stroke="red"
+                fill="red"
+                width="0.9rem"
+                style={{ transform: "translateY(-2px)" }}
+              />
               {isOpen && (
                 <p
                   className={`sidebar-open`}
-                  style={{ color: "red", fontWeight: "450" }}
+                  style={{
+                    color: "red",
+                    fontWeight: "550",
+                    fontSize: "1rem",
+                    marginLeft: "0.5rem",
+                  }}
                 >
                   로그아웃
                 </p>
