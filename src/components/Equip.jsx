@@ -17,7 +17,9 @@ function EquipItem({ equip, selectEquip, openModal }) {
 
   const tmp = 1000 * 60 * 60 * 24;
   const today = new Date();
-  const last = new Date(equip.last ? equip.last : "2025-06-26");
+  const last = new Date(
+    equip.lastUpdateDate ? equip.lastUpdateDate : "2025-06-26"
+  );
   const pred = new Date(equip.pred ? equip.pred : "2025-06-26");
 
   const dDay = Math.ceil((pred - today) / tmp);
@@ -68,7 +70,7 @@ function EquipItem({ equip, selectEquip, openModal }) {
           <div>최근 교체 일자</div>
           <span className="dash-line"></span>
           <span>
-            ({equip?.last ? equip?.last : "2025-03-26"})
+            ({equip?.lastUpdateDate ? equip?.lastUpdateDate : "2025-03-26"})
             <ToolIcon
               className="thres-setting"
               width="1.3rem"

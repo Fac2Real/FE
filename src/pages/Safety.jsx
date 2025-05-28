@@ -53,7 +53,10 @@ export default function Safety() {
           openModal={setIsOpen}
         />
       </div>
-      <div className="safety-body" style={{ height: "auto" }}>
+      <div
+        className="safety-body"
+        style={{ height: "auto", width: "80%", alignSelf: "center" }}
+      >
         <RegisterWorker />
       </div>
     </>

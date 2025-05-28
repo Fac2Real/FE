@@ -12,7 +12,8 @@ export default function Login() {
     <>
       <div className="login-body">
         <div className="login-container">
-          <h2 style={{ color: "var(--warning3" }}>LOG IN</h2>
+          <h2 style={{ color: "orange", marginBottom: "1.5rem" }}>MONITORY</h2>
+          {/* <div className="character-circle"></div> */}
           <div className="login-input">
             <input
               type="text"
