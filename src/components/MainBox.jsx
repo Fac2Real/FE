@@ -29,7 +29,7 @@ const renderActiveShape = (props) => {
           dy={8}
           textAnchor="middle"
           fill={fill}
-          fontSize="2rem"
+          fontSize="1rem"
           fontWeight="bold"
           style={{
             opacity: showLabel ? 1 : 0,
@@ -53,17 +53,44 @@ const renderActiveShape = (props) => {
         cy={cy}
         startAngle={startAngle}
         endAngle={endAngle}
-        innerRadius={outerRadius + 6}
-        outerRadius={outerRadius + 10}
+        innerRadius={outerRadius + 3}
+        outerRadius={outerRadius + 5}
         fill={fill}
       />
     </g>
   );
 };
 
+function Donut({ rank, color }) {
+  const [showLabel, setShowLabel] = useState(false);
+  return (
+    <div className="donut-box">
+      <h3>안전</h3>
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            activeIndex={0}
+            activeShape={(props) => renderActiveShape({ ...props, showLabel })}
+            data={[{ name: rank ? rank : "loading...", value: 1 }]}
+            cx="50%"
+            cy="50%"
+            innerRadius={"70%"} // keep: 50
+            outerRadius={"95%"} // keep: 75
+            startAngle={-270}
+            endAngle={90}
+            fill={color.donutColor}
+            dataKey="value"
+            onAnimationEnd={() => setShowLabel(true)}
+          />
+        </PieChart>
+      </ResponsiveContainer>
+      <p>발생 건수： ＸＸ건</p>
+    </div>
+  );
+}
+
 export default function MainBox() {
   const [rank, setRank] = useState("");
-  const [showLabel, setShowLabel] = useState(false);
   let safetyRank = true;
   let facilityRank = true;
 
@@ -93,44 +120,12 @@ export default function MainBox() {
 
   return (
     <div className="main-box" style={{ backgroundColor: color.boxColor }}>
-      <div className="donut-box">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              activeIndex={0}
-              activeShape={(props) =>
-                renderActiveShape({ ...props, showLabel })
-              }
-              data={[{ name: rank ? rank : "-", value: 1 }]}
-              cx="50%"
-              cy="50%"
-              innerRadius={60}
-              outerRadius={80}
-              startAngle={-270}
-              endAngle={90}
-              fill={color.donutColor}
-              dataKey="value"
-              onAnimationEnd={() => setShowLabel(true)}
-            />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-      <div style={{ color: color.textColor }}>
-        <h2>{title}</h2>
-        <div>
-          <h3>
-            {safetyRank ? "✔️" : "✖️"} 안전 등급{" "}
-            {safetyRank == null ? "로딩 중..." : safetyRank ? "충족" : "미충족"}
-          </h3>
-          <h3>
-            {facilityRank ? "✔️" : "✖️"} 설비 등급{" "}
-            {facilityRank == null
-              ? "로딩 중..."
-              : facilityRank
-              ? "충족"
-              : "미충족"}
-          </h3>
-        </div>
+      <h2>2025년 04월 [공장명] 리포트 요약</h2>
+      <p>반영 기간: 2025.04.01 ~ 2025.04.30</p>
+      <div className="donut-wrapper">
+        <Donut rank={rank} color={color} />
+        <Donut rank={rank} color={color} />
+        <Donut rank={rank} color={color} />
       </div>
     </div>
   );
