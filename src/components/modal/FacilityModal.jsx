@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BasicModal from "./BasicModal";
 
-function ModalContents() {
+function ModalContents({onUpdate}) {
   const [newFacility, setNewFacility] = useState("");
   return (
     <>
