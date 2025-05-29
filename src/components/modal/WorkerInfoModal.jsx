@@ -1,13 +1,16 @@
+import { isValidElement } from "react";
 import XIcon from "../../assets/x_icon.svg?react";
+import BasicModal from "./BasicModal";
 
-function ContactTable({ email, phoneNumber }) {
+function ContactTable({ workerInfo }) {
+  const { email, phoneNumber, workerId, isManager } = workerInfo;
   return (
     <div className="table-container">
       <table className="contact-table">
         <thead>
           <tr>
-            <th>이메일</th>
-            <td>{email}</td>
+            <th>사번</th>
+            <td>{workerId}</td>
           </tr>
         </thead>
         <tbody>
@@ -16,35 +19,32 @@ function ContactTable({ email, phoneNumber }) {
             <td>{phoneNumber}</td>
           </tr>
           <tr>
-            <th scope="row">출입 가능한 지역</th>
-            <td>미구현</td>
+            <th scope="row">이메일</th>
+            <td>{email}</td>
+          </tr>
+          <tr>
+            <th scope="row">담당자 여부</th>
+            <td>{isManager ? "예" : "아니오"}</td>
           </tr>
         </tbody>
       </table>
+      <br></br>
     </div>
   );
 }
 
 export default function WorkerInfoModal({ isOpen, onClose, workerInfo }) {
+  console.log(workerInfo);
   if (isOpen) {
-    console.log(workerInfo);
     return (
-      <div className="modal-overlay" onClick={onClose}>
-        <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-          <div onClick={onClose}>
-            <XIcon width="1.5rem" height="1.5rem" />
-          </div>
-          <div className="modal-contents" style={{ marginBottom: "5.5rem" }}>
-            <p style={{ fontSize: "1.5rem" }}>
-              {workerInfo.name}의 연락처 정보
-            </p>
-            <ContactTable
-              email={workerInfo.email}
-              phoneNumber={workerInfo.phoneNumber}
-            />
-          </div>
-        </div>
-      </div>
+      <BasicModal
+        onClose={onClose}
+        type="edit"
+        modal_contents={{
+          title: `[${workerInfo.name}]의 정보`,
+          contents: <ContactTable workerInfo={workerInfo} />,
+        }}
+      />
     );
   }
   return <></>;

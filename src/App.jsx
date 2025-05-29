@@ -10,6 +10,7 @@ import ZoneDetail from "./pages/ZoneDetail";
 import { ToastProvider } from "./contexts/ToastProvider";
 import { useState } from "react";
 import Login from "./pages/Login";
+import Help from "./pages/Help";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(true);
@@ -30,6 +31,7 @@ export default function App() {
               <Route path="/safety" element={<Safety />} />
               <Route path="/certification" element={<Certification />} />
               <Route path="/zone/:zoneId" element={<ZoneDetail />} />
+              <Route path="/help" element={<Help />} />
             </Routes>
           </div>
         </div>

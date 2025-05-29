@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 
@@ -6,6 +6,18 @@ export default function Login() {
   const [userId, setUserId] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const nav = useNavigate();
+
+  const [showRobot, setShowRobot] = useState(true);
+  useEffect(() => {
+    const handleResize = () => {
+      const val = window.innerWidth;
+      setShowRobot(val > 600);
+    };
+    handleResize(); // 초기 실행
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleLogin = () => {
     const response = axiosInstance
       .post("/api/auth/login", {
@@ -30,9 +42,20 @@ export default function Login() {
     <>
       <div className="login-body">
         <div className="login-container">
-          <h2 style={{ color: "orange", marginBottom: "1.5rem" }}>MONITORY</h2>
-          {/* <div className="character-circle"></div> */}
-          <div className="login-input">
+          {showRobot && (
+            <img
+              src="src\assets\img\monitory_character_sit.png"
+              className="robot-sit"
+            />
+          )}
+          <h1 style={{ color: "orange", marginBottom: "2rem" }}>LOGIN</h1>
+          <form
+            className="login-input"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin();
+            }}
+          >
             <input
               type="text"
               value={userId}
@@ -42,6 +65,7 @@ export default function Login() {
                 setUserId(e.target.value);
               }}
               placeholder="아이디를 입력하세요"
+              autoComplete="username"
             ></input>
             <input
               type="password"
@@ -52,11 +76,12 @@ export default function Login() {
                 setUserPassword(e.target.value);
               }}
               placeholder="비밀번호를 입력하세요"
+              autoComplete="current-password"
             ></input>
             <div className="login-button">
-              <button onClick={handleLogin}>로그인 ⇀</button>
+              <button type="submit">로그인 ⇀</button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </>
