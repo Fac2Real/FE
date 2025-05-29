@@ -7,12 +7,12 @@ import QuestionIcon from "../assets/question_icon.svg?react";
 import { Link } from "react-router-dom";
 import "../styles/home.css";
 
-export default function Home() {
+export default function Home({ isSidebarOpen }) {
   const icon_color = "#1d4a7a";
   return (
     <>
       {/* <h1>MONITORY</h1> */}
-      <MainBox />
+      <MainBox isSidebarOpen={isSidebarOpen} />
       <div className="mini-row">
         <Link to="/monitoring" className="link-as-contents">
           <MiniBox

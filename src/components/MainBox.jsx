@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
 
 const renderActiveShape = (props) => {
@@ -89,8 +90,8 @@ function Donut({ rank, color }) {
   );
 }
 
-export default function MainBox() {
-  const [rank, setRank] = useState("");
+export default function MainBox({ isSidebarOpen }) {
+  const [rank, setRank] = useState("A");
   let safetyRank = true;
   let facilityRank = true;
 
@@ -118,15 +119,36 @@ export default function MainBox() {
     color.textColor = "#5f5f5f";
   }
 
+  /* 이스터에그 같은 거 저도 해보고 싶었거든요... */
+  const [showRobot, setShowRobot] = useState(false);
+  useEffect(() => {
+    if (!isSidebarOpen) {
+      const shouldShow = Math.random() < 0.3; // 30% 확률
+      setShowRobot(shouldShow);
+    } else {
+      setShowRobot(false);
+    }
+  }, [isSidebarOpen]);
+
   return (
-    <div className="main-box" style={{ backgroundColor: color.boxColor }}>
-      <h2>2025년 04월 [공장명] 리포트 요약</h2>
-      <p>반영 기간: 2025.04.01 ~ 2025.04.30</p>
-      <div className="donut-wrapper">
-        <Donut rank={rank} color={color} />
-        <Donut rank={rank} color={color} />
-        <Donut rank={rank} color={color} />
+    <>
+      <div className="main-box" style={{ backgroundColor: color.boxColor }}>
+        {showRobot && (
+          <Link to="/hidden">
+            <img
+              src="src\assets\img\monitory_character_side.png"
+              className="robot-side"
+            />
+          </Link>
+        )}
+        <h2>2025년 04월 [공장명] 리포트 요약</h2>
+        <p>반영 기간: 2025.04.01 ~ 2025.04.30</p>
+        <div className="donut-wrapper">
+          <Donut rank={rank} color={color} />
+          <Donut rank={rank} color={color} />
+          <Donut rank={rank} color={color} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
