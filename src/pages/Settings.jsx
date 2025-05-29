@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import SensorModal from "../components/SensorModal";
 import ZoneInfoBox from "../components/ZoneInfoBox";
 import axiosInstance from "../api/axiosInstance";
-import FacilityModal from "../components/FacilityModal";
-import EditModal from "../components/EditModal";
-import FacEditModal from "../components/FacEditModal";
+
+import SensorModal from "../components/modal/SensorModal";
+import FacilityModal from "../components/modal/FacilityModal";
+import EditModal from "../components/modal/EditModal";
+import FacEditModal from "../components/modal/FacEditModal";
 /* ────────────────────────────────
    1. 센서 타입 → 한글 명/분류 매핑
 ──────────────────────────────── */

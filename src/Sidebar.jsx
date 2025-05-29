@@ -8,6 +8,7 @@ import BellIcon from "./assets/bell_icon.svg?react";
 import CloseIcon from "./assets/close_icon.svg?react";
 import Logo from "./assets/temp_logo.svg?react";
 import WorkerIcon from "./assets/worker_icon.svg?react";
+import LogoutIcon from "./assets/logout_icon.svg?react";
 import { useEffect, useCallback, useState } from "react";
 
 import AlarmModal from "./components/AlarmModal";
@@ -51,17 +52,26 @@ export default function Sidebar({ isOpen, setIsOpen }) {
     else if (location.pathname.startsWith("/certification"))
       setCurrentPage("Certification");
   }, [location.pathname]);
+
   const handleButtonClick = () => {
-    axiosInstance.post("/api/auth/logout").then(() => {
-      console.log("로그아웃 성공");
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("userId");
-      window.location.href = "/login"; // 로그인 페이지로 리다이렉트
-    }).catch((e) => {
-      console.error("로그아웃 실패", e);
-      alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
-    });
-  }
+    const result = confirm("로그아웃하시겠습니까?");
+    if (!result) {
+      return;
+    }
+    axiosInstance
+      .post("/api/auth/logout")
+      .then(() => {
+        console.log("로그아웃 성공");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("userId");
+        window.location.href = "/login"; // 로그인 페이지로 리다이렉트
+      })
+      .catch((e) => {
+        console.error("로그아웃 실패", e);
+        alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
+      });
+  };
+
   return (
     <aside className={isOpen ? "sidebar-open" : "sidebar-close"}>
       {!isOpen && (
@@ -96,24 +106,6 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         </div>
       )}
       <div className="sidebar-menu">
-        <button
-          className="logout-button"
-          onClick={handleButtonClick}
-          style={{
-            backgroundColor: "var(--warning3)", // 로그인 버튼과 동일한 색상
-            color: "#FFF", // 텍스트 색상
-            border: "none",
-            borderRadius: "5px",
-            padding: "0.5rem 1rem",
-            fontSize: "1rem",
-            cursor: "pointer",
-            transition: "background-color 0.3s ease",
-          }}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = "var(--warning2)")} // 호버 효과
-          onMouseLeave={(e) => (e.target.style.backgroundColor = "var(--warning3)")}
-        >
-          로그아웃 ⇀
-        </button>
         <div>
           <span
             className="icon side-opt"
@@ -225,7 +217,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
           </span>
         </div>
       </div>
-      {
+      <div style={{ marginBottom: "1.2rem" }}>
         <div className={isOpen ? "alram-box" : "alram-box sidebar-close"}>
           <span
             className="icon"
@@ -244,12 +236,39 @@ export default function Sidebar({ isOpen, setIsOpen }) {
             </span>
             {isOpen && (
               <p className="alram-text">
-                읽지 않은 알림이 {alram_count}건 있습니다
+                읽지 않은 알림이 <br></br>
+                {alram_count}건 있습니다
               </p>
             )}
           </span>
         </div>
-      }
+        {/* 로그아웃 버튼 */}
+        <div className="logout-button">
+          <span className="icon side-opt" onClick={handleButtonClick}>
+            <a>
+              <LogoutIcon
+                stroke="red"
+                fill="red"
+                width="0.9rem"
+                style={{ transform: "translateY(-2px)" }}
+              />
+              {isOpen && (
+                <p
+                  className={`sidebar-open`}
+                  style={{
+                    color: "red",
+                    fontWeight: "550",
+                    fontSize: "1rem",
+                    marginLeft: "0.5rem",
+                  }}
+                >
+                  로그아웃
+                </p>
+              )}
+            </a>
+          </span>
+        </div>
+      </div>
       {/* 알람 모달 */}
       <AlarmModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </aside>

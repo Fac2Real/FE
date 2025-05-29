@@ -35,10 +35,15 @@ export default function RegisterWorker() {
   };
 
   const handleSubmit = () => {
-    console.log(
-      `전달할 정보: ${formData.workerId} ${formData.name} ${formData.phoneNumber} ${formData.email}`
-    );
-    console.log(`출입가능 공간: ${selectedZones}`);
+    if (
+      Object.values(formData).some(
+        (val) => val.replace(/\s+/g, "").length === 0
+      )
+    ) {
+      // 공백 제거
+      alert("입력값을 확인하세요");
+      return;
+    }
     axiosInstance
       .post(`/api/workers`, {
         workerId: formData.workerId,

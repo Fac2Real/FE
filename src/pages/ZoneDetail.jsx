@@ -137,19 +137,19 @@ export default function ZoneDetail() {
 
   const handleUpdateDate = (newDate, equipInfo) => {
     axiosInstance
-      .post(`/api/update-date/${equipInfo.equipId}`, {
-        updatedDate: newDate,
+      .post(`/api/equips/${equipInfo.equipId}/update-date`, {
+        updateDate: newDate,
       })
       .then((res) => {
         console.log(res.data);
-        console.log(newDate, equipInfo);
         setEquips((prev) =>
           prev.map((equip) =>
-            equip.equipId === equipInfo.equipId
-              ? { ...equip, last: newDate }
+            equip.equipId == equipInfo.equipId
+              ? { ...equip, lastUpdateDate: newDate }
               : equip
           )
         );
+        console.log(newDate, equipInfo);
       })
       .catch((e) => {
         console.log("설비 교체일 수정 실패", e);
