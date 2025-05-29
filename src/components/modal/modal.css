@@ -1,0 +1,32 @@
+.modal-box-v2 {
+  position: relative;
+  width: 35vw;
+  height: auto;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  min-width: 350px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 5%;
+  right: 1%;
+}
+
+.modal-box-top {
+  width: 100%;
+  height: 20vh;
+  padding-top: 1rem;
+  background-color: var(--blue);
+  border-radius: 0.5rem 0.5rem 0 0;
+  text-align: center;
+}
+
+.modal-box-bottom {
+  text-align: center;
+  height: auto;
+  margin: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
