@@ -39,7 +39,8 @@ export default function ZoneInfoBox({
               {title}
               <EditIcon
                 width="1rem"
-                opacity="0.4"
+                color="#999"
+                // opacity="0.4"
                 style={{
                   marginLeft: "0.7rem",
                   transform: "translateY(1.5px)",
@@ -169,6 +170,10 @@ export default function ZoneInfoBox({
             <div className="button-flex">
               <button
                 onClick={() => {
+                  if (newZone.length == 0) {
+                    alert("이름은 비워둘 수 없습니다.");
+                    return;
+                  }
                   onAddZone(newZone);
                   setNewZone("");
                 }}

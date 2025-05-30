@@ -18,12 +18,24 @@ export default function ManagerSetting({ modalParam, zoneId }) {
         console.log(res.data.data);
         setManager(res.data.data);
       })
-      .catch((e) => {
-        console.log("매니저 정보 조회에 실패했습니다.", e);
-        console.log("mock data를 불러옵니다.");
-        setManager(mock_manager);
+      .catch((error) => {
+        if (error.response && error.response.status === 500) {
+          console.log("해당 공간에 담당자가 없습니다.");
+          setManager(null); // 혹은 빈 상태 처리
+        } else {
+          console.log("매니저 정보 조회에 실패했습니다.", e);
+          // console.log("mock data를 불러옵니다.");
+          // setManager(mock_manager);
+        }
       });
   }, [refreshTrigger]);
+
+  // 매니저 후보자 목록을 불러오고, 첫 번째 후보자를 선택
+  useEffect(() => {
+    if (cand.length > 0) {
+      setSelectedWorkerId(cand[0].workerId); // cand 배열의 첫 번째 workerId를 초기값으로 설정
+    }
+  }, [cand]);
 
   const fetchCand = () => {
     axiosInstance
@@ -33,19 +45,23 @@ export default function ManagerSetting({ modalParam, zoneId }) {
       })
       .catch((e) => {
         console.log("매니저 후보 조회에 실패했습니다.", e);
-        console.log("현재 위치 작업자 mock data를 대신 불러옵니다.");
-        setCand(mock_workers);
+        // console.log("현재 위치 작업자 mock data를 대신 불러옵니다.");
+        // setCand(mock_workers);
       });
   };
 
   const handleSubmit = () => {
-    axiosInstance
-      .post(`/api/zone-managers/${zoneId}/assign/${selectedWorkerId}`)
-      .then((res) => {
-        setMode("");
-        setRefreshTrigger((prev) => prev + 1);
-      })
-      .catch((e) => console.log("담당자 지정 실패", e));
+    if (selectedWorkerId) {
+      axiosInstance
+        .post(`/api/zone-managers/${zoneId}/assign/${selectedWorkerId}`)
+        .then((res) => {
+          setMode("");
+          setRefreshTrigger((prev) => prev + 1);
+        })
+        .catch((e) => console.log("담당자 지정 실패", e));
+    } else {
+      return;
+    }
   };
 
   return (
@@ -99,6 +115,7 @@ export default function ManagerSetting({ modalParam, zoneId }) {
               <select
                 onChange={(e) => setSelectedWorkerId(e.target.value)}
                 value={selectedWorkerId}
+                disabled={cand?.length === 0}
               >
                 {cand.map((c, i) => {
                   return (
@@ -107,6 +124,11 @@ export default function ManagerSetting({ modalParam, zoneId }) {
                     </option>
                   );
                 })}
+                {!cand?.length && (
+                  <option disabled value="">
+                    선택 가능한 직원이 없습니다
+                  </option>
+                )}
               </select>
               {(mode == "edit" || mode == "add") && (
                 <button className="no-flex-button" onClick={handleSubmit}>

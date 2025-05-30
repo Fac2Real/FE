@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
+import "../styles/login.css";
 
 export default function Login() {
   const [userId, setUserId] = useState("");

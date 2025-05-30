@@ -1,0 +1,83 @@
+.login-body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--box-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  display: flex;
+}
+
+.login-container {
+  margin: auto;
+  width: 50%;
+  max-width: 600px;
+  min-width: 300px;
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+
+  /* background-color: rgb(49, 49, 49);
+  color: white; */
+
+  background-color: black;
+  color: white;
+
+  position: relative;
+  z-index: 1;
+}
+
+.login-input {
+  width: 60%;
+  text-align: center;
+}
+
+.login-input input {
+  width: calc(100% - 1rem);
+  height: 2.5rem;
+  padding: 0 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.login-button {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.login-button button {
+  border: none;
+  color: white;
+  background-color: inherit;
+  border-bottom: 1px solid white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.login-button button:hover {
+  color: var(--warning3);
+  border-bottom: 1px solid var(--warning3);
+  transform: translateY(-1px);
+}
+
+.login-button button:active {
+  color: orange;
+  border-bottom: 1px solid orange;
+  transform: translateY(1px);
+}
+
+.robot-sit {
+  position: absolute;
+  top: -55%; /* 로그인 박스의 맨 위 경계선 기준으로 올라감 */
+  left: -5%; /* 로그인 박스 오른쪽에서 살짝 떨어지게 */
+  width: 18rem;
+  z-index: 2;
+}

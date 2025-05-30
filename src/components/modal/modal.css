@@ -1,0 +1,104 @@
+.modal-overlay {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-box-v2 {
+  position: relative;
+  width: 35vw;
+  height: auto;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  min-width: 350px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 5%;
+  right: 1%;
+}
+
+.modal-box-top {
+  width: 100%;
+  height: 20vh;
+  padding-top: 1rem;
+  background-color: var(--blue);
+  border-radius: 0.5rem 0.5rem 0 0;
+  text-align: center;
+}
+
+.modal-box-bottom {
+  text-align: center;
+  height: auto;
+  margin: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+/* 알림창 모달에서 쓰이는 것 */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--box-color);
+  border-radius: 1rem 1rem 0 0;
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  margin: 0.5rem 1rem;
+  color: #000;
+}
+
+.button-container {
+  gap: 1rem;
+  background-color: var(--box-color);
+  margin: 0 0.75rem;
+}
+
+.button-container > button {
+  margin: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: white;
+  padding: 0.2rem 0.75rem;
+  font-size: 1rem;
+}
+
+/* 안 쓰는 것 같은데...? */
+
+/* .modal-contents {
+  margin: 0 1rem 1rem 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.modal-contents input {
+  padding: 0.5rem;
+  max-width: 30vw;
+}
+
+.modal-contents button {
+  background-color: #7db4fc;
+}
+
+.modal-contents button:hover {
+  background-color: #5ba2ff;
+}
+
+.modal-contents > span {
+  font-size: 1.2rem;
+}
+
+.modal-contents > p {
+  color: #000000;
+} */

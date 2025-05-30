@@ -10,6 +10,14 @@ const statusKor = (status) => {
   }
 };
 
+const formattedPhoneNumber = (phoneNumber) => {
+  if (phoneNumber.startsWith("+82")) {
+    return phoneNumber;
+  } else {
+    return "+82" + phoneNumber.slice(-10);
+  }
+};
+
 export default function WorkerTable({
   worker_list,
   isDetail = false, // "현재 위치" 포함 여부 (Y=false, N=true)
@@ -136,7 +144,9 @@ export default function WorkerTable({
                     <td>{worker.name}</td>
                     {!isDetail && <td>{worker.currentZoneName}</td>}
                     <td className="contact-row">{worker.email}</td>
-                    <td className="contact-row">{worker.phoneNumber}</td>
+                    <td className="contact-row">
+                      {formattedPhoneNumber(worker.phoneNumber)}
+                    </td>
                     <td
                       style={{ fontSize: "1.2rem", cursor: "pointer" }}
                       onClick={() =>

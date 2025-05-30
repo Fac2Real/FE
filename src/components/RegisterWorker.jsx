@@ -10,6 +10,15 @@ export default function RegisterWorker() {
     phoneNumber: "",
     email: "",
   });
+
+  const formattedPhoneNumber = (phoneNumber) => {
+    if (phoneNumber.startsWith("+82")) {
+      return phoneNumber;
+    } else {
+      return "+82" + phoneNumber.slice(-10);
+    }
+  };
+
   useEffect(() => {
     axiosInstance
       .get("/api/zones")
@@ -48,7 +57,7 @@ export default function RegisterWorker() {
       .post(`/api/workers`, {
         workerId: formData.workerId,
         name: formData.name,
-        phoneNumber: formData.phoneNumber,
+        phoneNumber: formattedPhoneNumber(formData.phoneNumber),
         email: formData.email,
         zoneNames: selectedZones,
       })

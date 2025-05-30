@@ -1,11 +1,24 @@
 import XIcon from "../../assets/x_icon.svg?react";
 import YCEdit from "../../assets/img/monitory_character_edit.png";
 import YCAlram from "../../assets/img/monitory_character_alram.png";
+import { Link } from "react-router-dom";
+import "./modal.css";
 
 export default function BasicModal({
   onClose,
   type = "alram",
-  modal_contents = { title: "", contents: <></> },
+  modal_contents = {
+    title: "잘못된 페이지입니다",
+    contents: (
+      <>
+        <p>메인 화면으로 돌아가세요</p>
+        <Link to="/" style={{ color: "orangered" }}>
+          <strong>Click ⇀</strong>
+        </Link>
+        <br></br>
+      </>
+    ),
+  },
 }) {
   return (
     <div className="modal-overlay" onClick={onClose}>

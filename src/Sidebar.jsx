@@ -3,7 +3,7 @@ import MenuIcon from "./assets/menu_icon.svg?react";
 import HomeIcon from "./assets/home_icon.svg?react";
 import MonitorIcon from "./assets/monitor_icon.svg?react";
 import ToolIcon from "./assets/tool_icon.svg?react";
-import AwardIcon from "./assets/award_icon.svg?react";
+import ReportIcon from "./assets/report_icon.svg?react";
 import BellIcon from "./assets/bell_icon.svg?react";
 import CloseIcon from "./assets/close_icon.svg?react";
 import Logo from "./assets/temp_logo.svg?react";
@@ -49,8 +49,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       setCurrentPage("Facility");
     else if (location.pathname.startsWith("/settings"))
       setCurrentPage("Sensor");
-    else if (location.pathname.startsWith("/certification"))
-      setCurrentPage("Certification");
+    else if (location.pathname.startsWith("/report")) setCurrentPage("Report");
   }, [location.pathname]);
 
   const handleButtonClick = () => {
@@ -197,20 +196,21 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         <div>
           <span
             className="icon side-opt"
-            onClick={() => setCurrentPage("Certification")}
+            onClick={() => setCurrentPage("Report")}
           >
-            <Link to="/certification">
-              <AwardIcon
-                stroke={currentPage === "Certification" ? "#608DFF" : "#FFF"}
+            <Link to="/report">
+              <ReportIcon
+                // stroke={currentPage === "Certification" ? "#608DFF" : "#FFF"}
+                fill={currentPage === "Report" ? "#608DFF" : "#FFF"}
                 width="1.5rem"
               />
               {isOpen && (
                 <p
                   className={`${
-                    currentPage === "Certification" ? "current-page" : ""
+                    currentPage === "Report" ? "current-page" : ""
                   } sidebar-open`}
                 >
-                  인증서 관리
+                  월간 리포트
                 </p>
               )}
             </Link>
