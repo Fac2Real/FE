@@ -10,6 +10,7 @@ import { mock_loglist, mock_workers } from "../mock_data/mock_workers";
 import Equip from "../components/Equip";
 import { mock_equips } from "../mock_data/mock_equips";
 import EquipDateModal from "../components/modal/EquipDateModal";
+import EquipMaintainCallModal from "../components/modal/EquipMaintainCallModal";
 
 export default function ZoneDetail() {
   const { zoneId } = useParams();
@@ -27,10 +28,11 @@ export default function ZoneDetail() {
   const [logs, setLogs] = useState([]);
   const [refreshWorkers, setRefreshWorkers] = useState(0);
   const [workerList, setWorkerList] = useState([]);
-  const [selectedWorkerInfo, setSelectedWorker] = useState();
+  const [selectedWorkerInfo, setSelectedWorker] = useState(null);
   const [selectedEquipInfo, setSelectedEquip] = useState();
   const [isWorkerOpen, setIsWorkerOpen] = useState(false);
   const [isEquipOpen, setIsEquipOpen] = useState(false);
+  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const onCloseWorker = () => {
     setSelectedWorker();
     setIsWorkerOpen(false);
@@ -214,9 +216,21 @@ export default function ZoneDetail() {
             isDetail={true}
             selectWorker={setSelectedWorker}
             openModal={setIsWorkerOpen}
+            callbackModal={(worker) => { // 호출 버튼 클릭시 모달 열기
+              setSelectedWorker(worker);
+              setIsCallModalOpen(true);
+            }}
           />
         </div>
+        {/* 장비 유지보수 요청 :: 스프린트3 */}
+        <EquipMaintainCallModal
+          isOpen={isCallModalOpen}
+          onClose={() => setIsCallModalOpen(false)}
+          worker={selectedWorkerInfo}
+          equipList={equips}
+        />
       </div>
+      
       {/* 담당자 :: 스프린트2 */}
       <div className="box-wrapper">
         <div className="top-box">담당자 정보</div>

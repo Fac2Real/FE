@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axiosInstance from "../api/axiosInstance";
 
 const statusKor = (status) => {
   if (status == 0) {
@@ -24,6 +25,7 @@ export default function WorkerTable({
   selectWorker,
   openModal,
   isManager = false,
+  callbackModal = () => {},
 }) {
   const [searchType, setSearchType] = useState("byName");
   const [search, setSearch] = useState("");
@@ -41,11 +43,10 @@ export default function WorkerTable({
     return true;
   });
 
-  const directCall = (email, phoneNumber) => {
+  const directCall = (worker) => {
     const confirmed = window.confirm(`작업자를 호출하시겠습니까?`);
     if (confirmed) {
-      /* To-Do: 긴급 호출 기능 구현하면 됨!! */
-      console.log("긴급 호출!!!!!", `${email} ${phoneNumber}`);
+      callbackModal(worker);
     }
   };
   return (
@@ -149,9 +150,7 @@ export default function WorkerTable({
                     </td>
                     <td
                       style={{ fontSize: "1.2rem", cursor: "pointer" }}
-                      onClick={() =>
-                        directCall(worker.email, worker.phoneNumber)
-                      }
+                      onClick={() => directCall(worker)}
                     >
                       🚨
                     </td>
