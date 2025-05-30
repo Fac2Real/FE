@@ -123,11 +123,10 @@ const AlarmModal = ({ isOpen, onClose }) => {
             <button
               className="no-flex-button"
               style={{
-                backgroundColor:
-                  filter == "" || filter == "normal" ? "#608dff" : "gray",
+                backgroundColor: filter == "" ? "#608dff" : "gray",
               }}
               onClick={() => {
-                setFilter("normal");
+                setFilter("");
               }}
             >
               전체
