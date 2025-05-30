@@ -9,7 +9,7 @@ function GaugeBar({ percent }) {
       <div
         className="gauge-fill"
         style={{
-          width: `${Math.max(5, percent)}%`,
+          width: `${percent == 0 ? 0 : Math.max(5, percent)}%`,
           backgroundColor: bgColor,
           borderRadius: percent >= 80 ? "999px" : "999px 0 0 999px",
         }}
@@ -19,20 +19,23 @@ function GaugeBar({ percent }) {
 }
 function EquipItem({ equip, selectEquip, openModal }) {
   const [isOpen, setIsOpen] = useState(false);
+  const test_date = "2025-06-30"; // 예상교체일자 (하드코딩!!!!)
 
   const tmp = 1000 * 60 * 60 * 24;
   const today = new Date();
   const last = new Date(
     equip.lastCheckDate ? equip.lastCheckDate : "연결 오류"
   );
-  const pred = new Date(equip.pred ? equip.pred : "2025-05-31");
+  const pred = new Date(equip.pred ? equip.pred : test_date);
   const dDay = Math.ceil((pred - today) / tmp);
-  let percent = 1;
-  if (pred - last > 0 && today - last > 0) {
+
+  let percent = 0;
+  if (last < pred && last <= today) {
     percent = Math.ceil(((today - last) / (pred - last)) * 100);
-  }
-  if (percent > 100) {
-    percent = 100;
+    if (percent > 100) percent = 100;
+    if (percent < 0) percent = 0;
+  } else {
+    percent = 0;
   }
 
   return (
@@ -67,17 +70,17 @@ function EquipItem({ equip, selectEquip, openModal }) {
         <div className="list-text">
           <div>예상 교체 일자</div>
           <span className="dash-line"></span>
-          <span>({equip?.pred ? equip?.pred : "2025-06-26"})</span>
+          <span>({equip?.pred ? equip?.pred : test_date})</span>
         </div>
         <div className="list-text">
           <div>예상 교체일까지 D-{dDay}</div>
           <GaugeBar percent={percent} />
         </div>
         <div className="list-text">
-          <div>최근 교체 일자</div>
+          <div>최근 점검 일자</div>
           <span className="dash-line"></span>
           <span>
-            ({equip && equip.lastCheckDate ? equip.lastCheckDate : "2025-03-26"}
+            ({equip && equip.lastCheckDate ? equip.lastCheckDate : test_date}
             )
             <ToolIcon
               className="thres-setting"

@@ -81,7 +81,6 @@ export default function ZoneDetail() {
     axiosInstance
       .get(`/api/workers/zone/${zoneId}`)
       .then((res) => {
-        console.log(res.data.data);
         setWorkerList(res.data.data);
       })
       .catch((e) => {
@@ -110,7 +109,6 @@ export default function ZoneDetail() {
           },
         })
         .then((res) => {
-          console.log(res);
           currentPage.current = 0;
           setLogs(res.data.data.content);
         })
@@ -142,7 +140,6 @@ export default function ZoneDetail() {
         checkDate: newDate,
       })
       .then((res) => {
-        console.log(res.data);
         setEquips((prev) =>
           prev.map((equip) =>
             equip.equipId == equipInfo.equipId
@@ -150,7 +147,6 @@ export default function ZoneDetail() {
               : equip
           )
         );
-        console.log(newDate, equipInfo);
       })
       .catch((e) => {
         console.log("설비 교체일 수정 실패", e);

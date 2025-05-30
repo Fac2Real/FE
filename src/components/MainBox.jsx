@@ -100,9 +100,10 @@ export default function MainBox({ isSidebarOpen }) {
   const [report, setReport] = useState([]);
 
   // 지난달 정보
-  const now = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
   const lastMonth = new Date();
-  lastMonth.setMonth(now.getMonth() - 1);
+  lastMonth.setMonth(yesterday.getMonth() - 1);
 
   // 날짜 포맷팅
   const formatted = (date) => {
@@ -162,12 +163,9 @@ export default function MainBox({ isSidebarOpen }) {
             <img src={YCSide} className="robot-side" />
           </Link>
         )}
-        <h2>
-          2025년 {String(now.getMonth() + 1).padStart(2, "0")}월{" "}
-          {String(now.getDate()).padStart(2, "0")}일 모니토리 요약 리포트
-        </h2>
+        <h2>모니토리 요약 리포트</h2>
         <p>
-          반영 기간: {formatted(lastMonth)} ~ {formatted(now)}
+          반영 기간: {formatted(lastMonth)} ~ {formatted(yesterday)}
         </p>
         <div className="donut-wrapper">
           {report &&
