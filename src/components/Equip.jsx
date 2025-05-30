@@ -1,13 +1,18 @@
 import { useState } from "react";
 import ToolIcon from "../assets/tool_icon.svg?react";
 function GaugeBar({ percent }) {
+  console.log("percent: ", percent);
   const bgColor =
     percent >= 70 ? "#FF4D4F" : percent >= 40 ? "#FAAD14" : "#52C41A";
   return (
     <div className="gauge-bar">
       <div
         className="gauge-fill"
-        style={{ width: `${percent}%`, backgroundColor: bgColor }}
+        style={{
+          width: `${Math.max(5, percent)}%`,
+          backgroundColor: bgColor,
+          borderRadius: percent >= 80 ? "999px" : "999px 0 0 999px",
+        }}
       ></div>
     </div>
   );
@@ -18,16 +23,18 @@ function EquipItem({ equip, selectEquip, openModal }) {
   const tmp = 1000 * 60 * 60 * 24;
   const today = new Date();
   const last = new Date(
-    equip.lastUpdateDate ? equip.lastUpdateDate : "2025-06-26"
+    equip.lastCheckDate ? equip.lastCheckDate : "연결 오류"
   );
-  const pred = new Date(equip.pred ? equip.pred : "2025-06-26");
-
+  const pred = new Date(equip.pred ? equip.pred : "2025-05-31");
   const dDay = Math.ceil((pred - today) / tmp);
-
-  let percent = 3; // 1, 2일 때 모양이 안 이뻐서...
-  if (pred - last > 2) {
+  let percent = 1;
+  if (pred - last > 0 && today - last > 0) {
     percent = Math.ceil(((today - last) / (pred - last)) * 100);
   }
+  if (percent > 100) {
+    percent = 100;
+  }
+
   return (
     <>
       <div className="sensorlist">
@@ -70,7 +77,8 @@ function EquipItem({ equip, selectEquip, openModal }) {
           <div>최근 교체 일자</div>
           <span className="dash-line"></span>
           <span>
-            ({equip?.lastUpdateDate ? equip?.lastUpdateDate : "2025-03-26"})
+            ({equip && equip.lastCheckDate ? equip.lastCheckDate : "2025-03-26"}
+            )
             <ToolIcon
               className="thres-setting"
               width="1.3rem"
@@ -100,7 +108,7 @@ export default function Equip({ equips, modalParam }) {
           }
           return (
             <EquipItem
-              key={e.equipId}
+              key={i}
               equip={e}
               selectEquip={modalParam.setSelectedEquip}
               openModal={modalParam.openModal}

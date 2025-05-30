@@ -23,7 +23,7 @@ export default function ManagerSetting({ modalParam, zoneId }) {
           console.log("해당 공간에 담당자가 없습니다.");
           setManager(null); // 혹은 빈 상태 처리
         } else {
-          console.log("매니저 정보 조회에 실패했습니다.", e);
+          console.log("매니저 정보 조회에 실패했습니다.", error);
           // console.log("mock data를 불러옵니다.");
           // setManager(mock_manager);
         }
