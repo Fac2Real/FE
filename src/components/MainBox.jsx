@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
 import { mock_report } from "../mock_data/mock_report";
+import YCSide from "../assets/img/monitory_character_side.png";
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
   const {
@@ -158,10 +159,7 @@ export default function MainBox({ isSidebarOpen }) {
       <div className="main-box" style={{ backgroundColor: "#eff7ff" }}>
         {showRobot && (
           <Link to="/hidden">
-            <img
-              src="src\assets\img\monitory_character_side.png"
-              className="robot-side"
-            />
+            <img src={YCSide} className="robot-side" />
           </Link>
         )}
         <h2>

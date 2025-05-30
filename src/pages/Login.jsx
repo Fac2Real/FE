@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
-import YCLogin from "../assets/img/monitory_character_sit";
+import YCLogin from "../assets/img/monitory_character_sit.png";
 import "../styles/login.css";
 
 export default function Login() {
