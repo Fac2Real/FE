@@ -2,6 +2,14 @@ import { isValidElement } from "react";
 import XIcon from "../../assets/x_icon.svg?react";
 import BasicModal from "./BasicModal";
 
+const formattedPhoneNumber = (phoneNumber) => {
+  if (phoneNumber.startsWith("+82")) {
+    return phoneNumber;
+  } else {
+    return "+82" + phoneNumber.slice(-10);
+  }
+};
+
 function ContactTable({ workerInfo }) {
   const { email, phoneNumber, workerId, isManager } = workerInfo;
   return (
@@ -16,7 +24,7 @@ function ContactTable({ workerInfo }) {
         <tbody>
           <tr>
             <th scope="row">휴대폰 번호</th>
-            <td>{phoneNumber}</td>
+            <td>{formattedPhoneNumber(phoneNumber)}</td>
           </tr>
           <tr>
             <th scope="row">이메일</th>
