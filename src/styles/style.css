@@ -947,7 +947,7 @@ select.search-field {
   margin-left: 1rem;
 }
 .gauge-fill {
-  border-radius: 999px;
+  border-radius: 999px 0 0 999px;
   height: 100%;
   transition: width 0.8s ease-in-out, background-color 0.3s;
 }

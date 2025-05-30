@@ -36,7 +36,6 @@ export default function ZoneDetail() {
     setIsWorkerOpen(false);
   };
   const onCloseEquip = () => {
-    // setSelectedWorker();
     setIsEquipOpen(false);
   };
 
@@ -137,15 +136,15 @@ export default function ZoneDetail() {
 
   const handleUpdateDate = (newDate, equipInfo) => {
     axiosInstance
-      .post(`/api/equips/${equipInfo.equipId}/update-date`, {
-        updateDate: newDate,
+      .post(`/api/equips/${equipInfo.equipId}/check-date`, {
+        checkDate: newDate,
       })
       .then((res) => {
         console.log(res.data);
         setEquips((prev) =>
           prev.map((equip) =>
             equip.equipId == equipInfo.equipId
-              ? { ...equip, lastUpdateDate: newDate }
+              ? { ...equip, lastCheckDate: newDate }
               : equip
           )
         );
