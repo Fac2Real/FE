@@ -113,7 +113,7 @@ export default function MainBox({ isSidebarOpen }) {
 
   useEffect(() => {
     axiosInstance
-      .get()
+      .get(`/api/abnormal/report`)
       .then((res) => {
         console.log("요약리포트 로딩 완료", res.data.data);
         setReport(res.data.data);
@@ -172,9 +172,10 @@ export default function MainBox({ isSidebarOpen }) {
           반영 기간: {formatted(lastMonth)} ~ {formatted(now)}
         </p>
         <div className="donut-wrapper">
-          {report.map((r, i) => {
-            return <Donut report={r} color={getColor(r.grade)} key={i} />;
-          })}
+          {report &&
+            report.map((r, i) => {
+              return <Donut report={r} color={getColor(r.grade)} key={i} />;
+            })}
         </div>
       </div>
     </>
