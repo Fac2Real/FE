@@ -21,8 +21,6 @@ export default function Safety() {
     axiosInstance
       .get("/api/workers")
       .then((res) => {
-        console.log("작업자 정보 get!");
-        console.log(res.data.data);
         setWorkerList(res.data.data);
       })
       .catch((e) => {
@@ -68,7 +66,7 @@ export default function Safety() {
         className="safety-body"
         style={{ height: "auto", width: "80%", alignSelf: "center" }}
       >
-        <RegisterWorker />
+        <RegisterWorker fetchWorkers={fetchWorkers} />
       </div>
     </>
   );

@@ -18,7 +18,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
       // 모달이 열릴 때 데이터 초기화 및 첫 페이지 로드
       setPage(0);
       setAlarms([]);
-      setFilter(null);
+      setFilter("");
       setHasMore(false);
     }
   }, [isOpen]);
@@ -87,7 +87,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
     removeAlarm(alarm.id);
   };
 
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState("");
 
   const filteredAlarms = filter
     ? alarms.filter((alarm) =>
@@ -122,16 +122,21 @@ const AlarmModal = ({ isOpen, onClose }) => {
           <div className="button-container">
             <button
               className="no-flex-button"
-              style={{ backgroundColor: "#608dff" }}
+              style={{
+                backgroundColor:
+                  filter == "" || filter == "normal" ? "#608dff" : "gray",
+              }}
               onClick={() => {
-                setFilter(null);
+                setFilter("normal");
               }}
             >
               전체
             </button>
             <button
               className="no-flex-button"
-              style={{ backgroundColor: "#cb3701" }}
+              style={{
+                backgroundColor: filter == "urgent" ? "#cb3701" : "gray",
+              }}
               onClick={() => {
                 setFilter("urgent");
               }}
@@ -140,7 +145,9 @@ const AlarmModal = ({ isOpen, onClose }) => {
             </button>
             <button
               className="no-flex-button"
-              style={{ backgroundColor: "#c58000" }}
+              style={{
+                backgroundColor: filter == "warning" ? "#c58000" : "gray",
+              }}
               onClick={() => {
                 setFilter("warning");
               }}

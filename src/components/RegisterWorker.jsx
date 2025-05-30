@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
 
-export default function RegisterWorker() {
+export default function RegisterWorker({ fetchWorkers }) {
   const [zoneList, setZoneList] = useState([]);
   const [selectedZones, setSelectedZones] = useState([]);
   const [formData, setForm] = useState({
@@ -53,25 +53,34 @@ export default function RegisterWorker() {
       alert("입력값을 확인하세요");
       return;
     }
-    axiosInstance
-      .post(`/api/workers`, {
-        workerId: formData.workerId,
-        name: formData.name,
-        phoneNumber: formattedPhoneNumber(formData.phoneNumber),
-        email: formData.email,
-        zoneNames: selectedZones,
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((e) => {
-        console.log("작업자 등록 실패");
-      });
+    if (
+      window.confirm(
+        `${formData.name}(${formData.workerId})를 등록하시겠습니까?`
+      )
+    ) {
+      axiosInstance
+        .post(`/api/workers`, {
+          workerId: formData.workerId,
+          name: formData.name,
+          phoneNumber: formattedPhoneNumber(formData.phoneNumber),
+          email: formData.email,
+          zoneNames: selectedZones,
+        })
+        .then((res) => {
+          fetchWorkers();
+          alert("등록되었습니다!");
+        })
+        .catch((e) => {
+          console.log("작업자 등록 실패");
+        });
+    } else {
+      return;
+    }
   };
 
   return (
     <div className="worker-register">
-      <h2>작업자 등록 </h2>
+      <h2>작업자 등록·수정</h2>
       <div className="form-container">
         <div className="form-row">
           <label htmlFor="workerId">사번</label>

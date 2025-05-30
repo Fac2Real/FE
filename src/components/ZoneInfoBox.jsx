@@ -116,7 +116,6 @@ export default function ZoneInfoBox({
                             cursor: "pointer",
                           }}
                           onClick={() => {
-                            console.log(f);
                             facEditModalBtn(f.name, f.id);
                           }}
                         />

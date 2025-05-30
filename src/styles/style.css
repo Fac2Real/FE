@@ -743,7 +743,7 @@ strong.normal {
 }
 
 .safety-body {
-  /* height: 60vh; */
+  height: 60vh;
   width: 100%;
   background-color: white;
   border-radius: 0.5rem;
