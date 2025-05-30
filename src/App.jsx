@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import "./styles/style.css";
 import Settings from "./pages/Settings";
 import Monitoring from "./pages/Monitoring";
-import Certification from "./pages/Certifiaction";
+import Report from "./pages/Report";
 import Safety from "./pages/Safety";
 import ZoneDetail from "./pages/ZoneDetail";
 import { ToastProvider } from "./contexts/ToastProvider";
@@ -29,7 +29,7 @@ export default function App() {
               <Route path="/settings" element={<Settings />} />
               <Route path="/monitoring" element={<Monitoring />} />
               <Route path="/safety" element={<Safety />} />
-              <Route path="/certification" element={<Certification />} />
+              <Route path="/report" element={<Report />} />
               <Route path="/zone/:zoneId" element={<ZoneDetail />} />
               <Route path="/help" element={<Help />} />
               <Route path="/hidden" element={<HiddenPage />} />

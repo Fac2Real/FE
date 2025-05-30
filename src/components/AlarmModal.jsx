@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axiosInstance from "../api/axiosInstance"; // Axios 인스턴스 가져오기
 import XIcon from "../assets/x_icon.svg?react";
 import { useNavigate } from "react-router-dom";
+import "./modal/modal.css";
 
 const AlarmModal = ({ isOpen, onClose }) => {
   const [alarms, setAlarms] = useState([]); // 알람 목록 상태

@@ -34,7 +34,6 @@ a:hover,
 a:active,
 a:visited {
   text-decoration: none;
-  /* color: white; */
 }
 
 a {
@@ -369,86 +368,6 @@ p.sidebar-open {
   transform: scale(1.3);
 }
 
-/* Modal 설정 */
-.modal-overlay {
-  margin: 0;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10000;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-/* Modal Header */
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--box-color);
-  border-radius: 1rem 1rem 0 0;
-}
-.modal-header h2 {
-  font-size: 1.5rem;
-  margin: 0.5rem 1rem;
-  color: #000;
-}
-.modal-box {
-  background-color: var(--c4);
-  /* background-color: white; */
-  border-radius: 0.75rem;
-  width: 40vw;
-  height: auto;
-  min-height: 30vh;
-  display: flex;
-  flex-direction: column;
-  margin-left: 0;
-}
-
-.modal-box > :first-child {
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: flex-end;
-  /* margin-top: 0.5rem; */
-}
-
-.modal-box > :first-child > * {
-  margin: 1.2rem;
-  cursor: pointer;
-}
-
-.modal-contents {
-  margin: 0 1rem 1rem 0;
-  text-align: center;
-  font-weight: bold;
-}
-
-.modal-contents input {
-  padding: 0.5rem;
-  max-width: 30vw;
-}
-
-.modal-contents button {
-  background-color: #7db4fc;
-}
-
-.modal-contents button:hover {
-  background-color: #5ba2ff;
-}
-
-.modal-contents > span {
-  font-size: 1.2rem;
-}
-
-.modal-contents > p {
-  color: #000000;
-}
-/* 설비추가 버튼 */
-
 /* 플렉스 안 받는 버튼 */
 .no-flex-button {
   width: auto;
@@ -755,20 +674,6 @@ strong.urgent {
 
 strong.normal {
   color: #009900;
-}
-
-.button-container {
-  gap: 1rem;
-  background-color: var(--box-color);
-  margin: 0 0.75rem;
-}
-
-.button-container > button {
-  margin: 0.5rem;
-  margin-bottom: 0.75rem;
-  color: white;
-  padding: 0.2rem 0.75rem;
-  font-size: 1rem;
 }
 
 .search-container {
