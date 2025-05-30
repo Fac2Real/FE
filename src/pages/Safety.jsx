@@ -3,18 +3,20 @@ import axiosInstance from "../api/axiosInstance";
 import WorkerTable from "../components/WorkerTable";
 import WorkerInfoModal from "../components/modal/WorkerInfoModal";
 import RegisterWorker from "../components/RegisterWorker";
+import SafetyCallModal from "../components/modal/SafetyCallModal";
 import { mock_workers } from "../mock_data/mock_workers";
 
 export default function Safety() {
   const [workerList, setWorkerList] = useState([]);
-
+  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
+  const [selectedWorkerInfo, setSelectedWorker] = useState();
   const [isOpen, setIsOpen] = useState(false);
+
   const onClose = () => {
     setSelectedWorker();
     setIsOpen(false);
   };
-  const [selectedWorkerInfo, setSelectedWorker] = useState();
-
+  
   const fetchWorkers = useCallback(() => {
     axiosInstance
       .get("/api/workers")
@@ -51,8 +53,17 @@ export default function Safety() {
           worker_list={workerList}
           selectWorker={setSelectedWorker}
           openModal={setIsOpen}
+          callbackModal ={(worker) => {
+            setSelectedWorker(worker);
+            setIsCallModalOpen(true);
+          }}
         />
       </div>
+      <SafetyCallModal
+        isOpen={isCallModalOpen}
+        onClose={() => setIsCallModalOpen(false)}
+        workerList={workerList}
+      />
       <div
         className="safety-body"
         style={{ height: "auto", width: "80%", alignSelf: "center" }}
