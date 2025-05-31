@@ -5,7 +5,7 @@ import WorkerTable from "./WorkerTable";
 export default function ManagerSetting({ modalParam, zoneId }) {
   const [mode, setMode] = useState("");
   const [cand, setCand] = useState([]);
-  const [selectedWorkerId, setSelectedWorkerId] = useState("");
+  const [selectedWorkerId, setSelectedWorkerId] = useState(null);
   const [manager, setManager] = useState();
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 

@@ -44,21 +44,17 @@ export default function ZoneDetail() {
   // 2) 모든 useEffect (조건 없이 항상 선언)
   useEffect(() => {
     setLoading(true);
-    const url =
-      import.meta.env.VITE_BACKEND_URL +
-      `/api/grafana-zone/${zoneId}/dashboards`;
-
-    fetch(url)
+    axiosInstance.get(`/api/grafana-zone/${zoneId}/dashboards`)
       .then((res) => {
-        if (!res.ok) throw new Error(`Status ${res.status}`);
-        return res.json();
+        if (!res.status) throw new Error(`Status ${res.status}`);
+        return res.data;
       })
       .then((res) => {
+        console.log("dashboards", res);
         setDashboards(res.data);
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
         setError(err.message);
         setLoading(false);
       });

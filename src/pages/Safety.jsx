@@ -16,6 +16,10 @@ export default function Safety() {
     setSelectedWorker();
     setIsOpen(false);
   };
+  
+  useEffect(()=>{
+    console.log("selectedWorkerInfo", selectedWorkerInfo);
+  },[selectedWorkerInfo])
 
   const fetchWorkers = useCallback(() => {
     axiosInstance
@@ -60,6 +64,7 @@ export default function Safety() {
       <SafetyCallModal
         isOpen={isCallModalOpen}
         onClose={() => setIsCallModalOpen(false)}
+        selectWorker={selectedWorkerInfo}
         workerList={workerList}
       />
       <div
