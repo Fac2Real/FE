@@ -50,7 +50,7 @@ export default function Monitoring() {
 
   return (
     <>
-      <h1>Monitoring</h1>
+      <h1>실시간 모니터링</h1>
       <div className="monitor-body">
         <div>
           {zoneList.length !== 0 &&

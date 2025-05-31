@@ -44,7 +44,7 @@ function EquipItem({ equip, selectEquip, openModal }) {
         <div className="sensorlist-underbar">
           <strong>{equip.equipName}</strong>
         </div>
-        <div className="list-text">
+        {/* <div className="list-text">
           <div>센서 목록</div>
           <span className="dash-line"></span>
           <span
@@ -66,7 +66,7 @@ function EquipItem({ equip, selectEquip, openModal }) {
               );
             })}
           </div>
-        )}
+        )} */}
         <div className="list-text">
           <div>예상 교체 일자</div>
           <span className="dash-line"></span>
@@ -103,7 +103,8 @@ function EquipItem({ equip, selectEquip, openModal }) {
 export default function Equip({ equips, modalParam }) {
   return (
     <>
-      {equips.length === 0 && <p>등록된 설비가 없습니다</p>}
+      {/* length가 1인 이유 : empty 설비 때문에... */}
+      {equips.length === 1 && <p>등록된 설비가 없습니다</p>}
       {!(equips.length === 0) &&
         equips.map((e, i) => {
           if (e.equipName == "empty") {

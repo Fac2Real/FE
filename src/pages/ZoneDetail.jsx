@@ -98,9 +98,42 @@ export default function ZoneDetail() {
   }, [refreshWorkers]);
 
   // 로그 정보 받아오기
-  const currentPage = useRef();
+  const currentPage = useRef(0);
+  const [hasMore, setHasMore] = useState(true);
+
+  const fetchLogs = () => {
+    if (!hasMore) {
+      return;
+    }
+    axiosInstance
+      .get(`/api/zones/${zoneId}/logs`, {
+        params: {
+          page: currentPage.current + 1,
+          size: 10,
+        },
+      })
+      .then((res) => {
+        const nextLogs = res.data.data.content;
+        if (nextLogs.length === 0) {
+          setHasMore(false);
+        } else {
+          currentPage.current += 1;
+          setLogs((prev) => [...prev, ...nextLogs]);
+        }
+      })
+      .catch((e) => {
+        setHasMore(false);
+      });
+  };
+  const scrollBoxRef = useRef(null);
   useEffect(() => {
     if (refreshLog) {
+      currentPage.current = 0;
+      setLogs([]);
+      if (scrollBoxRef.current) {
+        scrollBoxRef.current.scrollTop = 0;
+      }
+      setHasMore(true);
       axiosInstance
         .get(`/api/zones/${zoneId}/logs`, {
           params: {
@@ -109,7 +142,6 @@ export default function ZoneDetail() {
           },
         })
         .then((res) => {
-          currentPage.current = 0;
           setLogs(res.data.data.content);
         })
         .catch((e) => {
@@ -211,7 +243,8 @@ export default function ZoneDetail() {
             isDetail={true}
             selectWorker={setSelectedWorker}
             openModal={setIsWorkerOpen}
-            callbackModal={(worker) => { // 호출 버튼 클릭시 모달 열기
+            callbackModal={(worker) => {
+              // 호출 버튼 클릭시 모달 열기
               setSelectedWorker(worker);
               setIsCallModalOpen(true);
             }}
@@ -225,7 +258,7 @@ export default function ZoneDetail() {
           equipList={equips}
         />
       </div>
-      
+
       {/* 담당자 :: 스프린트2 */}
       <div className="box-wrapper">
         <div className="top-box">담당자 정보</div>
@@ -277,7 +310,11 @@ export default function ZoneDetail() {
             refreshLog == 0 ? "closed" : "open"
           }`}
         >
-          <LogTable logs={logs} currentPage={currentPage.current} />
+          <LogTable
+            logs={logs}
+            onScrollEnd={fetchLogs}
+            scrollBoxRef={scrollBoxRef}
+          />
         </div>
       </div>
       <div ref={bottomRef} style={{ height: 0 }}></div>

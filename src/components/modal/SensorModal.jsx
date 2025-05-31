@@ -8,7 +8,9 @@ function ModalContents({ onUpdate, sensorInfo }) {
 
   return (
     <>
-      <p>환경 자동제어에 사용되는 값입니다</p>
+      <p style={{ color: "gray", marginTop: 0 }}>
+        환경 자동제어에 사용되는 값입니다
+      </p>
       <div className="input-flex">
         <span>센서 임계값</span>
         <input

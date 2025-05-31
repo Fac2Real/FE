@@ -22,13 +22,13 @@ export default function Home({ isSidebarOpen }) {
         </Link>
         <Link to="/safety" className="link-as-contents">
           <MiniBox
-            title="작업자 안전관리"
+            title="작업자 안전 관리"
             icon={<WorkerIcon opacity="0.75" width="4rem" fill={icon_color} />}
           />
         </Link>
         <Link to="/settings" className="link-as-contents">
           <MiniBox
-            title="설비 관리"
+            title="설비/센서 관리"
             icon={<MachineIcon opacity="0.75" width="4rem" fill={icon_color} />}
           />
         </Link>
