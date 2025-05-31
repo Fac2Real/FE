@@ -29,7 +29,7 @@ const renderActiveShape = (props) => {
         <text
           x={cx}
           y={cy}
-          dy={"0.8rem"}
+          dominantBaseline="middle"
           textAnchor="middle"
           fill={fill}
           fontSize={payload.grade == "loading" ? "1rem" : "2.5rem"}
@@ -136,6 +136,9 @@ export default function MainBox({ isSidebarOpen }) {
       } else if (grade === "B") {
         color.donutColor = "#C5E384";
         color.textColor = "#658332";
+      } else if (grade === "C") {
+        color.donutColor = "#FFD88A";
+        color.textColor = "#B76B00";
       }
     } else {
       color.donutColor = "#afafaf";

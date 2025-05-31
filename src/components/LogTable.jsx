@@ -1,6 +1,19 @@
-export default function LogTable({ logs }) {
+import { useRef } from "react";
+
+export default function LogTable({ logs, onScrollEnd }) {
+  const handleScroll = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    if (scrollTop + clientHeight >= scrollHeight - 10) {
+      onScrollEnd();
+    }
+  };
+  const scrollBoxRef = useRef(null);
   return (
-    <>
+    <div
+      ref={scrollBoxRef}
+      style={{ maxHeight: "40vh", overflowY: "scroll" }}
+      onScroll={handleScroll}
+    >
       <div className="table-container">
         <table className="logs-table">
           <thead>
@@ -48,6 +61,6 @@ export default function LogTable({ logs }) {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 }

@@ -89,9 +89,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       {isOpen && (
         <div className="sidebar-open">
           <span className="icon side-opt">
-            <Link to="/">
-              <Logo fill="#FFF" width="1.5rem" />
-            </Link>
+            <Logo fill="#FFF" width="1.5rem" />
           </span>
           <span className="icon side-opt">
             <Link
@@ -121,7 +119,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                     currentPage === "Home" ? "current-page" : ""
                   } sidebar-open`}
                 >
-                  메인화면
+                  HOME
                 </p>
               )}
             </Link>
@@ -165,7 +163,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                     currentPage === "Safety" ? "current-page" : ""
                   } sidebar-open`}
                 >
-                  직원 관리
+                  작업자 관리
                 </p>
               )}
             </Link>

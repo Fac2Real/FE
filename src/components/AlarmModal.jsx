@@ -92,12 +92,12 @@ const AlarmModal = ({ isOpen, onClose }) => {
   const filteredAlarms = filter
     ? alarms.filter((alarm) =>
         filter === "urgent"
-          ? alarm.abnormalType.includes("위험")
+          ? alarm.abnormalType?.includes("위험")
           : filter === "warning"
-          ? alarm.abnormalType.includes("경고")
+          ? alarm.abnormalType?.includes("경고")
           : filter === "normal"
-          ? !alarm.abnormalType.includes("위험") &&
-            !alarm.abnormalType.includes("경고")
+          ? !alarm.abnormalType?.includes("위험") &&
+            !alarm.abnormalType?.includes("경고")
           : true
       )
     : alarms;
@@ -123,11 +123,10 @@ const AlarmModal = ({ isOpen, onClose }) => {
             <button
               className="no-flex-button"
               style={{
-                backgroundColor:
-                  filter == "" || filter == "normal" ? "#608dff" : "gray",
+                backgroundColor: filter == "" ? "#608dff" : "gray",
               }}
               onClick={() => {
-                setFilter("normal");
+                setFilter("");
               }}
             >
               전체
@@ -177,9 +176,9 @@ const AlarmModal = ({ isOpen, onClose }) => {
                     <p>
                       <strong
                         className={
-                          alarm.abnormalType.includes("경고")
+                          alarm.abnormalType?.includes("경고")
                             ? "warning"
-                            : alarm.abnormalType.includes("위험")
+                            : alarm.abnormalType?.includes("위험")
                             ? "urgent"
                             : "normal"
                         }
@@ -193,12 +192,13 @@ const AlarmModal = ({ isOpen, onClose }) => {
                     </p>
                   </div>
                   <button
+                    className="delete-button"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleCheckClick(alarm);
                     }}
                   >
-                    확인
+                    ✔
                   </button>
                 </li>
               ))}
