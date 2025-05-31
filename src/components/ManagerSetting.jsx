@@ -19,7 +19,7 @@ export default function ManagerSetting({ modalParam, zoneId }) {
         setManager(res.data.data);
       })
       .catch((error) => {
-        if (error.response && error.response.status === 500) {
+        if (error.response && error.response.status === 404) {
           console.log("해당 공간에 담당자가 없습니다.");
           setManager(null); // 혹은 빈 상태 처리
         } else {

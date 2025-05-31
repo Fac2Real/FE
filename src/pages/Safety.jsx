@@ -16,9 +16,11 @@ export default function Safety() {
     setSelectedWorker();
     setIsOpen(false);
   };
+  
   useEffect(()=>{
     console.log("selectedWorkerInfo", selectedWorkerInfo);
   },[selectedWorkerInfo])
+
   const fetchWorkers = useCallback(() => {
     axiosInstance
       .get("/api/workers")
@@ -47,13 +49,13 @@ export default function Safety() {
         onClose={onClose}
         workerInfo={selectedWorkerInfo}
       />
-      <h1>작업자 안전관리</h1>
+      <h1>작업자 관리</h1>
       <div className="safety-body">
         <WorkerTable
           worker_list={workerList}
           selectWorker={setSelectedWorker}
           openModal={setIsOpen}
-          callbackModal ={(worker) => {
+          callbackModal={(worker) => {
             setSelectedWorker(worker);
             setIsCallModalOpen(true);
           }}
@@ -67,7 +69,12 @@ export default function Safety() {
       />
       <div
         className="safety-body"
-        style={{ height: "auto", width: "80%", alignSelf: "center" }}
+        style={{
+          height: "auto",
+          width: "80%",
+          alignSelf: "center",
+          flexDirection: "column",
+        }}
       >
         <RegisterWorker fetchWorkers={fetchWorkers} />
       </div>

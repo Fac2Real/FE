@@ -29,16 +29,17 @@ export default function Monitoring() {
     axiosInstance
       .get("/api/zones")
       .then((res) => {
-        const stored = localStorage.getItem("zoneLevels");
-        const zoneLevels = stored ? JSON.parse(stored) : {};
-        const updated = res.data.data.map((z) => {
-          const savedLevel = zoneLevels[z.zoneId];
-          if (savedLevel !== undefined) {
-            return { ...z, level: savedLevel };
-          } else {
-            return z;
-          }
-        });
+        // const stored = localStorage.getItem("zoneLevels");
+        // const zoneLevels = stored ? JSON.parse(stored) : {};
+        // const updated = res.data.data.map((z) => {
+        //   const savedLevel = zoneLevels[z.zoneId];
+        //   if (savedLevel !== undefined) {
+        //     return { ...z, level: savedLevel };
+        //   } else {
+        //     return z;
+        //   }
+        // });
+        const updated = res.data.data;
         setZoneList(updated);
         console.log(updated);
         // setZoneList(res.data);
@@ -49,7 +50,7 @@ export default function Monitoring() {
 
   return (
     <>
-      <h1>Monitoring</h1>
+      <h1>실시간 모니터링</h1>
       <div className="monitor-body">
         <div>
           {zoneList.length !== 0 &&
