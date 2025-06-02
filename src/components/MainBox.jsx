@@ -118,7 +118,7 @@ export default function MainBox({ isSidebarOpen }) {
       .get(`/api/abnormal/report`)
       .then((res) => {
         console.log("요약리포트 로딩 완료", res.data.data);
-        setReport(res.data.data);
+        setReport(res.data.data.abnormalInfos);
       })
       .catch((e) => {
         console.log("요약리포트 로딩 실패", e);
