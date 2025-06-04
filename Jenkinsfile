@@ -7,9 +7,14 @@ pipeline {
     AWS_DEFAULT_REGION = 'ap-northeast-2'
     S3_BUCKET          = 'monitory-frontend'
     BUILD_DIR          = 'dist'           // vite 기본 출력 폴더
+
     /* GitHub Checks용 건별 이름 */
     GH_CHECK_NAME      = "FE Build Test"
     CF_DISTRIBUTION_ID = 'EAYJZWWL9AWSC'
+
+    /* Slack */
+    SLACK_CHANNEL      = '#ci-cd'
+    SLACK_CRED_ID      = 'slack-factoreal-token'   // Slack App OAuth Token
   }
 
   stages {
