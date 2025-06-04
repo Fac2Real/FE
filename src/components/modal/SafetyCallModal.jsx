@@ -2,28 +2,15 @@ import { useState } from "react";
 import BasicModal from "./BasicModal";
 import axiosInstance from "../../api/axiosInstance";
 
-function ModalContents({ workerList, onSubmit }) {
-  const [selectedWorkerId, setSelectedWorkerId] = useState("");
+function ModalContents({ worker, workerList, onSubmit }) {
   const [helpWorkerId, setHelpWorkerId] = useState("");
-
+    // console.log(worker)
   return (
     <>
       <p>도움 요청을 보낼 작업자를 선택하세요</p>
       <div className="input-flex">
-        <span>작업자 선택</span>
-        <select
-          onChange={(e) => setSelectedWorkerId(e.target.value)}
-          value={selectedWorkerId}
-        >
-          <option value="" disabled>
-            작업자를 선택하세요
-          </option>
-          {workerList.map((worker) => (
-            <option key={worker.workerId} value={worker.workerId}>
-              {worker.name} ({worker.workerId})
-            </option>
-          ))}
-        </select>
+        <span>선택된 작업자: {worker.name}</span>
+        
       </div>
       <div className="input-flex">
         <span>도움이 필요한 작업자</span>
@@ -44,8 +31,8 @@ function ModalContents({ workerList, onSubmit }) {
       <div className="button-flex">
         <button
           onClick={() => {
-            if (selectedWorkerId && helpWorkerId) {
-              onSubmit(selectedWorkerId, helpWorkerId);
+            if (helpWorkerId) {
+              onSubmit(worker.workerId, helpWorkerId);
             } else {
               alert("모든 작업자를 선택해주세요.");
             }
@@ -58,7 +45,7 @@ function ModalContents({ workerList, onSubmit }) {
   );
 }
 
-export default function SafetyCallModal({ isOpen, onClose, workerList }) {
+export default function SafetyCallModal({ isOpen, onClose, selectWorker, workerList }) {
   const handleSubmit = async (workerId, helpWorkerId) => {
     try {
       await axiosInstance.post("/api/fcm/safety", {
@@ -72,7 +59,7 @@ export default function SafetyCallModal({ isOpen, onClose, workerList }) {
       alert("도움 요청 전송에 실패했습니다.");
     }
   };
-
+console.log(selectWorker)
   if (isOpen) {
     return (
       <BasicModal
@@ -81,7 +68,7 @@ export default function SafetyCallModal({ isOpen, onClose, workerList }) {
         modal_contents={{
           title: "작업자 도움 요청",
           contents: (
-            <ModalContents workerList={workerList} onSubmit={handleSubmit} />
+            <ModalContents worker={selectWorker} workerList={workerList} onSubmit={handleSubmit} />
           ),
         }}
       />

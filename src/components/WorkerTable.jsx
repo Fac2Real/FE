@@ -38,6 +38,7 @@ export default function WorkerTable({
   const directCall = (worker) => {
     const confirmed = window.confirm(`작업자를 호출하시겠습니까?`);
     if (confirmed) {
+      console.log("직접 호출:", worker);
       callbackModal(worker);
     }
   };
