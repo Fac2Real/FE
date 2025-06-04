@@ -88,9 +88,7 @@ function Donut({ report, color }) {
         </PieChart>
       </ResponsiveContainer>
       <p>
-        발생 건수 {report.warnCnt + report.dangerCnt}건 (위험:{" "}
-        {report.dangerCnt}
-        건)
+        경고/위험 발생 <strong>{report.warnCnt + report.dangerCnt}건</strong>
       </p>
     </div>
   );
