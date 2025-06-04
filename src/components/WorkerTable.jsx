@@ -11,17 +11,9 @@ const statusKor = (status) => {
   }
 };
 
-const formattedPhoneNumber = (phoneNumber) => {
-  if (phoneNumber.startsWith("+82")) {
-    return phoneNumber;
-  } else {
-    return "+82" + phoneNumber.slice(-10);
-  }
-};
-
 export default function WorkerTable({
   worker_list,
-  isDetail = false, // "현재 위치" 포함 여부 (Y=false, N=true)
+  isDetail = false,
   selectWorker,
   openModal,
   isManager = false,
@@ -114,7 +106,7 @@ export default function WorkerTable({
             </th>
           </tr>
         )}
-        <div style={{ width: "100%", height: "100%", overflowY: "scroll" }}>
+        <div style={{ width: "100%", height: "100%", overflowY: "auto" }}>
           <table className="worker-table">
             <thead>
               <tr className="table-header">
@@ -125,7 +117,7 @@ export default function WorkerTable({
                 <th className="contact-row">이메일</th>
                 <th className="contact-row">전화번호</th>
                 <th style={{ width: "5%" }}>호출</th>
-                <th style={{ width: "5%" }}>상세정보</th>
+                <th style={{ width: "5%" }}>정보 수정</th>
               </tr>
             </thead>
             <tbody>
@@ -147,9 +139,7 @@ export default function WorkerTable({
                       <td>{worker.name}</td>
                       {!isDetail && <td>{worker.currentZoneName}</td>}
                       <td className="contact-row">{worker.email}</td>
-                      <td className="contact-row">
-                        {formattedPhoneNumber(worker.phoneNumber)}
-                      </td>
+                      <td className="contact-row">{worker.phoneNumber}</td>
                       <td
                         style={{ fontSize: "1.2rem", cursor: "pointer" }}
                         onClick={() => directCall(worker)}
@@ -166,7 +156,7 @@ export default function WorkerTable({
                           openModal(true);
                         }}
                       >
-                        조회
+                        수정
                       </td>
                     </tr>
                   );

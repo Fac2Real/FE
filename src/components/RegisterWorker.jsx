@@ -11,14 +11,6 @@ export default function RegisterWorker({ fetchWorkers }) {
     email: "",
   });
 
-  const formattedPhoneNumber = (phoneNumber) => {
-    if (phoneNumber.startsWith("+82")) {
-      return phoneNumber;
-    } else {
-      return "+82" + phoneNumber.slice(-10);
-    }
-  };
-
   useEffect(() => {
     axiosInstance
       .get("/api/zones")
@@ -36,23 +28,63 @@ export default function RegisterWorker({ fetchWorkers }) {
     }
   };
 
+  const formatPhoneNumber = (value) => {
+    const onlyNums = value.replace(/[^\d]/g, "").slice(0, 11); // 숫자만, 최대 11자리
+
+    if (onlyNums.length < 4) return onlyNums;
+    if (onlyNums.length < 8)
+      return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3)}`;
+    return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3, 7)}-${onlyNums.slice(
+      7
+    )}`;
+  };
+
   const handleInputChange = (field) => (e) => {
+    const value = e.target.value;
     setForm((prev) => ({
       ...prev,
-      [field]: e.target.value,
+      [field]: field === "phoneNumber" ? formatPhoneNumber(value) : value,
     }));
   };
 
   const handleSubmit = () => {
+    let isValid = true;
+    let invalidList = [];
+    const { workerId, name, phoneNumber, email } = formData;
     if (
-      Object.values(formData).some(
-        (val) => val.replace(/\s+/g, "").length === 0
+      [workerId, name, phoneNumber, email].some(
+        (val) => val.replace(/\s+/g, "") === ""
       )
     ) {
-      // 공백 제거
-      alert("입력값을 확인하세요");
+      isValid = false;
+    }
+    const workerIdPattern = /^(19|20)\d{2}\d{4}$/; // 19XXYYYY ~ 20XXYYYY 형식
+    const phonePattern = /^\d{3}-\d{4}-\d{4}$/; // 하이픈 포함해서 XXX-YYYY-ZZZZ 형식
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // x@y.z 형식
+    const namePattern = /^[가-힣a-zA-Z\s]+$/; // 이름은 문자여야 함
+
+    if (!workerIdPattern.test(workerId)) {
+      isValid = false;
+      invalidList.push("사번");
+    }
+    if (!namePattern.test(name)) {
+      isValid = false;
+      invalidList.push("이름");
+    }
+    if (!phonePattern.test(phoneNumber)) {
+      isValid = false;
+      invalidList.push("전화번호");
+    }
+    if (!emailPattern.test(email)) {
+      isValid = false;
+      invalidList.push("이메일");
+    }
+
+    if (!isValid) {
+      alert(`입력값이 올바른지 확인하세요: ${invalidList.join(", ")}`);
       return;
     }
+
     if (
       window.confirm(
         `${formData.name}(${formData.workerId})를 등록하시겠습니까?`
@@ -62,7 +94,7 @@ export default function RegisterWorker({ fetchWorkers }) {
         .post(`/api/workers`, {
           workerId: formData.workerId,
           name: formData.name,
-          phoneNumber: formattedPhoneNumber(formData.phoneNumber),
+          phoneNumber: formData.phoneNumber,
           email: formData.email,
           zoneNames: selectedZones,
         })
@@ -72,6 +104,11 @@ export default function RegisterWorker({ fetchWorkers }) {
         })
         .catch((e) => {
           console.log("작업자 등록 실패");
+          if (false) {
+            // TODO : 중복된 사번/정보의 작업자가 있을 경우 반환 받은 에러
+            alert(`${workerId}가 이미 있습니다.`);
+            alert(`${phoneNumber}가 이미 있습니다.`);
+          }
         });
     } else {
       return;
@@ -98,6 +135,7 @@ export default function RegisterWorker({ fetchWorkers }) {
             id="name"
             name="name"
             className="text-input"
+            value={formData.name}
             onChange={handleInputChange("name")}
           ></input>
         </div>
@@ -107,6 +145,7 @@ export default function RegisterWorker({ fetchWorkers }) {
             id="phoneNumber"
             name="phoneNumber"
             className="text-input"
+            value={formData.phoneNumber}
             onChange={handleInputChange("phoneNumber")}
           ></input>
         </div>
@@ -116,6 +155,7 @@ export default function RegisterWorker({ fetchWorkers }) {
             id="email"
             name="email"
             className="text-input"
+            value={formData.email}
             onChange={handleInputChange("email")}
           ></input>
         </div>

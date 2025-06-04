@@ -18,7 +18,7 @@
   height: auto;
   background-color: #fff;
   border-radius: 0.5rem;
-  min-width: 350px;
+  min-width: 35rem;
 }
 
 .modal-close {
@@ -39,10 +39,13 @@
 .modal-box-bottom {
   text-align: center;
   height: auto;
+  max-height: 60vh;
   margin: 1rem 0.5rem;
   display: flex;
   flex-direction: column;
   align-self: center;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* 알림창 모달에서 쓰이는 것 */
@@ -74,35 +77,6 @@
   font-size: 1rem;
 }
 
-/* 안 쓰는 것 같은데...? */
-
-/* .modal-contents {
-  margin: 0 1rem 1rem 0;
-  text-align: center;
-  font-weight: bold;
-}
-
-.modal-contents input {
-  padding: 0.5rem;
-  max-width: 30vw;
-}
-
-.modal-contents button {
-  background-color: #7db4fc;
-}
-
-.modal-contents button:hover {
-  background-color: #5ba2ff;
-}
-
-.modal-contents > span {
-  font-size: 1.2rem;
-}
-
-.modal-contents > p {
-  color: #000000;
-} */
-
 .delete-button {
   padding: 0.75rem 1rem;
   font-size: 1rem;
@@ -120,4 +94,27 @@
 .delete-button:active {
   transform: translateY(2px);
   opacity: 1;
+}
+
+/* 작업자 상세조회 모달 */
+.workerInfo-input {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
+  text-align: center;
+  line-height: 1rem;
+  font-size: 1rem;
+}
+
+.checkbox-group.edit-mode label {
+  font-size: 1rem !important;
+}
+
+.checkbox-group.edit-mode span {
+  display: flex;
+}
+
+.checkbox-group.edit-mode {
+  margin: 1rem;
 }

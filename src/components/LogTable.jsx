@@ -1,13 +1,12 @@
 import { useRef } from "react";
 
-export default function LogTable({ logs, onScrollEnd }) {
+export default function LogTable({ logs, onScrollEnd, scrollBoxRef }) {
   const handleScroll = (e) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     if (scrollTop + clientHeight >= scrollHeight - 10) {
       onScrollEnd();
     }
   };
-  const scrollBoxRef = useRef(null);
   return (
     <div
       ref={scrollBoxRef}
