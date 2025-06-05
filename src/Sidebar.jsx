@@ -6,7 +6,7 @@ import ToolIcon from "./assets/tool_icon.svg?react";
 import ReportIcon from "./assets/report_icon.svg?react";
 import BellIcon from "./assets/bell_icon.svg?react";
 import CloseIcon from "./assets/close_icon.svg?react";
-import Logo from "./assets/temp_logo.svg?react";
+import Logo from "./assets/logo.svg?react";
 import WorkerIcon from "./assets/worker_icon.svg?react";
 import LogoutIcon from "./assets/logout_icon.svg?react";
 import { useEffect, useCallback, useState } from "react";
@@ -77,6 +77,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         <div>
           <span className="icon side-opt">
             <Link
+              style={{ marginTop: "0.5rem" }}
               onClick={() => {
                 setIsOpen(!isOpen);
               }}
@@ -89,7 +90,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       {isOpen && (
         <div className="sidebar-open">
           <span className="icon side-opt">
-            <Logo fill="#FFF" width="1.5rem" />
+            <Logo color="#fff" width="2.25rem" />
           </span>
           <span className="icon side-opt">
             <Link
