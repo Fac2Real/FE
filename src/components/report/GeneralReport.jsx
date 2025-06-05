@@ -33,7 +33,7 @@ export default function GeneralReport({ report }) {
   const typeData = report?.typeStats
     ?.sort((a, b) => b.cnt - a.cnt)
     .slice(0, 5)
-    .map((item) => ({
+    ?.map((item) => ({
       name: item.label,
       count: item.cnt,
     }));
@@ -41,7 +41,7 @@ export default function GeneralReport({ report }) {
   const dateData = report?.dateStats
     ?.sort((a, b) => b.cnt - a.cnt)
     .slice(0, 5)
-    .map((item) => ({
+    ?.map((item) => ({
       name: item.label,
       count: item.cnt,
     }));
@@ -49,7 +49,7 @@ export default function GeneralReport({ report }) {
   const zoneData = report?.zoneStats
     ?.sort((a, b) => b.cnt - a.cnt)
     .slice(0, 5)
-    .map((item) => ({
+    ?.map((item) => ({
       name: item.label,
       count: item.cnt,
     }));
