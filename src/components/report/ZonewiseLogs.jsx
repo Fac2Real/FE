@@ -110,6 +110,7 @@ function EquipTable({ log }) {
           <th>유형</th>
           <th style={{ width: "2%" }}>값</th>
           <th>발생 시각</th>
+          {/* <th>제어</th> */}
         </tr>
       </thead>
       <tbody>
@@ -121,6 +122,7 @@ function EquipTable({ log }) {
               <td>{l.abnormalType}</td>
               <td>{l.abnVal}</td>
               <td>{l.detectedAt}</td>
+              {/* <td>{l.control.controlStat}</td> */}
             </tr>
           );
         })}

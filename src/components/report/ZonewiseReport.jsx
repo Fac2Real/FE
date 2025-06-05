@@ -120,7 +120,6 @@ function EquipReport({ info, cnt }) {
   );
 }
 
-import React from "react";
 import {
   BarChart,
   Bar,
@@ -191,7 +190,7 @@ function Total({ data }) {
                     {data[0].count}
                   </td>
                 </tr>
-                {data.slice(1).map((item) => (
+                {data.slice(1)?.map((item) => (
                   <tr key={item.name}>
                     <th
                       style={{
