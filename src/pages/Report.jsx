@@ -6,17 +6,28 @@ import axiosInstance from "../api/axiosInstance";
 import "../styles/report.css";
 
 export default function Report() {
-  const [report, setReport] = useState();
+  const [report, setReport] = useState(null);
   const [reportMode, setReportMode] = useState("general");
   useEffect(() => {
-    axiosInstance
-      .get(`/api/abnormal/detail-report`)
-      .then((res) => {
-        setReport(res.data.data);
-      })
-      .catch((e) => {
-        console.log("리포트 패치 실패", e);
-      });
+    if (reportMode == "zonewise") {
+      axiosInstance
+        .get(`/api/abnormal/detail-report`)
+        .then((res) => {
+          setReport(res.data.data);
+        })
+        .catch((e) => {
+          console.log("리포트 패치 실패", e);
+        });
+    } else if (reportMode == "general") {
+      axiosInstance
+        .get(`/api/abnormal/graph-report`)
+        .then((res) => {
+          setReport(res.data.data);
+        })
+        .catch((e) => {
+          console.log("리포트 패치 실패", e);
+        });
+    }
   }, [reportMode]);
 
   return (
@@ -25,7 +36,7 @@ export default function Report() {
       <p className="period">집계 기간: {report?.period}</p>
       {reportMode == "general" && (
         <>
-          <GeneralReport />
+          <GeneralReport report={report} />
           <div
             className="report-button-flex"
             style={{ justifyContent: "flex-end" }}
@@ -44,7 +55,7 @@ export default function Report() {
       )}
       {reportMode == "zonewise" && (
         <>
-          {report.zones.map((r, i) => {
+          {report.zones?.map((r, i) => {
             return <ZonewiseReport report={r} key={i} />;
           })}
           <div

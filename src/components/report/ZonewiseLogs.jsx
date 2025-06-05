@@ -65,9 +65,9 @@ export function WokrerLogs({ worker }) {
 }
 
 function WorkerTable({ log }) {
-  //   if (!log) {
-  //     return;
-  //   }
+  if (!log) {
+    return;
+  }
   return (
     <table className="worker-table">
       <thead>
@@ -97,6 +97,7 @@ function WorkerTable({ log }) {
 }
 
 function EquipTable({ log }) {
+  console.log(log);
   if (!log) {
     return;
   }

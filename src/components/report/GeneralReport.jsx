@@ -1,3 +1,14 @@
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
 function SummaryBox({ title, count }) {
   const box_color =
     title == "전체"
@@ -17,6 +28,32 @@ function SummaryBox({ title, count }) {
 }
 
 export default function GeneralReport({ report }) {
+  console.log("general", report);
+
+  const typeData = report?.typeStats
+    ?.sort((a, b) => b.cnt - a.cnt)
+    .slice(0, 5)
+    .map((item) => ({
+      name: item.label,
+      count: item.cnt,
+    }));
+
+  const dateData = report?.dateStats
+    ?.sort((a, b) => b.cnt - a.cnt)
+    .slice(0, 5)
+    .map((item) => ({
+      name: item.label,
+      count: item.cnt,
+    }));
+
+  const zoneData = report?.zoneStats
+    ?.sort((a, b) => b.cnt - a.cnt)
+    .slice(0, 5)
+    .map((item) => ({
+      name: item.label,
+      count: item.cnt,
+    }));
+
   return (
     <>
       <div>
@@ -28,17 +65,76 @@ export default function GeneralReport({ report }) {
         </div>
       </div>
       <div className="box-wrapper">
-        <div className="top-box">문제가 가장 많이 발생한 유형</div>
-        <div className="bottom-box">ddddd</div>
+        <div className="top-box">유형별 이상 발생 건수</div>
+        <div className="bottom-box">
+          <GraphContainer data={typeData} />
+        </div>
       </div>
       <div className="box-wrapper">
-        <div className="top-box">문제가 가장 많이 발생한 날짜</div>
-        <div className="bottom-box">ddddd</div>
+        <div className="top-box">날짜별 이상 발생 건수</div>
+        <div className="bottom-box">
+          <GraphContainer data={dateData} />
+        </div>
       </div>
       <div className="box-wrapper">
-        <div className="top-box">문제가 가장 많이 발생한 구역</div>
-        <div className="bottom-box">ddddd</div>
+        <div className="top-box">공간별 이상 발생 건수</div>
+        <div className="bottom-box">
+          <GraphContainer data={zoneData} />
+        </div>
       </div>
     </>
+  );
+}
+
+function GraphContainer({ data }) {
+  return (
+    <div className="total-box">
+      <div
+        style={{
+          width: "50%",
+          maxWidth: "25rem",
+          height: "auto",
+          marginTop: "1.5rem",
+        }}
+      >
+        <Example data={data} />
+      </div>
+      <div className="text-area">
+        <table className="worker-table">
+          <thead>
+            <tr className="table-header">
+              <th style={{ padding: "8px", border: "1px solid #ccc" }}>항목</th>
+              <th style={{ padding: "8px", border: "1px solid #ccc" }}>건수</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data?.map((item) => (
+              <tr key={item.name}>
+                <td style={{ padding: "8px", border: "1px solid #ccc" }}>
+                  {item.name}
+                </td>
+                <td style={{ padding: "8px", border: "1px solid #ccc" }}>
+                  {item.count}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function Example({ data }) {
+  return (
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart data={data}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Bar dataKey="count" stackId="a" fill="#000" />
+      </BarChart>
+    </ResponsiveContainer>
   );
 }

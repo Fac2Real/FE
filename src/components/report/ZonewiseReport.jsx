@@ -3,7 +3,6 @@ import Logo from "../../assets/logo.svg?react";
 import { EnvLogs, EquipLogs, WokrerLogs } from "./ZonewiseLogs.jsx";
 
 export default function ZonewiseReport({ report }) {
-  console.log("zonewise", report);
   const [data, setData] = useState({});
   useEffect(() => {
     const tmp = [
