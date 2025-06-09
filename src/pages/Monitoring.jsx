@@ -26,9 +26,11 @@ export default function Monitoring() {
   useWebSocket("/topic/zone", handleWebSocketMessage);
 
   useEffect(() => {
-    axiosInstance
-      .get("/api/zones")
-      .then((res) => {
+    Promise.all([
+      axiosInstance.get("/api/zones"),
+      axiosInstance.get("/api/state/zones"), // 상태가 있는 zone 정보 가져오기
+    ])
+      .then(([zonesRes, statesRes]) => {
         // const stored = localStorage.getItem("zoneLevels");
         // const zoneLevels = stored ? JSON.parse(stored) : {};
         // const updated = res.data.data.map((z) => {
@@ -39,9 +41,17 @@ export default function Monitoring() {
         //     return z;
         //   }
         // });
-        const updated = res.data.data;
-        setZoneList(updated);
-        console.log(updated);
+        const updated = zonesRes.data.data; // 예: [{ zoneId, zoneName, level }, ...]
+        const stateMap = Object.fromEntries(
+          // 예: { "PID-790": {level:2, sensorType:"humid"}, ... }
+          statesRes.data.data.map((s) => [s.zoneId, s])
+        );
+        const merged = updated.map((z) =>
+          stateMap[z.zoneId] ? { ...z, ...stateMap[z.zoneId] } : z
+        );
+
+        setZoneList(merged);
+        console.log(merged);
         // setZoneList(res.data);
         // console.log(res.data);
       })
