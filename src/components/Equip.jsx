@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ToolIcon from "../assets/tool_icon.svg?react";
+import axiosInstance from "../api/axiosInstance";
+
 function GaugeBar({ percent }) {
   console.log("percent: ", percent);
   const bgColor =
@@ -17,26 +19,77 @@ function GaugeBar({ percent }) {
     </div>
   );
 }
+
+
 function EquipItem({ equip, selectEquip, openModal }) {
+  const [info, setInfo] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const test_date = "2025-06-30"; // 예상교체일자 (하드코딩!!!!)
 
+  /* --------- 최신 정보 가져오기 --------- */
+  useEffect(() => {
+    if(!equip?.equipId) return;
+
+    const controller = new AbortController();
+
+    (async () => {
+      try{
+        const res = await axiosInstance.get(
+          `/api/equip-maintenance/latest/${equip.equipId}`,
+          {
+            params: { zoneId: equip.zoneId },
+            signal: controller.signal,
+          }
+        );
+        setInfo(res.data.data);
+      }catch (err) {
+        if (err.name !== "CanceledError") console.error(err);
+      } 
+    })();
+
+    return () => controller.abort();
+
+  }, [equip.equipId, equip.zoneId]);
+
+  // 날짜 계산 상수
   const tmp = 1000 * 60 * 60 * 24;
   const today = new Date();
-  const last = new Date(
-    equip.lastCheckDate ? equip.lastCheckDate : "연결 오류"
-  );
-  const pred = new Date(equip.pred ? equip.pred : test_date);
-  const dDay = Math.ceil((pred - today) / tmp);
 
+  // 최근 점검 일자 (서버 → equip → 에러 메시지)
+  const lastCheckDate =
+    info?.lastCheckDate ||
+    equip.lastCheckDate ||
+    "최근 점검한 일자를 입력해주세요"; // "입력 오류" 대신 수정했습니다.
+
+
+  // 예상 점검 일자 (서버 → equip.pred → 하드코딩)
+  const predictedDateStr =
+    info?.expectedMaintenanceDate ||
+    equip.pred ||
+    "9999-12-31";
+  const predictedDate = new Date(predictedDateStr);
+  
+  // D-Day (서버 → 계산)
+  const dDay =
+    info?.daysUntilMaintenance ??
+    Math.ceil((predictedDate - today) / tmp);
+  // const pred = new Date(equip.pred ? equip.pred : test_date);
+  // const dDay = Math.ceil((pred - today) / tmp);
+
+
+  // 퍼센트 계산
+  const lastDateObj = new Date(lastCheckDate);
   let percent = 0;
-  if (last < pred && last <= today) {
-    percent = Math.ceil(((today - last) / (pred - last)) * 100);
-    if (percent > 100) percent = 100;
-    if (percent < 0) percent = 0;
-  } else {
-    percent = 0;
-  }
+  if (lastDateObj < predictedDate && lastDateObj <= today) {
+    console.log("오늘", today)
+    console.log("최근 점검일", lastDateObj)
+    console.log("설비 점검 추론일",predictedDate)
+    percent = Math.ceil(((today - lastDateObj) / (predictedDate - lastDateObj)) * 100);
+    console.log(">>> 1 ",percent);
+    percent = Math.max(0, Math.min(100, percent));
+  } 
+  
+  console.log(">>>2 ",percent);
 
   return (
     <>
@@ -68,20 +121,22 @@ function EquipItem({ equip, selectEquip, openModal }) {
           </div>
         )} */}
         <div className="list-text">
-          <div>예상 교체 일자</div>
+          <div>예상 점검 일자</div>
           <span className="dash-line"></span>
-          <span>({equip?.pred ? equip?.pred : test_date})</span>
+          <span>({predictedDateStr})</span>
+          {/* <span>({equip?.pred ? equip?.pred : test_date})</span> */}
         </div>
         <div className="list-text">
-          <div>예상 교체일까지 D-{dDay}</div>
+          <div>예상 점검일까지 D-{dDay}</div>
           <GaugeBar percent={percent} />
         </div>
         <div className="list-text">
           <div>최근 점검 일자</div>
           <span className="dash-line"></span>
           <span>
-            ({equip && equip.lastCheckDate ? equip.lastCheckDate : test_date}
-            )
+            ({lastCheckDate})
+            {/* ({equip && equip.lastCheckDate ? equip.lastCheckDate : test_date}
+            ) */}
             <ToolIcon
               className="thres-setting"
               width="1.3rem"
