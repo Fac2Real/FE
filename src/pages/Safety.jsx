@@ -18,9 +18,9 @@ export default function Safety() {
     setIsOpen(false);
   };
 
-  useEffect(() => {
-    console.log("selectedWorkerInfo", selectedWorkerInfo);
-  }, [selectedWorkerInfo]);
+  // useEffect(() => {
+  //   console.log("selectedWorkerInfo", selectedWorkerInfo);
+  // }, [selectedWorkerInfo]);
 
   const fetchWorkers = useCallback(() => {
     axiosInstance

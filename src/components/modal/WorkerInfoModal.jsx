@@ -14,14 +14,22 @@ const formatPhoneNumber = (value) => {
 };
 
 function ContactTable({ workerInfo, onClose, fetchWorkers }) {
-  const { name, email, phoneNumber, workerId, isManager, selectedZones } =
-    workerInfo;
+  const {
+    name,
+    email,
+    phoneNumber,
+    workerId,
+    isManager,
+    accessZones,
+    managedZones,
+  } = workerInfo;
   const [formData, setForm] = useState({
     workerId: workerId,
     name: name,
     phoneNumber: phoneNumber,
     email: email,
-    selectedZones: selectedZones ?? [],
+    selectedZones: accessZones?.map((z) => z.zoneName) ?? [],
+    managedZones: managedZones?.map((z) => z.zoneName) ?? [],
   });
 
   const handleInputChange = (field) => (e) => {
@@ -174,7 +182,7 @@ function ContactTable({ workerInfo, onClose, fetchWorkers }) {
           <tr>
             <th scope="row">담당자 여부</th>
             <td style={{ backgroundColor: "var(--box-color)" }}>
-              {isManager ? "예" : "아니오"}
+              {isManager ? `예 (${managedZones[0].zoneName})` : "아니오"}
             </td>
           </tr>
         </tbody>
