@@ -117,7 +117,7 @@ export default function WorkerTable({
                 <th className="contact-row">이메일</th>
                 <th className="contact-row">전화번호</th>
                 <th style={{ width: "5%" }}>호출</th>
-                <th>정보 수정</th>
+                {!isDetail && !isManager && <th>정보 수정</th>}
               </tr>
             </thead>
             <tbody>
@@ -146,18 +146,20 @@ export default function WorkerTable({
                       >
                         🚨
                       </td>
-                      <td
-                        style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          selectWorker(worker);
-                          openModal(true);
-                        }}
-                      >
-                        수정
-                      </td>
+                      {!isDetail && !isManager && (
+                        <td
+                          style={{
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
+                          onClick={() => {
+                            selectWorker(worker);
+                            openModal(true);
+                          }}
+                        >
+                          수정
+                        </td>
+                      )}
                     </tr>
                   );
                 })}
