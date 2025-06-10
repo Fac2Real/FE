@@ -93,7 +93,7 @@ export default function ManagerSetting({ modalParam, zoneId }) {
             className="button-flex manager-button"
             style={{ justifyContent: "space-between" }}
           >
-            <p>매니저가 할당되지 않았습니다</p>
+            <p style={{ marginLeft: "1.5rem" }}>매니저가 할당되지 않았습니다</p>
             <button
               style={{ marginRight: 0 }}
               onClick={() => {

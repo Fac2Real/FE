@@ -13,15 +13,23 @@ const formatPhoneNumber = (value) => {
   return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3, 7)}-${onlyNums.slice(7)}`;
 };
 
-function ContactTable({ workerInfo, onClose }) {
-  const { name, email, phoneNumber, workerId, isManager, selectedZones } =
-    workerInfo;
+function ContactTable({ workerInfo, onClose, fetchWorkers }) {
+  const {
+    name,
+    email,
+    phoneNumber,
+    workerId,
+    isManager,
+    accessZones,
+    managedZones,
+  } = workerInfo;
   const [formData, setForm] = useState({
     workerId: workerId,
     name: name,
     phoneNumber: phoneNumber,
     email: email,
-    selectedZones: selectedZones ?? [],
+    selectedZones: accessZones?.map((z) => z.zoneName) ?? [],
+    managedZones: managedZones?.map((z) => z.zoneName) ?? [],
   });
 
   const handleInputChange = (field) => (e) => {
@@ -84,7 +92,8 @@ function ContactTable({ workerInfo, onClose }) {
     if (window.confirm(`수정한 정보를 저장하시겠습니까?`)) {
       console.log("저장할 정보 전송");
       axiosInstance
-        .post(`/api/workers/${workerId}`, {
+        .post(`/api/workers/update`, {
+          workerId: formData.workerId,
           name: formData.name,
           phoneNumber: formData.phoneNumber,
           email: formData.email,
@@ -92,9 +101,14 @@ function ContactTable({ workerInfo, onClose }) {
         })
         .then(() => {
           alert("저장되었습니다!");
-          onClose(True);
+          onClose(false);
+          fetchWorkers();
         })
         .catch((e) => {
+          if (e.response.status == 409) {
+            alert(e.response.data.message);
+            return;
+          }
           console.log("저장 실패", e);
           // onClose(true);
         });
@@ -102,7 +116,7 @@ function ContactTable({ workerInfo, onClose }) {
   };
 
   return (
-    <div className="table-container">
+    <div className="table-container" style={{ justifyContent: "flex-end" }}>
       <table className="contact-table">
         <thead>
           <tr>
@@ -168,7 +182,7 @@ function ContactTable({ workerInfo, onClose }) {
           <tr>
             <th scope="row">담당자 여부</th>
             <td style={{ backgroundColor: "var(--box-color)" }}>
-              {isManager ? "예" : "아니오"}
+              {isManager ? `예 (${managedZones[0].zoneName})` : "아니오"}
             </td>
           </tr>
         </tbody>
@@ -180,7 +194,12 @@ function ContactTable({ workerInfo, onClose }) {
   );
 }
 
-export default function WorkerInfoModal({ isOpen, onClose, workerInfo }) {
+export default function WorkerInfoModal({
+  isOpen,
+  onClose,
+  workerInfo,
+  fetchWorkers,
+}) {
   console.log(workerInfo);
   if (isOpen) {
     return (
@@ -188,8 +207,14 @@ export default function WorkerInfoModal({ isOpen, onClose, workerInfo }) {
         onClose={onClose}
         type="edit"
         modal_contents={{
-          title: `직원 정보 조회`,
-          contents: <ContactTable workerInfo={workerInfo} onClose={onClose} />,
+          title: `직원 정보 수정`,
+          contents: (
+            <ContactTable
+              workerInfo={workerInfo}
+              onClose={onClose}
+              fetchWorkers={fetchWorkers}
+            />
+          ),
         }}
       />
     );

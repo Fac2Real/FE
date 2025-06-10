@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ToolIcon from "../assets/tool_icon.svg?react";
 import EditIcon from "../assets/edit_icon.svg?react";
+import "../styles/table.css";
 export default function ZoneInfoBox({
   zone,
   sensorModalBtn,

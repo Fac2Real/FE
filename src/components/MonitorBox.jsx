@@ -15,13 +15,13 @@ export default function MonitorBox({ zone }) {
       }`}
     >
       <div className="icon-container">
-        <PageIcon width="2.3rem" stroke="gray" opacity="0.3" />
+        <PageIcon width="2rem" stroke="gray" opacity="0.3" />
       </div>
       <div
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-around",
+          justifyContent: "space-evenly",
           width: "100%",
         }}
       >
@@ -33,7 +33,7 @@ export default function MonitorBox({ zone }) {
           style={{
             display: "flex",
             flexDirection: "column",
-            marginRight: "2rem",
+            width: "50%",
           }}
         >
           <h3>{zone.zoneName}</h3>

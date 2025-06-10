@@ -80,7 +80,7 @@ function WorkerTable({ log }) {
         </tr>
       </thead>
       <tbody>
-        {log.map((l, i) => {
+        {log?.map((l, i) => {
           return (
             <tr key={i}>
               <td>{l.dangerLevel}</td>

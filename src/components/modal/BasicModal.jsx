@@ -3,6 +3,7 @@ import YCEdit from "../../assets/img/monitory_character_edit.png";
 import YCAlram from "../../assets/img/monitory_character_alram.png";
 import { Link } from "react-router-dom";
 import "./modal.css";
+import "../../styles/table.css";
 
 export default function BasicModal({
   onClose,
@@ -33,7 +34,7 @@ export default function BasicModal({
           />
         </div>
         <div className="modal-box-bottom">
-          <h2>{modal_contents.title}</h2>
+          <h2 style={{ fontSize: "1.25rem" }}>{modal_contents.title}</h2>
           {modal_contents.contents}
         </div>
       </div>
