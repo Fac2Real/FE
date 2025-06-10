@@ -46,8 +46,8 @@ export default function WorkerTable({
     <>
       <div className="table-container">
         {!isManager && (
-          <tr className="table-search">
-            <th colSpan={6}>
+          <div className="table-search">
+            <div colSpan={6}>
               <div className="search-container">
                 {/* 이름검색 라디오버튼 */}
                 <div>
@@ -103,8 +103,8 @@ export default function WorkerTable({
                   </select>
                 </div>
               </div>
-            </th>
-          </tr>
+            </div>
+          </div>
         )}
         <div style={{ width: "100%", height: "100%", overflowY: "auto" }}>
           <table className="worker-table">
@@ -117,7 +117,7 @@ export default function WorkerTable({
                 <th className="contact-row">이메일</th>
                 <th className="contact-row">전화번호</th>
                 <th style={{ width: "5%" }}>호출</th>
-                <th style={{ width: "5%" }}>정보 수정</th>
+                <th>정보 수정</th>
               </tr>
             </thead>
             <tbody>

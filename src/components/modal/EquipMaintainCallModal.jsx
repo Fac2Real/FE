@@ -1,13 +1,16 @@
 import { useState } from "react";
 import BasicModal from "./BasicModal";
 import axiosInstance from "../../api/axiosInstance";
+import "../../styles/table.css";
 
 function ModalContents({ worker, equipList, onSubmit }) {
   const [selectedEquipId, setSelectedEquipId] = useState("");
-    console.log(equipList)
+  console.log(equipList);
   return (
     <>
-      <p>장비 유지보수를 요청할 작업자: {worker.name} ({worker.workerId})</p>
+      <p>
+        장비 유지보수를 요청할 작업자: {worker.name} ({worker.workerId})
+      </p>
       <div className="input-flex">
         <span>설비 선택</span>
         <select
@@ -41,7 +44,12 @@ function ModalContents({ worker, equipList, onSubmit }) {
   );
 }
 
-export default function EquipMaintainCallModal({ isOpen, onClose, worker, equipList }) {
+export default function EquipMaintainCallModal({
+  isOpen,
+  onClose,
+  worker,
+  equipList,
+}) {
   const handleSubmit = async (workerId, equipId) => {
     try {
       await axiosInstance.post("/api/fcm/equip", {

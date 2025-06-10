@@ -42,7 +42,10 @@ export default function Sidebar({ isOpen, setIsOpen }) {
 
   useEffect(() => {
     if (location.pathname === "/") setCurrentPage("Home");
-    else if (location.pathname.startsWith("/monitoring"))
+    else if (
+      location.pathname.startsWith("/monitoring") ||
+      location.pathname.startsWith("/zone")
+    )
       setCurrentPage("Monitor");
     else if (location.pathname.startsWith("/safety")) setCurrentPage("Safety");
     else if (location.pathname.startsWith("/facility"))

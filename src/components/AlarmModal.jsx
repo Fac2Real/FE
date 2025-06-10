@@ -184,8 +184,10 @@ const AlarmModal = ({ isOpen, onClose }) => {
                         }
                       >
                         {alarm.abnormalType}
-                      </strong>{" "}
-                      - {alarm.zoneName}
+                      </strong>
+                      <p style={{ margin: "0.25rem 0" }}>
+                        위치: {alarm.zoneName}
+                      </p>
                     </p>
                     <p className="alarm-timestamp">
                       감지 시간: {new Date(alarm.detectedAt).toLocaleString()}

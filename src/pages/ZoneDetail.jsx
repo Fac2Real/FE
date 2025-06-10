@@ -44,7 +44,8 @@ export default function ZoneDetail() {
   // 2) 모든 useEffect (조건 없이 항상 선언)
   useEffect(() => {
     setLoading(true);
-    axiosInstance.get(`/api/grafana-zone/${zoneId}/dashboards`)
+    axiosInstance
+      .get(`/api/grafana-zone/${zoneId}/dashboards`)
       .then((res) => {
         if (!res.status) throw new Error(`Status ${res.status}`);
         return res.data;
@@ -206,7 +207,16 @@ export default function ZoneDetail() {
                 dashboards.map(({ sensorId, sensorType, iframeUrl }) => (
                   <div key={sensorId} className="grafana-box">
                     <p>
-                      {sensorType} 센서 ({sensorId})
+                      {sensorType} 센서
+                      <p
+                        style={{
+                          margin: "0.25rem 0",
+                          fontSize: "1rem",
+                          color: "gray",
+                        }}
+                      >
+                        ID: {sensorId}
+                      </p>
                     </p>
                     <div>
                       <iframe

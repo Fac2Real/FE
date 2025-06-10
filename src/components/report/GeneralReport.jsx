@@ -8,6 +8,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import Logo from "../../assets/logo.svg?react";
 
 function SummaryBox({ title, count }) {
   const box_color =
@@ -118,6 +119,21 @@ function GraphContainer({ data }) {
                 </td>
               </tr>
             ))}
+            {data?.length == 0 && (
+              <>
+                <tr>
+                  <td colSpan={2}>
+                    <div
+                      className="null-container"
+                      style={{ marginTop: "1rem" }}
+                    >
+                      <Logo width="2rem" />
+                      <p>기록 없음</p>
+                    </div>
+                  </td>
+                </tr>
+              </>
+            )}
           </tbody>
         </table>
       </div>

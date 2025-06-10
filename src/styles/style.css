@@ -613,6 +613,7 @@ iframe {
   flex-direction: column;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding-top: 0;
+  overflow-x: hidden;
 }
 .alarm-list {
   list-style: none;
@@ -627,6 +628,7 @@ iframe {
   padding: 1rem;
   padding-top: 0;
   height: 400px; /* 최소 높이 설정 */
+  overflow-x: hidden;
 }
 .alarm-item {
   padding: 0.75rem;
@@ -676,96 +678,6 @@ strong.normal {
   color: #009900;
 }
 
-.search-container {
-  text-align: start;
-  margin-bottom: 0.5rem;
-}
-
-.worker-table,
-.logs-table {
-  width: calc(100%);
-  border-collapse: collapse;
-  text-align: center;
-  overflow: hidden;
-  margin: auto;
-}
-
-.table-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  /* flex-direction: column; */
-  justify-content: center;
-  align-items: center;
-}
-
-.table-container th {
-  background-color: transparent;
-  border: none;
-}
-
-.table-header th {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  background-color: var(--box-color);
-  width: 10%;
-}
-
-.worker-table td,
-.logs-table td {
-  border: 1px solid #ccc;
-  background-color: white;
-}
-
-.worker-table th:nth-child(1) {
-  width: 5%;
-}
-
-.worker-table th:nth-child(4) {
-  width: 10%;
-}
-
-.contact-row {
-  width: auto !important;
-}
-
-.worker-table .critical td,
-.logs-table .critical td {
-  background-color: var(--warning);
-}
-
-.search-container input {
-  border: none;
-  border-bottom: 1px solid black;
-  background-color: transparent;
-  margin: 0.5rem;
-  outline: none;
-  margin-left: 1rem;
-}
-
-.safety-body {
-  height: 60vh;
-  width: 100%;
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
-  transform: translateY(1px);
-  margin-bottom: 3rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 1.2rem;
-}
-
-.table-container {
-  margin: 1rem 0;
-  height: 75%;
-  width: 100%;
-  gap: 0.5rem;
-  display: flex;
-  /* justify-content: flex-start; */
-  flex-wrap: wrap;
-}
-
 .radio {
   margin-left: 0 !important;
 }
@@ -792,6 +704,7 @@ select.search-field {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+  border-radius: 0.75rem;
 }
 
 .contact-table th,
@@ -878,9 +791,9 @@ select.search-field {
 }
 
 .form-row label {
-  width: 20%; /* 모든 label 동일한 너비 */
+  min-width: 20%; /* 모든 label 동일한 너비 */
   flex-shrink: 0;
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
   text-align: right;
   margin-right: 1rem;
   font-weight: bold;
@@ -888,7 +801,7 @@ select.search-field {
 
 .text-input {
   flex: 1; /* 텍스트 입력은 남은 공간 모두 차지 */
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
   background-color: inherit;
   outline: none;
   border: none;
@@ -907,7 +820,7 @@ select.search-field {
 .checkbox-group label {
   font-weight: normal;
   cursor: pointer;
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
   vertical-align: middle;
 }
 
@@ -916,7 +829,7 @@ select.search-field {
   align-items: center;
   white-space: nowrap;
   gap: 0.5rem;
-  width: 7.5rem;
+  min-width: 12rem;
   overflow: visible;
 }
 

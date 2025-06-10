@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import "../styles/table.css";
 
 export default function LogTable({ logs, onScrollEnd, scrollBoxRef }) {
   const handleScroll = (e) => {

@@ -103,6 +103,10 @@ export default function RegisterWorker({ fetchWorkers }) {
           alert("등록되었습니다!");
         })
         .catch((e) => {
+          if (e.response.status == 409) {
+            alert(e.response.data.message);
+            return;
+          }
           console.log("작업자 등록 실패");
           if (false) {
             // TODO : 중복된 사번/정보의 작업자가 있을 경우 반환 받은 에러
@@ -117,7 +121,7 @@ export default function RegisterWorker({ fetchWorkers }) {
 
   return (
     <div className="worker-register">
-      <h2>작업자 등록·수정</h2>
+      <h2 style={{ fontSize: "1.25rem" }}>작업자 등록</h2>
       <div className="form-container">
         <div className="form-row">
           <label htmlFor="workerId">사번</label>
