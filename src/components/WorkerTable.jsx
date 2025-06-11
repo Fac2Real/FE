@@ -28,9 +28,10 @@ export default function WorkerTable({
       return worker.name.includes(search.trim());
     } else if (searchType === "byStatus") {
       if (selectedStatus === "전체") {
-        return worker_list;
+        return true;
       }
-      return worker.status === selectedStatus;
+      console.log(worker.status);
+      return worker.status == Number(selectedStatus);
     }
     return true;
   });
@@ -39,6 +40,7 @@ export default function WorkerTable({
     console.log("직접 호출:", worker);
     callbackModal(worker);
   };
+  console.log(worker_list);
 
   return (
     <>
