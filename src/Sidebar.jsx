@@ -55,24 +55,24 @@ export default function Sidebar({ isOpen, setIsOpen }) {
     else if (location.pathname.startsWith("/report")) setCurrentPage("Report");
   }, [location.pathname]);
 
-  const handleButtonClick = () => {
-    const result = confirm("로그아웃하시겠습니까?");
-    if (!result) {
-      return;
-    }
-    axiosInstance
-      .post("/api/auth/logout")
-      .then(() => {
-        console.log("로그아웃 성공");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("userId");
-        window.location.href = "/login"; // 로그인 페이지로 리다이렉트
-      })
-      .catch((e) => {
-        console.error("로그아웃 실패", e);
-        alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
-      });
-  };
+  // const handleButtonClick = () => {
+  //   const result = confirm("로그아웃하시겠습니까?");
+  //   if (!result) {
+  //     return;
+  //   }
+  //   axiosInstance
+  //     .post("/api/auth/logout")
+  //     .then(() => {
+  //       console.log("로그아웃 성공");
+  //       localStorage.removeItem("accessToken");
+  //       localStorage.removeItem("userId");
+  //       window.location.href = "/login"; // 로그인 페이지로 리다이렉트
+  //     })
+  //     .catch((e) => {
+  //       console.error("로그아웃 실패", e);
+  //       alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
+  //     });
+  // };
 
   return (
     <aside className={isOpen ? "sidebar-open" : "sidebar-close"}>
