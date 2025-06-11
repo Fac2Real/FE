@@ -245,7 +245,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
           </span>
         </div>
         {/* 로그아웃 버튼 */}
-        <div className="logout-button">
+        {/* <div className="logout-button">
           <span className="icon side-opt" onClick={handleButtonClick}>
             <a>
               <LogoutIcon
@@ -269,7 +269,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
               )}
             </a>
           </span>
-        </div>
+        </div> */}
       </div>
       {/* 알람 모달 */}
       <AlarmModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

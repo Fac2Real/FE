@@ -55,7 +55,7 @@ export default function Report() {
       )}
       {reportMode == "zonewise" && (
         <>
-          {report.zones?.map((r, i) => {
+          {report?.zones?.map((r, i) => {
             return <ZonewiseReport report={r} key={i} />;
           })}
           <div

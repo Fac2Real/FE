@@ -11,7 +11,6 @@ export default function Home({ isSidebarOpen }) {
   const icon_color = "#1d4a7a";
   return (
     <>
-      {/* <h1>MONITORY</h1> */}
       <MainBox isSidebarOpen={isSidebarOpen} />
       <div className="mini-row">
         <Link to="/monitoring" className="link-as-contents">
@@ -33,12 +32,12 @@ export default function Home({ isSidebarOpen }) {
           />
         </Link>
       </div>
-      <Link to="/help">
+      {/* <Link to="/help">
         <div className="help-link">
           <QuestionIcon width="1rem" fill="gray" opacity="0.7" />
           <span>모니토리 사용법</span>
         </div>
-      </Link>
+      </Link> */}
     </>
   );
 }
