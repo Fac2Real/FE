@@ -59,7 +59,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
   };
 
   const removeAlarm = (alarmId) => {
-    setAlarms((prev) => prev.filter((alarm) => alarm.id !== alarmId));
+    setAlarms((prev) => prev?.filter((alarm) => alarm.id !== alarmId));
   };
   const handleAlarmClick = async (alarm) => {
     await axiosInstance(`/api/abnormal/${alarm.id}/read`, {
@@ -90,7 +90,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
   const [filter, setFilter] = useState("");
 
   const filteredAlarms = filter
-    ? alarms.filter((alarm) =>
+    ? alarms?.filter((alarm) =>
         filter === "urgent"
           ? alarm.abnormalType?.includes("위험")
           : filter === "warning"
