@@ -128,7 +128,7 @@ export default function Equip({ equips, modalParam }) {
   return (
     <>
       {/* length가 1인 이유 : empty 설비 때문에... */}
-      {(equips.length === 1 || equips) && <p>등록된 설비가 없습니다</p>}
+      {equips?.length <= 1 && <p>등록된 설비가 없습니다</p>}
       {!(equips.length === 0) &&
         equips.map((e, i) => {
           if (e.equipName == "empty") {
