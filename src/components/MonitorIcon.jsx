@@ -10,8 +10,12 @@ export default function MonitorIcon({
   abnormal_sensor = "온도",
   level,
   color,
+  isAlarm = true,
 }) {
-  const iconWidth = "25%";
+  let iconWidth = "5rem";
+  if (!isAlarm) {
+    iconWidth = "25%";
+  }
   if (!color) {
     color = level == 0 ? "#1d4a7a" : level == 1 ? "orange" : "red";
   }
