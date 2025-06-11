@@ -2,6 +2,7 @@
 .main-box {
   width: 100%;
   height: auto;
+  max-height: 55vh;
   flex-grow: 1;
   background-color: var(--box-color);
   border-radius: 2rem;
