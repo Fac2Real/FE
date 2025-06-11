@@ -36,12 +36,10 @@ export default function WorkerTable({
   });
 
   const directCall = (worker) => {
-    const confirmed = window.confirm(`작업자를 호출하시겠습니까?`);
-    if (confirmed) {
-      console.log("직접 호출:", worker);
-      callbackModal(worker);
-    }
+    console.log("직접 호출:", worker);
+    callbackModal(worker);
   };
+
   return (
     <>
       <div className="table-container">
@@ -98,8 +96,8 @@ export default function WorkerTable({
                     disabled={searchType !== "byStatus"}
                   >
                     <option value="전체">전체</option>
-                    <option value="정상">정상</option>
-                    <option value="위험">위험</option>
+                    <option value={0}>정상</option>
+                    <option value={2}>위험</option>
                   </select>
                 </div>
               </div>

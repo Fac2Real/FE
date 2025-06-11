@@ -44,7 +44,7 @@ function ContactTable({ workerInfo, onClose, fetchWorkers }) {
     setForm((prevForm) => {
       const alreadySelected = prevForm.selectedZones?.includes(zoneName);
       const updatedZones = alreadySelected
-        ? prevForm.selectedZones.filter((zone) => zone !== zoneName)
+        ? prevForm.selectedZones?.filter((zone) => zone !== zoneName)
         : [...prevForm.selectedZones, zoneName];
 
       return {
