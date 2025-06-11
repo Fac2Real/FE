@@ -71,7 +71,11 @@ const AlarmModal = ({ isOpen, onClose }) => {
     // 알람 삭제
     removeAlarm(alarm.id);
     // 알람 상세 페이지로 이동
-    navigate(`/zone/${alarm.zoneId}`);
+    navigate(`/zone/${alarm.zoneId}`, {
+      state: {
+        zoneName: alarm.zoneName,
+      },
+    });
     window.scrollTo({ top: 0, behavior: "smooth" });
     onClose();
   };
