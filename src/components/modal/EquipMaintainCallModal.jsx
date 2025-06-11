@@ -68,7 +68,6 @@ export default function EquipMaintainCallModal({
     return (
       <BasicModal
         onClose={onClose}
-        type="edit"
         modal_contents={{
           title: "장비 유지보수 요청",
           contents: (
