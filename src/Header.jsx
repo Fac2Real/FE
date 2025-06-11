@@ -4,7 +4,7 @@ import { useState } from "react";
 import QuestionIcon from "./assets/question_icon.svg?react";
 import LogoutIcon from "./assets/logout_icon.svg?react";
 import HomeIcon from "./assets/home_icon.svg?react";
-
+import axiosInstance from "./api/axiosInstance";
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const handleButtonClick = () => {
