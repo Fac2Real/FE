@@ -92,34 +92,10 @@ function EquipItem({ equip, selectEquip, openModal }) {
         <div className="sensorlist-underbar">
           <strong>{equip.equipName}</strong>
         </div>
-        {/* <div className="list-text">
-          <div>센서 목록</div>
-          <span className="dash-line"></span>
-          <span
-            className="arrow"
-            onClick={() => {
-              setIsOpen((prev) => !prev);
-            }}
-          >
-            {isOpen ? "▲" : "▼"}
-          </span>
-        </div>
-        {isOpen && (
-          <div style={{ margin: "0 1rem" }}>
-            {equip.sensors.map((s) => {
-              return (
-                <span key={s.sensorId}>
-                  {s.sensorType}({s.sensorId}){" "}
-                </span>
-              );
-            })}
-          </div>
-        )} */}
         <div className="list-text">
           <div>예상 점검 일자</div>
           <span className="dash-line"></span>
           <span>({predictedDateStr})</span>
-          {/* <span>({equip?.pred ? equip?.pred : test_date})</span> */}
         </div>
         <div className="list-text">
           <div>예상 점검일까지 D-{dDay}</div>
@@ -130,8 +106,6 @@ function EquipItem({ equip, selectEquip, openModal }) {
           <span className="dash-line"></span>
           <span>
             ({lastCheckDate})
-            {/* ({equip && equip.lastCheckDate ? equip.lastCheckDate : test_date}
-            ) */}
             <ToolIcon
               className="thres-setting"
               width="1.3rem"
@@ -154,7 +128,7 @@ export default function Equip({ equips, modalParam }) {
   return (
     <>
       {/* length가 1인 이유 : empty 설비 때문에... */}
-      {(equips.length === 1 || !equips) && <p>등록된 설비가 없습니다</p>}
+      {(equips.length === 1 || equips) && <p>등록된 설비가 없습니다</p>}
       {!(equips.length === 0) &&
         equips.map((e, i) => {
           if (e.equipName == "empty") {
