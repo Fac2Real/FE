@@ -16,7 +16,17 @@ function ModalContents({ onUpdate }) {
         ></input>
       </div>
       <div className="button-flex">
-        <button onClick={() => onUpdate(newFacility)}>추가</button>
+        <button
+          onClick={() => {
+            if (newFacility == "empty") {
+              alert("설비명 empty는 사용할 수 없습니다");
+              return;
+            }
+            onUpdate(newFacility);
+          }}
+        >
+          추가
+        </button>
       </div>
     </>
   );

@@ -5,7 +5,7 @@ const statusKor = (status) => {
   if (status == 0) {
     return "정상";
   } else if (status == 2) {
-    return "주의";
+    return "위험";
   } else {
     return "오류";
   }
