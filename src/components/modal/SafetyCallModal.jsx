@@ -25,7 +25,7 @@ function ModalContents({ worker, workerList }) {
       .post("/api/fcm/safety", {
         workerId: worker.workerId,
         careNeedWorkerId: helpWorkerId,
-        // message: message,
+        message: message,
       })
       .then((res) => {
         console.log(res.data);
@@ -39,8 +39,7 @@ function ModalContents({ worker, workerList }) {
     axiosInstance
       .post("/api/fcm/equip", {
         workerId: worker.workerId,
-        equipId: equipId,
-        // message: message,
+        message: message,
       })
       .then((res) => {
         console.log(res.data);
@@ -49,7 +48,19 @@ function ModalContents({ worker, workerList }) {
         console.log(e);
       });
   };
-
+  const handleCustomSubmit = () => {
+    axiosInstance
+      .post("/api/fcm/custom", {
+        workerId: worker.workerId,
+        message: message,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <>
       <p style={{ marginTop: 0, color: "gray" }}>
@@ -133,7 +144,7 @@ function ModalContents({ worker, workerList }) {
               ? handleEquipSubmit
               : mode == "mode_safety"
               ? handleSafetySubmit
-              : null
+              : handleCustomSubmit
           }
         >
           전송
@@ -149,19 +160,6 @@ export default function SafetyCallModal({
   selectWorker,
   workerList,
 }) {
-  // const handleSubmit = async (workerId, helpWorkerId) => {
-  //   try {
-  //     await axiosInstance.post("/api/fcm/safety", {
-  //       workerId: workerId,
-  //       careNeedWorkerId: helpWorkerId,
-  //     });
-  //     alert("도움 요청이 성공적으로 전송되었습니다.");
-  //     onClose();
-  //   } catch (error) {
-  //     console.error("도움 요청 전송 실패:", error);
-  //     alert("도움 요청 전송에 실패했습니다.");
-  //   }
-  // };
   console.log(selectWorker);
   if (isOpen) {
     return (
