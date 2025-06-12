@@ -104,10 +104,11 @@ export default function ZoneDetail() {
     if (!hasMore) {
       return;
     }
+    currentPage.current += 1;
     axiosInstance
       .get(`/api/zones/${zoneId}/logs`, {
         params: {
-          page: currentPage.current + 1,
+          page: currentPage.current,
           size: 10,
         },
       })
@@ -116,7 +117,6 @@ export default function ZoneDetail() {
         if (nextLogs.length === 0) {
           setHasMore(false);
         } else {
-          currentPage.current += 1;
           setLogs((prev) => [...prev, ...nextLogs]);
         }
       })
