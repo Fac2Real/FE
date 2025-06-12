@@ -16,7 +16,7 @@ export default function ManagerSetting({ workerList, modalParam, zoneId }) {
     axiosInstance
       .get(`/api/workers/zone/${zoneId}/manager`)
       .then((res) => {
-        console.log(res.data.data);
+        console.log("manager:", res.data.data);
         setManager(res.data.data);
       })
       .catch((error) => {
@@ -126,7 +126,7 @@ export default function ManagerSetting({ workerList, modalParam, zoneId }) {
                 value={selectedWorkerId}
                 disabled={cand?.length === 0}
               >
-                {cand.map((c, i) => {
+                {cand?.map((c, i) => {
                   return (
                     <option key={i} value={c.workerId}>
                       {c.name} ({c.workerId})

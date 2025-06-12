@@ -16,6 +16,7 @@ function GaugeBar({ percent }) {
           width: `${percent == 0 ? 0 : Math.max(5, percent)}%`,
           backgroundColor: bgColor,
           borderRadius: percent >= 80 ? "999px" : "999px 0 0 999px",
+          position: "relative",
         }}
       ></div>
     </div>
@@ -67,8 +68,15 @@ function EquipItem({ equip, selectEquip, openModal, workerList }) {
   const predictedDate = new Date(predictedDateStr);
 
   // D-Day (서버 → 계산)
-  const dDay =
+  let dDay =
     info?.daysUntilMaintenance ?? Math.ceil((predictedDate - today) / tmp);
+  if (dDay == 0) {
+    dDay = "-DAY";
+  } else if (dDay > 0) {
+    dDay = `-${dDay}`;
+  } else {
+    dDay = `+${dDay}`;
+  }
   // const pred = new Date(equip.pred ? equip.pred : test_date);
   // const dDay = Math.ceil((pred - today) / tmp);
 
@@ -108,7 +116,7 @@ function EquipItem({ equip, selectEquip, openModal, workerList }) {
           <span>({predictedDateStr})</span>
         </div>
         <div className="list-text">
-          <div>예상 점검일까지 D-{dDay}</div>
+          <div>예상 점검일까지 D{dDay}</div>
           <GaugeBar percent={percent} />
         </div>
         <div className="list-text">

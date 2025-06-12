@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback } from "react";
 import MonitorBox from "../components/MonitorBox";
 import useWebSocket from "../websocket/useWebSocket";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import axiosInstance from "../api/axiosInstance";
 
 export default function Monitoring() {
