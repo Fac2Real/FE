@@ -31,16 +31,6 @@ export default function Monitoring() {
       axiosInstance.get("/api/state/zones"), // 상태가 있는 zone 정보 가져오기
     ])
       .then(([zonesRes, statesRes]) => {
-        // const stored = localStorage.getItem("zoneLevels");
-        // const zoneLevels = stored ? JSON.parse(stored) : {};
-        // const updated = res.data.data.map((z) => {
-        //   const savedLevel = zoneLevels[z.zoneId];
-        //   if (savedLevel !== undefined) {
-        //     return { ...z, level: savedLevel };
-        //   } else {
-        //     return z;
-        //   }
-        // });
         const updated = zonesRes.data.data; // 예: [{ zoneId, zoneName, level }, ...]
         const stateMap = Object.fromEntries(
           // 예: { "PID-790": {level:2, sensorType:"humid"}, ... }
@@ -52,8 +42,6 @@ export default function Monitoring() {
 
         setZoneList(merged);
         console.log(merged);
-        // setZoneList(res.data);
-        // console.log(res.data);
       })
       .catch((e) => console.log("실시간 모니터링 페이지 : 로딩 실패", e));
   }, []);

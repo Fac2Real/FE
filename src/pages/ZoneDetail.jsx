@@ -57,7 +57,8 @@ export default function ZoneDetail() {
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message);
+        // console.log(err);
+        setError(err);
         setLoading(false);
       });
   }, [zoneId]);
@@ -200,7 +201,13 @@ export default function ZoneDetail() {
         <div className="top-box">환경 리포트</div>
         <div className="bottom-box">
           {loading && <div>로딩 중…</div>}
-          {error && <div>에러 발생: {error}</div>}
+          {error && (
+            <>
+              {/* 에러 발생: {error} */}
+              {error.status == 404 && <div>등록된 센서가 없습니다</div>}
+              {error.status == 500 && <div>{error.message}</div>}
+            </>
+          )}
           {!loading && !error && (
             <div className="grafana-wrapper">
               {dashboards &&
