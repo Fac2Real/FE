@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import ToolIcon from "../assets/tool_icon.svg?react";
+import AlarmIcon from "../assets/alarm_icon.svg?react";
 import axiosInstance from "../api/axiosInstance";
+import EquipMaintainCallModal from "./modal/EquipMaintainCallModal";
 
 function GaugeBar({ percent }) {
   console.log("percent: ", percent);
@@ -20,7 +22,7 @@ function GaugeBar({ percent }) {
   );
 }
 
-function EquipItem({ equip, selectEquip, openModal }) {
+function EquipItem({ equip, selectEquip, openModal, workerList }) {
   const [info, setInfo] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const test_date = "2025-06-30"; // 예상교체일자 (하드코딩!!!!)
@@ -85,12 +87,20 @@ function EquipItem({ equip, selectEquip, openModal }) {
   }
 
   console.log(">>>2 ", percent);
-
+  const onClose = () => {
+    setIsOpen(false);
+  };
   return (
     <>
       <div className="sensorlist">
         <div className="sensorlist-underbar">
           <strong>{equip.equipName}</strong>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => setIsOpen((prev) => !prev)}
+          >
+            <AlarmIcon width="1.5rem" color="#000" />
+          </span>
         </div>
         <div className="list-text">
           <div>예상 점검 일자</div>
@@ -120,11 +130,17 @@ function EquipItem({ equip, selectEquip, openModal }) {
           </span>
         </div>
       </div>
+      <EquipMaintainCallModal
+        isOpen={isOpen}
+        onClose={onClose}
+        selectedEquip={equip}
+        workerList={workerList}
+      />
     </>
   );
 }
 
-export default function Equip({ equips, modalParam }) {
+export default function Equip({ equips, modalParam, workerList }) {
   return (
     <>
       {/* length가 1인 이유 : empty 설비 때문에... */}
@@ -140,6 +156,7 @@ export default function Equip({ equips, modalParam }) {
               equip={e}
               selectEquip={modalParam.setSelectedEquip}
               openModal={modalParam.openModal}
+              workerList={workerList}
             />
           );
         })}

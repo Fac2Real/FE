@@ -291,6 +291,7 @@ export default function ZoneDetail() {
         </div>
         <div className="bottom-box">
           <Equip
+            workerList={workerList}
             equips={equips}
             modalParam={{
               setSelectedEquip: setSelectedEquip,
