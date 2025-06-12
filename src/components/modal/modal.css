@@ -118,3 +118,11 @@
 .checkbox-group.edit-mode {
   margin: 1rem;
 }
+
+.modal-flex {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  justify-content: center;
+}

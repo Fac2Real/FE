@@ -11,6 +11,7 @@ import Equip from "../components/Equip";
 import { mock_equips } from "../mock_data/mock_equips";
 import EquipDateModal from "../components/modal/EquipDateModal";
 import EquipMaintainCallModal from "../components/modal/EquipMaintainCallModal";
+import SafetyCallModal from "../components/modal/SafetyCallModal";
 
 export default function ZoneDetail() {
   const { zoneId } = useParams();
@@ -56,7 +57,8 @@ export default function ZoneDetail() {
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message);
+        // console.log(err);
+        setError(err);
         setLoading(false);
       });
   }, [zoneId]);
@@ -195,12 +197,17 @@ export default function ZoneDetail() {
         workerInfo={selectedWorkerInfo}
       />
       <h1>{zoneName}</h1>
-      {/* 환경 리포트 부분 :: Grafana by InfluxDB */}
       <div className="box-wrapper">
         <div className="top-box">환경 리포트</div>
         <div className="bottom-box">
           {loading && <div>로딩 중…</div>}
-          {error && <div>에러 발생: {error}</div>}
+          {error && (
+            <>
+              {/* 에러 발생: {error} */}
+              {error.status == 404 && <div>등록된 센서가 없습니다</div>}
+              {error.status == 500 && <div>{error.message}</div>}
+            </>
+          )}
           {!loading && !error && (
             <div className="grafana-wrapper">
               {dashboards &&
@@ -256,12 +263,11 @@ export default function ZoneDetail() {
             }}
           />
         </div>
-        {/* 장비 유지보수 요청 :: 스프린트3 */}
-        <EquipMaintainCallModal
+        <SafetyCallModal
           isOpen={isCallModalOpen}
           onClose={() => setIsCallModalOpen(false)}
-          worker={selectedWorkerInfo}
-          equipList={equips}
+          selectWorker={selectedWorkerInfo}
+          workerList={workerList}
         />
       </div>
 
@@ -292,6 +298,7 @@ export default function ZoneDetail() {
         </div>
         <div className="bottom-box">
           <Equip
+            workerList={workerList}
             equips={equips}
             modalParam={{
               setSelectedEquip: setSelectedEquip,

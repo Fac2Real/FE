@@ -14,6 +14,7 @@ export default function Report() {
         .get(`/api/abnormal/detail-report`)
         .then((res) => {
           setReport(res.data.data);
+          console.log("zonewise");
         })
         .catch((e) => {
           console.log("리포트 패치 실패", e);
@@ -23,6 +24,7 @@ export default function Report() {
         .get(`/api/abnormal/graph-report`)
         .then((res) => {
           setReport(res.data.data);
+          console.log("general", res.data.data);
         })
         .catch((e) => {
           console.log("리포트 패치 실패", e);
