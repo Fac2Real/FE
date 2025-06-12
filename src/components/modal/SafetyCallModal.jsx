@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import BasicModal from "./BasicModal";
 import axiosInstance from "../../api/axiosInstance";
 
-function ModalContents({ worker, workerList }) {
+function ModalContents({ worker, workerList, onClose }) {
   const [helpWorkerId, setHelpWorkerId] = useState("");
   const [mode, setMode] = useState("");
   const [message, setMessage] = useState("");
@@ -21,6 +21,10 @@ function ModalContents({ worker, workerList }) {
   }, []);
 
   const handleSafetySubmit = () => {
+    if (!helpWorkerId) {
+      alert("도움이 필요한 작업자를 선택하세요.");
+      return;
+    }
     axiosInstance
       .post("/api/fcm/safety", {
         workerId: worker.workerId,
@@ -29,26 +33,43 @@ function ModalContents({ worker, workerList }) {
       })
       .then((res) => {
         console.log(res.data);
+        alert("설비 점검 요청이 전송되었습니다.");
+        onClose(true);
       })
       .catch((e) => {
         console.log(e);
+        alert("설비 점검 요청에 실패했습니다.\n[원인]" + e.response?.data?.errorDescription || e.response?.data?.data);
+        onClose(true);
       });
   };
 
   const handleEquipSubmit = () => {
+    if (!equipId) {
+      alert("점검이 필요한 설비를 선택하세요.");
+      return;
+    }
     axiosInstance
       .post("/api/fcm/equip", {
         workerId: worker.workerId,
+        equipId: equipId,
         message: message,
       })
       .then((res) => {
         console.log(res.data);
+        alert("설비 점검 요청이 전송되었습니다.");
+        onClose(true);
       })
       .catch((e) => {
-        console.log(e);
+        console.log("실패",e);
+        alert("설비 점검 요청에 실패했습니다.\n[원인]" + e.response?.data?.errorDescription || e.response?.data?.data);
+        onClose(true);
       });
   };
   const handleCustomSubmit = () => {
+    if (!message) {
+      alert("전송할 메시지를 입력하세요.");
+      return;
+    }
     axiosInstance
       .post("/api/fcm/custom", {
         workerId: worker.workerId,
@@ -56,9 +77,13 @@ function ModalContents({ worker, workerList }) {
       })
       .then((res) => {
         console.log(res.data);
+        alert("설비 점검 요청이 전송되었습니다.");
+        onClose(true);
       })
       .catch((e) => {
         console.log(e);
+        alert("설비 점검 요청에 실패했습니다.\n[원인]" + e.response?.data?.errorDescription || e.response?.data?.data);
+        onClose(true);
       });
   };
   return (
@@ -172,6 +197,7 @@ export default function SafetyCallModal({
               worker={selectWorker}
               workerList={workerList}
               // onSubmit={handleSubmit}
+              onClose={onClose}
             />
           ),
         }}
