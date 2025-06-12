@@ -64,7 +64,9 @@ function EquipItem({ equip, selectEquip, openModal, workerList }) {
 
   // 예상 점검 일자 (서버 → equip.pred → 하드코딩)
   const predictedDateStr =
-    info?.expectedMaintenanceDate || equip.pred || "9999-12-31";
+    info?.maintenanceStatus
+  ? "최근 점검 완료✅"
+  : info?.expectedMaintenanceDate || equip.pred || "9999-12-31";
   const predictedDate = new Date(predictedDateStr);
 
   // D-Day (서버 → 계산)
@@ -75,7 +77,7 @@ function EquipItem({ equip, selectEquip, openModal, workerList }) {
   } else if (dDay > 0) {
     dDay = `-${dDay}`;
   } else {
-    dDay = `+${dDay}`;
+    dDay = `+${Math.abs(dDay)}`;
   }
   // const pred = new Date(equip.pred ? equip.pred : test_date);
   // const dDay = Math.ceil((pred - today) / tmp);
@@ -116,7 +118,9 @@ function EquipItem({ equip, selectEquip, openModal, workerList }) {
           <span>({predictedDateStr})</span>
         </div>
         <div className="list-text">
-          <div>예상 점검일까지 D{dDay}</div>
+          <div>{info?.maintenanceStatus 
+      ? "예상 점검일까지 D-0" // 여기 문구를 어떻게 할지 고민 중 점검 완료 ✅ 
+      : `예상 점검일까지 D${dDay}`}</div>
           <GaugeBar percent={percent} />
         </div>
         <div className="list-text">
