@@ -10,7 +10,7 @@ export default function Monitoring() {
   // 렌더링 될때마다 불필요한 websocket 연결을 피하기 위해 useCallback 사용
   const handleWebSocketMessage = useCallback((data) => {
     setZoneList((prev) =>
-      prev.map((zone) =>
+      prev?.map((zone) =>
         zone.zoneId === data.zoneId
           ? {
               ...zone,
@@ -33,9 +33,9 @@ export default function Monitoring() {
         const updated = zonesRes.data.data; // 예: [{ zoneId, zoneName, level }, ...]
         const stateMap = Object.fromEntries(
           // 예: { "PID-790": {level:2, sensorType:"humid"}, ... }
-          statesRes.data.data.map((s) => [s.zoneId, s])
+          statesRes.data.data?.map((s) => [s.zoneId, s])
         );
-        const merged = updated.map((z) => {
+        const merged = updated?.map((z) => {
           const nowState = stateMap[z.zoneId];
           if (!nowState) return z; // 상태가 없는 zone은 그대로 반환
           const { sensorType, ...restState } = nowState;
@@ -57,8 +57,8 @@ export default function Monitoring() {
       <h1>실시간 모니터링</h1>
       <div className="monitor-body">
         <div>
-          {zoneList.length !== 0 &&
-            zoneList.map((z, i) => (
+          {zoneList?.length !== 0 &&
+            zoneList?.map((z, i) => (
               <Link
                 key={i}
                 to={`/zone/${z.zoneId}`}

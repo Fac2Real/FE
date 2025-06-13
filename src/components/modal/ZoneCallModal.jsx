@@ -38,7 +38,7 @@ function ModalContents({ onClose, zoneId, level }) {
     axiosInstance
       .post(`/api/fcm/zone`, { zoneId: zoneId, dangerLevel: level })
       .then((res) => {
-        console.log("dfasdf",res.data.data);
+        console.log("dfasdf", res.data.data);
         setWorkerList(res.data.data);
         setLoading(false);
       })
@@ -51,7 +51,6 @@ function ModalContents({ onClose, zoneId, level }) {
         }
         setLoading(false);
       });
-      
   }, []);
   return (
     <>
@@ -67,11 +66,15 @@ function ModalContents({ onClose, zoneId, level }) {
       {!error && !loading && (
         <>
           <p>
-            <strong>전송 완료</strong> ({workerList.length}건 중 {workerList.filter((worker) => {
-        if (worker.success) {
-          return worker;
-        }
-      }).length}건 성공)
+            <strong>전송 완료</strong> ({workerList.length}건 중{" "}
+            {
+              workerList.filter((worker) => {
+                if (worker.success) {
+                  return worker;
+                }
+              }).length
+            }
+            건 성공)
           </p>
           <div style={{ margin: "1.5rem" }}>
             <WorkerTable workerList={workerList} />
@@ -103,8 +106,15 @@ function WorkerTable({ workerList }) {
                 <tr key={i}>
                   <td>{worker.workerName}</td>
                   <td>
-                    {worker.success
-                      ? <span style={{ fontWeight: "bold", color: "green" }}>전송 성공</span> : <span style={{ fontWeight: "bold", color: "red" }}>전송 실패</span>}
+                    {worker.success ? (
+                      <span style={{ fontWeight: "bold", color: "green" }}>
+                        전송 성공
+                      </span>
+                    ) : (
+                      <span style={{ fontWeight: "bold", color: "red" }}>
+                        전송 실패
+                      </span>
+                    )}
                   </td>
                 </tr>
               );

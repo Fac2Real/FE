@@ -161,7 +161,7 @@ function ContactTable({ workerInfo, onClose, fetchWorkers }) {
             <th scope="row">출입 권한 설정</th>
             <td>
               <div className="checkbox-group edit-mode">
-                {zoneList.map((z) => {
+                {zoneList?.map((z) => {
                   return (
                     <span key={z.zoneId}>
                       <input

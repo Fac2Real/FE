@@ -102,7 +102,7 @@ export default function ZoneInfoBox({
               <div className="sensorlist-underbar">설비 목록</div>
               {facility?.length === 0 && <p>등록된 설비가 없습니다</p>}
               {facility?.length !== 0 &&
-                facility.map((f, i) => (
+                facility?.map((f, i) => (
                   <div key={i}>
                     {/* 설비 목록 */}
                     <div className="list-text">
