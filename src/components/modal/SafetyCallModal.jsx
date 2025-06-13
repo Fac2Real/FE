@@ -116,9 +116,9 @@ function ModalContents({ worker, workerList, onClose }) {
               <option value="" disabled>
                 도움이 필요한 작업자를 선택하세요
               </option>
-              {workerList?.map((worker) => (
-                <option key={worker.workerId} value={worker.workerId}>
-                  {worker.name} ({worker.workerId})
+              {workerList?.map((w) => (
+                <option key={w.workerId} value={w.workerId} disabled={w.workerId == worker.workerId}>
+                  {w.name} ({w.workerId})
                 </option>
               ))}
             </select>
