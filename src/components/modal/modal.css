@@ -67,6 +67,7 @@
   gap: 1rem;
   background-color: var(--box-color);
   margin: 0 0.75rem;
+  text-align: justify;
 }
 
 .button-container > button {

@@ -10,7 +10,6 @@ import { mock_loglist, mock_workers } from "../mock_data/mock_workers";
 import Equip from "../components/Equip";
 import { mock_equips } from "../mock_data/mock_equips";
 import EquipDateModal from "../components/modal/EquipDateModal";
-import EquipMaintainCallModal from "../components/modal/EquipMaintainCallModal";
 import SafetyCallModal from "../components/modal/SafetyCallModal";
 
 export default function ZoneDetail() {
@@ -32,15 +31,18 @@ export default function ZoneDetail() {
   const [selectedWorkerInfo, setSelectedWorker] = useState(null);
   const [selectedEquipInfo, setSelectedEquip] = useState();
   const [isWorkerOpen, setIsWorkerOpen] = useState(false);
-  const [isEquipOpen, setIsEquipOpen] = useState(false);
+  // const [isEquipOpen, setIsEquipOpen] = useState(false);
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const onCloseWorker = () => {
     setSelectedWorker();
     setIsWorkerOpen(false);
   };
-  const onCloseEquip = () => {
-    setIsEquipOpen(false);
-  };
+  // const handleEquipModalOpen = () => {
+  //   setIsEquipOpen(true);
+  // };
+  // const onCloseEquip = () => {
+  //   setIsEquipOpen(false);
+  // };
 
   // 2) 모든 useEffect (조건 없이 항상 선언)
   useEffect(() => {
@@ -52,7 +54,7 @@ export default function ZoneDetail() {
         return res.data;
       })
       .then((res) => {
-        console.log("dashboards", res);
+        // console.log("dashboards", res);
         setDashboards(res.data);
         setLoading(false);
       })
@@ -83,7 +85,7 @@ export default function ZoneDetail() {
         setWorkerList(res.data.data);
       })
       .catch((e) => {
-        console.log(`${zoneId}의 작업자 로드 실패 - mock data를 불러옵니다`, e);
+        // console.log(`${zoneId}의 작업자 로드 실패 - mock data를 불러옵니다`, e);
         setWorkerList(mock_workers);
       });
   };
@@ -152,7 +154,7 @@ export default function ZoneDetail() {
 
   const [equips, setEquips] = useState([]);
 
-  useEffect(() => {
+  const fetchEquips = () => {
     axiosInstance
       .get(`/api/equips/zone/${zoneId}`)
       .then((res) => {
@@ -163,34 +165,32 @@ export default function ZoneDetail() {
         console.log("mock data로 대체합니다");
         setEquips(mock_equips);
       });
+  };
+  useEffect(() => {
+    fetchEquips();
   }, [refreshEquip]);
 
-  const handleUpdateDate = (newDate, equipInfo) => {
-    axiosInstance
-      .post(`/api/equips/${equipInfo.equipId}/check-date`, {
-        checkDate: newDate,
-      })
-      .then((res) => {
-        setEquips((prev) =>
-          prev.map((equip) =>
-            equip.equipId == equipInfo.equipId
-              ? { ...equip, lastCheckDate: newDate }
-              : equip
-          )
-        );
-      })
-      .catch((e) => {
-        console.log("설비 교체일 수정 실패", e);
-      });
-  };
+  // const handleUpdateDate = (newDate, equipInfo) => {
+  //   axiosInstance
+  //     .post(`/api/equips/${equipInfo.equipId}/check-date`, {
+  //       checkDate: newDate,
+  //     })
+  //     .then((res) => {
+  //       setEquips((prev) =>
+  //         prev?.map((equip) =>
+  //           equip.equipId == equipInfo.equipId
+  //             ? { ...equip, lastCheckDate: newDate }
+  //             : equip
+  //         )
+  //       );
+  //       fetchEquips();
+  //     })
+  //     .catch((e) => {
+  //       console.log("설비 교체일 수정 실패", e);
+  //     });
+  // };
   return (
     <>
-      <EquipDateModal
-        isOpen={isEquipOpen}
-        onClose={onCloseEquip}
-        equipInfo={selectedEquipInfo}
-        onUpdate={handleUpdateDate}
-      />
       <WorkerInfoModal
         isOpen={isWorkerOpen}
         onClose={onCloseWorker}
@@ -211,9 +211,9 @@ export default function ZoneDetail() {
           {!loading && !error && (
             <div className="grafana-wrapper">
               {dashboards &&
-                dashboards.map(({ sensorId, sensorType, iframeUrl }) => (
+                dashboards?.map(({ sensorId, sensorType, iframeUrl }) => (
                   <div key={sensorId} className="grafana-box">
-                    <p>
+                    <div>
                       {sensorType} 센서
                       <p
                         style={{
@@ -224,7 +224,7 @@ export default function ZoneDetail() {
                       >
                         ID: {sensorId}
                       </p>
-                    </p>
+                    </div>
                     <div>
                       <iframe
                         src={iframeUrl}
@@ -301,8 +301,7 @@ export default function ZoneDetail() {
             workerList={workerList}
             equips={equips}
             modalParam={{
-              setSelectedEquip: setSelectedEquip,
-              openModal: setIsEquipOpen,
+              fetchEquips: fetchEquips,
             }}
           />
         </div>

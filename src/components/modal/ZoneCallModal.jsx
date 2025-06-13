@@ -68,6 +68,15 @@ function ModalContents({ onClose, zoneId, level }) {
           <p>
             <strong>전송 완료</strong> ({workerList.length}건 중{" "}
             {
+              workerList?.filter((worker) => {
+                if (worker.success) {
+                  return worker;
+                }
+              }).length
+            }
+            건 성공)
+            <strong>전송 완료</strong> ({workerList.length}건 중{" "}
+            {
               workerList.filter((worker) => {
                 if (worker.success) {
                   return worker;
