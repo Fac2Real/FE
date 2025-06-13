@@ -12,6 +12,7 @@
   --warning3: #fcbc45;
 
   --healthy1: green;
+  --head: black;
 }
 #root {
   position: relative;
