@@ -39,7 +39,6 @@ export default function LogTable({ logs, onScrollEnd, scrollBoxRef }) {
             )}
             {logs?.map((l, i) => {
               return (
-                
                 <tr
                   key={i}
                   className={
