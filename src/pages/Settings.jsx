@@ -150,6 +150,7 @@ export default function Settings() {
           };
         });
         setZoneList(updated);
+        alert(`${newValue} 설비가 추가되었습니다.`);
       })
       .catch((e) => console.log(e));
     setFacilityModalOpen(false);
@@ -205,6 +206,8 @@ export default function Settings() {
         });
 
         setZoneList(updated);
+        alert(`설비명이 ${newFacName}로 변경되었습니다`); // 없애도 되려나..
+        
       })
       .catch((e) => console.log(e));
 
@@ -230,6 +233,7 @@ export default function Settings() {
           };
 
           setZoneList((prev) => [...prev, newItem]);
+          alert(`${newZone} 공간이 생성되었습니다.`);
         })
         .catch((e) => {
           alert("공간 생성에 실패하였습니다.", e);
