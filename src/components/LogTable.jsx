@@ -21,9 +21,9 @@ export default function LogTable({ logs, onScrollEnd, scrollBoxRef }) {
               <th style={{ width: "1%" }}>분류</th>
               <th style={{ width: "6%" }}>세분류</th>
               {/* <th style={{ width: "2%" }}>위험도</th> */}
-              <th style={{ width: "3%" }}>발생 시각</th>
               <th style={{ width: "4%" }}>센서ID</th>
               <th style={{ width: "2%" }}>측정값</th>
+              <th style={{ width: "3%" }}>발생 시각</th>
             </tr>
           </thead>
           <tbody>
@@ -52,9 +52,9 @@ export default function LogTable({ logs, onScrollEnd, scrollBoxRef }) {
                   <td>{l.targetType}</td>
                   <td>{l.abnormalType}</td>
                   {/* <td>{l.dangerLevel}</td> */}
-                  <td>{l.timestamp}</td>
                   <td>{l.targetId}</td>
                   <td>{l.value}</td>
+                  <td>{new Date(l.timestamp).toLocaleString()}</td>
                 </tr>
               );
             })}
