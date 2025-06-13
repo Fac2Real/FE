@@ -35,9 +35,16 @@ export default function Monitoring() {
           // 예: { "PID-790": {level:2, sensorType:"humid"}, ... }
           statesRes.data.data.map((s) => [s.zoneId, s])
         );
-        const merged = updated.map((z) =>
-          stateMap[z.zoneId] ? { ...z, ...stateMap[z.zoneId] } : z
-        );
+        const merged = updated.map((z) => {
+          const nowState = stateMap[z.zoneId];
+          if (!nowState) return z; // 상태가 없는 zone은 그대로 반환
+          const { sensorType, ...restState } = nowState;
+          return {
+            ...z,
+            ...restState,
+            abnormal_sensor: sensorType, // sensorType을 abnormal_sensor로 변경
+          };
+        });
 
         setZoneList(merged);
         console.log(merged);
