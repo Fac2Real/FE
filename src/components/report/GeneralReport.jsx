@@ -60,9 +60,9 @@ export default function GeneralReport({ report }) {
       <div>
         {/* <h2>발생 건수 요약</h2> */}
         <div className="summarybox-flex">
-          <SummaryBox title="전체" count={0} />
-          <SummaryBox title="경고" count={0} />
-          <SummaryBox title="위험" count={0} />
+          <SummaryBox title="전체" count={report?.totalCnt ?? 0} />
+          <SummaryBox title="경고" count={report?.warnCnt ?? 0} />
+          <SummaryBox title="위험" count={report?.dangerCnt ?? 0} />
         </div>
       </div>
       <div className="box-wrapper">
