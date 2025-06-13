@@ -31,7 +31,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const removeToast = (id: string) => {
-    setToasts((prev) => prev.filter((t) => t.eventId !== id));
+    setToasts((prev) => prev?.filter((t) => t.eventId !== id));
   };
 
   const handleToastClick = async (toast: AlarmEvent) => {
@@ -96,7 +96,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
                 }
                 return uniqueToasts;
               }, [])
-              .map((toast) => (
+              ?.map((toast) => (
                 <div
                   key={toast.eventId}
                   onClick={(e) => {

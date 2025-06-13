@@ -20,7 +20,7 @@ export default function RegisterWorker({ fetchWorkers }) {
 
   const handleCheckboxChange = (e, zoneName) => {
     if (selectedZones.includes(zoneName)) {
-      const tmp = selectedZones.filter((zone) => zone !== zoneName);
+      const tmp = selectedZones?.filter((zone) => zone !== zoneName);
       setSelectedZones(tmp);
     } else {
       const tmp = [...selectedZones, zoneName];
@@ -166,7 +166,7 @@ export default function RegisterWorker({ fetchWorkers }) {
         <div className="form-row">
           <label>출입 가능한 공간</label>
           <div className="checkbox-group">
-            {zoneList.map((z) => {
+            {zoneList?.map((z) => {
               return (
                 <span key={z.zoneId}>
                   <input
