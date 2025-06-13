@@ -168,14 +168,17 @@ function Total({ data }) {
                 width: "100%",
                 textAlign: "center",
               }}
+              className="worker-table"
             >
               <tbody>
-                <tr style={{ backgroundColor: "#fafafa" }}>
+                <tr>
                   <th
                     style={{
                       padding: "8px",
                       border: "1px solid #ccc",
                       width: "30%",
+                      backgroundColor: "var(--head)",
+                      color: "white",
                     }}
                   >
                     전체
@@ -196,7 +199,8 @@ function Total({ data }) {
                       style={{
                         padding: "8px",
                         border: "1px solid #ccc",
-                        backgroundColor: "#f5f5f5",
+                        backgroundColor: "var(--head)",
+                        color: "white",
                       }}
                     >
                       {item.name}

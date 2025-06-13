@@ -64,12 +64,6 @@
   color: #c00;
 }
 
-/* .normal td {
-  background-color: #e8f5e9 !important;
-  font-weight: bold;
-  color: #2e7d32;
-} */
-
 /* 테이블 열 너비 조정 */
 .worker-table th:nth-child(1) {
   width: 5%;
