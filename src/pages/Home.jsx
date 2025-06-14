@@ -3,7 +3,6 @@ import MiniBox from "../components/MiniBox";
 import PulseIcon from "../assets/pulse_icon.svg?react";
 import WorkerIcon from "../assets/worker_icon.svg?react";
 import MachineIcon from "../assets/machine_icon.svg?react";
-import QuestionIcon from "../assets/question_icon.svg?react";
 import { Link } from "react-router-dom";
 import "../styles/home.css";
 
