@@ -1,5 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ToolIcon from "../assets/tool_icon.svg?react";
+import AlarmIcon from "../assets/alarm_icon.svg?react";
+import axiosInstance from "../api/axiosInstance";
+import EquipMaintainCallModal from "./modal/EquipMaintainCallModal";
+import EquipDateModal from "./modal/EquipDateModal";
+
 function GaugeBar({ percent }) {
   console.log("percent: ", percent);
   const bgColor =
@@ -12,76 +17,162 @@ function GaugeBar({ percent }) {
           width: `${percent == 0 ? 0 : Math.max(5, percent)}%`,
           backgroundColor: bgColor,
           borderRadius: percent >= 80 ? "999px" : "999px 0 0 999px",
+          position: "relative",
         }}
       ></div>
     </div>
   );
 }
-function EquipItem({ equip, selectEquip, openModal }) {
+
+function EquipItem({ equip, workerList, fetchEquips }) {
+  const [info, setInfo] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const test_date = "2025-06-30"; // 예상교체일자 (하드코딩!!!!)
 
+  /* --------- 최신 정보 가져오기 --------- */
+  useEffect(() => {
+    if (!equip?.equipId) return;
+
+    const controller = new AbortController();
+
+    (async () => {
+      try {
+        const res = await axiosInstance.get(
+          `/api/equip-maintenance/latest/${equip.equipId}`,
+          {
+            params: { zoneId: equip.zoneId },
+            signal: controller.signal,
+          }
+        );
+        setInfo(res.data.data);
+      } catch (err) {
+        if (err.name !== "CanceledError") console.error(err);
+      }
+    })();
+
+    return () => controller.abort();
+  }, [equip.equipId, equip.zoneId]);
+
+  // 날짜 계산 상수
   const tmp = 1000 * 60 * 60 * 24;
   const today = new Date();
-  const last = new Date(
-    equip.lastCheckDate ? equip.lastCheckDate : "연결 오류"
-  );
-  const pred = new Date(equip.pred ? equip.pred : test_date);
-  const dDay = Math.ceil((pred - today) / tmp);
 
-  let percent = 0;
-  if (last < pred && last <= today) {
-    percent = Math.ceil(((today - last) / (pred - last)) * 100);
-    if (percent > 100) percent = 100;
-    if (percent < 0) percent = 0;
+  // 최근 점검 일자 (서버 → equip → 에러 메시지)
+  const lastCheckDate =
+    info?.lastCheckDate ||
+    equip.lastCheckDate ||
+    "최근 점검한 일자를 입력해주세요"; // "입력 오류" 대신 수정했습니다.
+
+  // 예상 점검 일자 (서버 → equip.pred → 하드코딩)
+  const predictedDateStr = info?.maintenanceStatus
+    ? "최근 점검 완료✅"
+    : info?.expectedMaintenanceDate || equip.pred || "9999-12-31";
+  const predictedDate = new Date(predictedDateStr);
+
+  // D-Day (서버 → 계산)
+  let dDay =
+    info?.daysUntilMaintenance ?? Math.ceil((predictedDate - today) / tmp);
+  if (dDay == 0) {
+    dDay = "-DAY";
+  } else if (dDay > 0) {
+    dDay = `-${dDay}`;
   } else {
-    percent = 0;
+    dDay = `+${Math.abs(dDay)}`;
   }
 
+  // 퍼센트 계산
+  const lastDateObj = new Date(lastCheckDate);
+  let percent = 0;
+  if (lastDateObj < predictedDate && lastDateObj <= today) {
+    console.log("오늘", today);
+    console.log("최근 점검일", lastDateObj);
+    console.log("설비 점검 추론일", predictedDate);
+    percent = Math.ceil(
+      ((today - lastDateObj) / (predictedDate - lastDateObj)) * 100
+    );
+    percent = Math.max(0, Math.min(100, percent));
+  }
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
+  const [isEquipOpen, setIsEquipOpen] = useState(false);
+  const handleEquipModalOpen = () => {
+    if (predictedDateStr == "9999-12-31") {
+      alert(
+        "최근 점검일은 예상 점검일을 기준으로 업데이트됩니다.\n예상 점검일이 없으면 수정할 수 없습니다."
+      );
+      return;
+    }
+    setIsEquipOpen(true);
+  };
+  const onCloseEquip = () => {
+    setIsEquipOpen(false);
+  };
+  const handleUpdateDate = (newDate, equip) => {
+    axiosInstance
+      .post(`/api/equips/${equip.equipId}/check-date`, {
+        checkDate: newDate,
+      })
+      .then((res) => {
+        setEquips((prev) =>
+          prev?.map((e) =>
+            e.equipId == equip.equipId ? { ...e, lastCheckDate: newDate } : e
+          )
+        );
+        fetchEquips();
+      })
+      .catch((e) => {
+        console.log("설비 교체일 수정 실패", e);
+      });
+  };
   return (
     <>
+      <EquipDateModal
+        isOpen={isEquipOpen}
+        onClose={onCloseEquip}
+        equipInfo={equip}
+        onUpdate={handleUpdateDate}
+      />
       <div className="sensorlist">
         <div className="sensorlist-underbar">
           <strong>{equip.equipName}</strong>
-        </div>
-        {/* <div className="list-text">
-          <div>센서 목록</div>
-          <span className="dash-line"></span>
           <span
-            className="arrow"
-            onClick={() => {
-              setIsOpen((prev) => !prev);
-            }}
+            style={{ cursor: "pointer" }}
+            onClick={() => setIsOpen((prev) => !prev)}
           >
-            {isOpen ? "▲" : "▼"}
+            <AlarmIcon width="1.5rem" color="#000" />
           </span>
         </div>
-        {isOpen && (
-          <div style={{ margin: "0 1rem" }}>
-            {equip.sensors.map((s) => {
-              return (
-                <span key={s.sensorId}>
-                  {s.sensorType}({s.sensorId}){" "}
-                </span>
-              );
-            })}
-          </div>
-        )} */}
         <div className="list-text">
-          <div>예상 교체 일자</div>
+          <div>예상 점검 일자</div>
           <span className="dash-line"></span>
-          <span>({equip?.pred ? equip?.pred : test_date})</span>
+          <span>
+            (
+            {predictedDateStr == "9999-12-31"
+              ? "예상 점검일자 정보가 없습니다"
+              : predictedDateStr}
+            )
+          </span>
         </div>
         <div className="list-text">
-          <div>예상 교체일까지 D-{dDay}</div>
-          <GaugeBar percent={percent} />
+          {predictedDateStr !== "9999-12-31" && (
+            <>
+              <div>
+                {info?.maintenanceStatus
+                  ? "예상 점검일까지 D-0"
+                  : `예상 점검일까지 D${dDay}`}
+              </div>
+              <GaugeBar percent={percent} />
+            </>
+          )}{" "}
         </div>
         <div className="list-text">
           <div>최근 점검 일자</div>
           <span className="dash-line"></span>
           <span>
-            ({equip && equip.lastCheckDate ? equip.lastCheckDate : test_date}
-            )
+            ({lastCheckDate})
             <ToolIcon
               className="thres-setting"
               width="1.3rem"
@@ -89,24 +180,29 @@ function EquipItem({ equip, selectEquip, openModal }) {
               stroke="gray"
               style={{ transform: "translateY(4px)" }}
               onClick={() => {
-                selectEquip(equip);
-                openModal(true);
+                handleEquipModalOpen();
               }}
             />
           </span>
         </div>
       </div>
+      <EquipMaintainCallModal
+        isOpen={isOpen}
+        onClose={onClose}
+        selectedEquip={equip}
+        workerList={workerList}
+      />
     </>
   );
 }
 
-export default function Equip({ equips, modalParam }) {
+export default function Equip({ equips, modalParam, workerList }) {
   return (
     <>
       {/* length가 1인 이유 : empty 설비 때문에... */}
-      {equips.length === 1 && <p>등록된 설비가 없습니다</p>}
-      {!(equips.length === 0) &&
-        equips.map((e, i) => {
+      {equips?.length <= 1 && <p>등록된 설비가 없습니다</p>}
+      {!(equips?.length === 0) &&
+        equips?.map((e, i) => {
           if (e.equipName == "empty") {
             return;
           }
@@ -114,8 +210,8 @@ export default function Equip({ equips, modalParam }) {
             <EquipItem
               key={i}
               equip={e}
-              selectEquip={modalParam.setSelectedEquip}
-              openModal={modalParam.openModal}
+              fetchEquips={modalParam.fetchEquips}
+              workerList={workerList}
             />
           );
         })}

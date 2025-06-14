@@ -47,18 +47,18 @@ export default function Settings() {
     ])
       .then(([res]) => {
         console.log(res.data.data);
-        const list = res.data.data.map((z) => ({
+        const list = res.data.data?.map((z) => ({
           title: z.zoneName,
-          env_sensor: z.envList.map((s) => ({
+          env_sensor: z.envList?.map((s) => ({
             name: toKoName(s.sensorType), // 한글 변환
             thres: s.sensorThres,
             margin: s.allowVal, // JSON 내용 확인해서 변경해야댐..
             sensorId: s.sensorId,
           })),
-          facility: z.equipList.map((f) => ({
+          facility: z.equipList?.map((f) => ({
             name: f.equipName,
             id: f.equipId,
-            fac_sensor: f.facSensor.map((s) => ({
+            fac_sensor: f.facSensor?.map((s) => ({
               name: toKoName(s.sensorType),
               id: s.sensorId,
             })),
@@ -103,13 +103,13 @@ export default function Settings() {
       .then((res) => {
         console.log(sensorInfo.sensorId);
         console.log("임계값 업데이트 완료", res);
-        const updated = zoneList.map((zone) => {
+        const updated = zoneList?.map((zone) => {
           if (zone.title !== sensorInfo.zoneName) {
             return zone;
           }
           return {
             ...zone,
-            env_sensor: zone.env_sensor.map((sen) => {
+            env_sensor: zone.env_sensor?.map((sen) => {
               if (sen.sensorId !== sensorInfo.sensorId) {
                 return sen;
               }
@@ -135,7 +135,7 @@ export default function Settings() {
       })
       .then((res) => {
         const newId = res.data.data.equipId;
-        const updated = zoneList.map((z) => {
+        const updated = zoneList?.map((z) => {
           if (z.title !== selectedZone) return z;
           return {
             ...z,
@@ -150,6 +150,7 @@ export default function Settings() {
           };
         });
         setZoneList(updated);
+        alert(`${newValue} 설비가 추가되었습니다.`);
       })
       .catch((e) => console.log(e));
     setFacilityModalOpen(false);
@@ -165,7 +166,7 @@ export default function Settings() {
         zoneName: newZoneName,
       })
       .then(() => {
-        const updated = zoneList.map((z) => {
+        const updated = zoneList?.map((z) => {
           if (z.title !== selectedZone) return z;
           return {
             ...z,
@@ -190,10 +191,10 @@ export default function Settings() {
         equipName: newFacName,
       })
       .then((res) => {
-        const updated = zoneList.map((z) => {
+        const updated = zoneList?.map((z) => {
           return {
             ...z,
-            facility: z.facility.map((fac) => {
+            facility: z.facility?.map((fac) => {
               if (fac.id !== equipId) return fac;
 
               return {
@@ -205,6 +206,7 @@ export default function Settings() {
         });
 
         setZoneList(updated);
+        alert(`설비명이 ${newFacName}로 변경되었습니다`); // 없애도 되려나..
       })
       .catch((e) => console.log(e));
 
@@ -230,6 +232,7 @@ export default function Settings() {
           };
 
           setZoneList((prev) => [...prev, newItem]);
+          alert(`${newZone} 공간이 생성되었습니다.`);
         })
         .catch((e) => {
           alert("공간 생성에 실패하였습니다.", e);
@@ -265,7 +268,7 @@ export default function Settings() {
         onUpdate={handleEditFac}
       />
       <h1>센서 관리</h1>
-      {zoneList.map((z, i) => (
+      {zoneList?.map((z, i) => (
         <ZoneInfoBox
           zone={z}
           key={z.title}

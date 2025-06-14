@@ -1,0 +1,138 @@
+/* 색상 관련 */
+:root {
+  --head: #1d4a7a;
+  --head: #000;
+}
+
+/* 검색 입력창 */
+.search-container {
+  text-align: start;
+  margin-bottom: 0.5rem;
+}
+
+.search-container input {
+  border: none;
+  border-bottom: 1px solid black;
+  background-color: transparent;
+  margin: 0.5rem 0.5rem 0.5rem 1rem;
+  outline: none;
+}
+
+/* 테이블 공통 */
+.worker-table,
+.logs-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  overflow: hidden;
+  margin: auto;
+  font-size: 0.95rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.worker-table th,
+.worker-table td,
+.logs-table th,
+.logs-table td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.worker-table thead,
+.logs-table thead {
+  background-color: var(--head);
+  /* background-color: black; */
+  color: white;
+}
+
+.worker-table tbody tr:nth-child(even),
+.logs-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.worker-table tbody tr:hover,
+.logs-table tbody tr:hover {
+  background-color: #eef6ff;
+}
+
+/* 상태 강조 */
+.critical td {
+  background-color: var(--warning) !important;
+  font-weight: bold;
+  color: #c00;
+}
+
+/* 테이블 열 너비 조정 */
+.worker-table th:nth-child(1) {
+  width: 5%;
+}
+
+.worker-table th:nth-child(4) {
+  width: 10%;
+}
+
+.contact-row {
+  width: auto !important;
+}
+
+/* 호출 아이콘 스타일 */
+td[style*="cursor: pointer"]:has(> span) {
+  color: #c62828;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+td[style*="cursor: pointer"]:has(> span):hover {
+  transform: scale(1.2);
+}
+
+/* 수정 텍스트 강조 */
+td[style*="textDecoration: underline"] {
+  color: var(--blue);
+  font-weight: 600;
+}
+
+td[style*="textDecoration: underline"]:hover {
+  color: #005999;
+}
+
+/* 전체 박스 (테이블 담는 영역) */
+.safety-body {
+  height: 60vh;
+  width: 100%;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+  transform: translateY(1px);
+  margin-bottom: 3rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.5rem 0;
+}
+
+/* 테이블 정렬 컨테이너 */
+.table-container {
+  margin: 1rem 0;
+  height: 75%;
+  width: 100%;
+  gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.table-container > * {
+  margin: 0 1.5rem;
+  font-size: 1rem;
+}
+
+/* 개별 헤더 스타일 */
+.table-header th {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  /* background-color: var(--box-color); */
+  width: 10%;
+  white-space: nowrap;
+}

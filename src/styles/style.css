@@ -1,3 +1,23 @@
+/* 기본 컬러 정의*/
+:root {
+  --c1: #e3f6ff;
+  --c2: #e1f0ff;
+  --c3: #608dff;
+  --c4: #ebf8fe;
+
+  --box-color: #f6f6f6;
+  --blue: #1d4a7a;
+  --warning: #fde1ad;
+  --warning2: #f2c97e;
+  --warning3: #fcbc45;
+
+  --healthy1: green;
+  --head: black;
+}
+#root {
+  position: relative;
+  z-index: 1;
+}
 /* 기본 설정 삭제 */
 body {
   user-select: none;
@@ -5,10 +25,6 @@ body {
   min-height: 100vh;
   height: auto;
   font-family: "Noto Sans KR", sans-serif;
-}
-
-h2 {
-  margin-bottom: 0.25rem;
 }
 
 a:hover,
@@ -32,13 +48,15 @@ a:visited {
   flex-direction: row;
   min-height: 100vh;
   height: auto;
+
+  position: relative;
 }
 
 .contents {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin: 4rem auto 0 auto;
+  margin: 5rem auto 0 auto;
   width: 100%;
   max-width: 70%;
 }
@@ -99,6 +117,7 @@ div.sidebar-open {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   margin: 1.5rem 0;
 }
 
@@ -212,7 +231,7 @@ p.sidebar-open {
   justify-content: space-between;
   position: absolute;
   width: 100%;
-  padding: 10px 20px;
+  padding: 0.7rem 1rem;
   border-radius: 0.5rem;
   font-size: 1.2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -233,12 +252,12 @@ p.sidebar-open {
 
 .bottom-box {
   width: 100%;
-  padding: 60px 20px 20px 20px;
+  padding: 4rem 1rem 2rem 1rem;
   border: 1px solid #dddbdb;
   border-radius: 1.25rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
-  z-index: 1;
+  /* z-index: 1; */
   transition: height 0.2s ease, padding 0.2s ease;
   overflow: hidden;
 }
@@ -266,6 +285,9 @@ p.sidebar-open {
 .sensorlist-underbar {
   font-size: 1.2rem;
   border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .input-flex {
@@ -274,7 +296,7 @@ p.sidebar-open {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-left: 2rem;
+  margin: 0 2rem;
 }
 
 .input-flex span {
@@ -294,8 +316,9 @@ p.sidebar-open {
 }
 
 .button-flex button {
+  cursor: pointer;
   width: 7.5rem;
-  margin: 0.5rem 1rem 1rem 0;
+  margin: 0.5rem 0 1rem 0;
   height: 2rem;
   border-radius: 0.5rem;
   font-size: 1.2rem;
@@ -317,7 +340,7 @@ p.sidebar-open {
 
 .button-flex {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .list-text {
@@ -351,6 +374,7 @@ p.sidebar-open {
 
 /* 플렉스 안 받는 버튼 */
 .no-flex-button {
+  cursor: pointer;
   width: auto;
   height: auto;
   padding: 0.3rem 0.75rem;
@@ -439,7 +463,7 @@ p.sidebar-open {
   background-color: var(--warning);
 }
 
-.icon-container {
+.icon-container > * {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
@@ -594,6 +618,7 @@ iframe {
   flex-direction: column;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding-top: 0;
+  overflow-x: hidden;
 }
 .alarm-list {
   list-style: none;
@@ -608,6 +633,7 @@ iframe {
   padding: 1rem;
   padding-top: 0;
   height: 400px; /* 최소 높이 설정 */
+  overflow-x: hidden;
 }
 .alarm-item {
   padding: 0.75rem;
@@ -615,6 +641,7 @@ iframe {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  text-align: justify;
 }
 
 .alarm-item button {
@@ -657,96 +684,6 @@ strong.normal {
   color: #009900;
 }
 
-.search-container {
-  text-align: start;
-  margin-bottom: 0.5rem;
-}
-
-.worker-table,
-.logs-table {
-  width: calc(100%);
-  border-collapse: collapse;
-  text-align: center;
-  overflow: hidden;
-  margin: auto;
-}
-
-.table-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  /* flex-direction: column; */
-  justify-content: center;
-  align-items: center;
-}
-
-.table-container th {
-  background-color: transparent;
-  border: none;
-}
-
-.table-header th {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  background-color: var(--box-color);
-  width: 10%;
-}
-
-.worker-table td,
-.logs-table td {
-  border: 1px solid #ccc;
-  background-color: white;
-}
-
-.worker-table th:nth-child(1) {
-  width: 5%;
-}
-
-.worker-table th:nth-child(4) {
-  width: 10%;
-}
-
-.contact-row {
-  width: auto !important;
-}
-
-.worker-table .critical td,
-.logs-table .critical td {
-  background-color: var(--warning);
-}
-
-.search-container input {
-  border: none;
-  border-bottom: 1px solid black;
-  background-color: transparent;
-  margin: 0.5rem;
-  outline: none;
-  margin-left: 1rem;
-}
-
-.safety-body {
-  height: 60vh;
-  width: 100%;
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
-  transform: translateY(1px);
-  margin-bottom: 3rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 1.2rem;
-}
-
-.table-container {
-  margin: 1rem 0;
-  height: 75%;
-  width: 100%;
-  gap: 0.5rem;
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-}
-
 .radio {
   margin-left: 0 !important;
 }
@@ -770,9 +707,10 @@ select.search-field {
 
 /* 연락처용 표 */
 .contact-table {
-  width: 80%;
+  width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+  border-radius: 0.75rem;
 }
 
 .contact-table th,
@@ -783,7 +721,8 @@ select.search-field {
 }
 
 .contact-table th {
-  background-color: var(--box-color);
+  background-color: var(--blue);
+  color: white;
   width: 40%;
   border-bottom: 1px solid var(--box-color);
 }
@@ -792,6 +731,11 @@ select.search-field {
   background-color: white;
   color: #555;
   border-bottom: 1px solid var(--box-color);
+}
+
+.manager-button {
+  justify-content: flex-end;
+  margin-right: 1.5rem;
 }
 
 .manager-button button {
@@ -813,11 +757,18 @@ select.search-field {
   gap: 1rem;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
 }
 
 .select-flex select {
   width: 15rem;
   height: 2rem;
+  font-weight: normal;
+  /* border-radius: 0.25rem; */
+  outline: none;
+  padding: 0.25rem 0;
+  border: none;
+  border-bottom: 1px solid black;
 }
 
 .edit-manager button {
@@ -858,9 +809,9 @@ select.search-field {
 }
 
 .form-row label {
-  width: 20%; /* 모든 label 동일한 너비 */
+  min-width: 20%; /* 모든 label 동일한 너비 */
   flex-shrink: 0;
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
   text-align: right;
   margin-right: 1rem;
   font-weight: bold;
@@ -868,7 +819,7 @@ select.search-field {
 
 .text-input {
   flex: 1; /* 텍스트 입력은 남은 공간 모두 차지 */
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
   background-color: inherit;
   outline: none;
   border: none;
@@ -887,7 +838,7 @@ select.search-field {
 .checkbox-group label {
   font-weight: normal;
   cursor: pointer;
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
   vertical-align: middle;
 }
 
@@ -896,7 +847,7 @@ select.search-field {
   align-items: center;
   white-space: nowrap;
   gap: 0.5rem;
-  width: 7.5rem;
+  min-width: 12rem;
   overflow: visible;
 }
 

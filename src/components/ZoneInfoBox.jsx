@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ToolIcon from "../assets/tool_icon.svg?react";
 import EditIcon from "../assets/edit_icon.svg?react";
+import "../styles/table.css";
 export default function ZoneInfoBox({
   zone,
   sensorModalBtn,
@@ -65,9 +66,9 @@ export default function ZoneInfoBox({
           <>
             <div className="sensorlist">
               <div className="sensorlist-underbar">공간 환경 센서</div>
-              {env_sensor.length === 0 && <p>공간 환경 센서가 없습니다</p>}
-              {env_sensor.length !== 0 &&
-                env_sensor.map((sen, i) => (
+              {env_sensor?.length === 0 && <p>공간 환경 센서가 없습니다</p>}
+              {env_sensor?.length !== 0 &&
+                env_sensor?.map((sen, i) => (
                   <div className="list-text" key={i}>
                     <div>
                       {sen.name}
@@ -99,9 +100,9 @@ export default function ZoneInfoBox({
             </div>
             <div className="sensorlist">
               <div className="sensorlist-underbar">설비 목록</div>
-              {facility.length === 0 && <p>등록된 설비가 없습니다</p>}
-              {facility.length !== 0 &&
-                facility.map((f, i) => (
+              {facility?.length === 0 && <p>등록된 설비가 없습니다</p>}
+              {facility?.length !== 0 &&
+                facility?.map((f, i) => (
                   <div key={i}>
                     {/* 설비 목록 */}
                     <div className="list-text">

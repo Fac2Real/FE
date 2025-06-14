@@ -6,7 +6,7 @@ import ToolIcon from "./assets/tool_icon.svg?react";
 import ReportIcon from "./assets/report_icon.svg?react";
 import BellIcon from "./assets/bell_icon.svg?react";
 import CloseIcon from "./assets/close_icon.svg?react";
-import Logo from "./assets/temp_logo.svg?react";
+import Logo from "./assets/logo.svg?react";
 import WorkerIcon from "./assets/worker_icon.svg?react";
 import LogoutIcon from "./assets/logout_icon.svg?react";
 import { useEffect, useCallback, useState } from "react";
@@ -42,7 +42,10 @@ export default function Sidebar({ isOpen, setIsOpen }) {
 
   useEffect(() => {
     if (location.pathname === "/") setCurrentPage("Home");
-    else if (location.pathname.startsWith("/monitoring"))
+    else if (
+      location.pathname.startsWith("/monitoring") ||
+      location.pathname.startsWith("/zone")
+    )
       setCurrentPage("Monitor");
     else if (location.pathname.startsWith("/safety")) setCurrentPage("Safety");
     else if (location.pathname.startsWith("/facility"))
@@ -52,24 +55,24 @@ export default function Sidebar({ isOpen, setIsOpen }) {
     else if (location.pathname.startsWith("/report")) setCurrentPage("Report");
   }, [location.pathname]);
 
-  const handleButtonClick = () => {
-    const result = confirm("로그아웃하시겠습니까?");
-    if (!result) {
-      return;
-    }
-    axiosInstance
-      .post("/api/auth/logout")
-      .then(() => {
-        console.log("로그아웃 성공");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("userId");
-        window.location.href = "/login"; // 로그인 페이지로 리다이렉트
-      })
-      .catch((e) => {
-        console.error("로그아웃 실패", e);
-        alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
-      });
-  };
+  // const handleButtonClick = () => {
+  //   const result = confirm("로그아웃하시겠습니까?");
+  //   if (!result) {
+  //     return;
+  //   }
+  //   axiosInstance
+  //     .post("/api/auth/logout")
+  //     .then(() => {
+  //       console.log("로그아웃 성공");
+  //       localStorage.removeItem("accessToken");
+  //       localStorage.removeItem("userId");
+  //       window.location.href = "/login"; // 로그인 페이지로 리다이렉트
+  //     })
+  //     .catch((e) => {
+  //       console.error("로그아웃 실패", e);
+  //       alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
+  //     });
+  // };
 
   return (
     <aside className={isOpen ? "sidebar-open" : "sidebar-close"}>
@@ -77,6 +80,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         <div>
           <span className="icon side-opt">
             <Link
+              style={{ marginTop: "0.5rem" }}
               onClick={() => {
                 setIsOpen(!isOpen);
               }}
@@ -89,7 +93,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       {isOpen && (
         <div className="sidebar-open">
           <span className="icon side-opt">
-            <Logo fill="#FFF" width="1.5rem" />
+            <Logo color="#fff" width="2.25rem" />
           </span>
           <span className="icon side-opt">
             <Link
@@ -241,7 +245,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
           </span>
         </div>
         {/* 로그아웃 버튼 */}
-        <div className="logout-button">
+        {/* <div className="logout-button">
           <span className="icon side-opt" onClick={handleButtonClick}>
             <a>
               <LogoutIcon
@@ -265,7 +269,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
               )}
             </a>
           </span>
-        </div>
+        </div> */}
       </div>
       {/* 알람 모달 */}
       <AlarmModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

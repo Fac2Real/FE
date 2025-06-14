@@ -59,7 +59,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
   };
 
   const removeAlarm = (alarmId) => {
-    setAlarms((prev) => prev.filter((alarm) => alarm.id !== alarmId));
+    setAlarms((prev) => prev?.filter((alarm) => alarm.id !== alarmId));
   };
   const handleAlarmClick = async (alarm) => {
     await axiosInstance(`/api/abnormal/${alarm.id}/read`, {
@@ -71,7 +71,11 @@ const AlarmModal = ({ isOpen, onClose }) => {
     // 알람 삭제
     removeAlarm(alarm.id);
     // 알람 상세 페이지로 이동
-    navigate(`/zone/${alarm.zoneId}`);
+    navigate(`/zone/${alarm.zoneId}`, {
+      state: {
+        zoneName: alarm.zoneName,
+      },
+    });
     window.scrollTo({ top: 0, behavior: "smooth" });
     onClose();
   };
@@ -90,7 +94,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
   const [filter, setFilter] = useState("");
 
   const filteredAlarms = filter
-    ? alarms.filter((alarm) =>
+    ? alarms?.filter((alarm) =>
         filter === "urgent"
           ? alarm.abnormalType?.includes("위험")
           : filter === "warning"
@@ -163,7 +167,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
         >
           {filteredAlarms.length > 0 ? (
             <ul className="alarm-list">
-              {filteredAlarms.map((alarm) => (
+              {filteredAlarms?.map((alarm) => (
                 <li
                   key={alarm.id}
                   className="alarm-item"
@@ -184,8 +188,10 @@ const AlarmModal = ({ isOpen, onClose }) => {
                         }
                       >
                         {alarm.abnormalType}
-                      </strong>{" "}
-                      - {alarm.zoneName}
+                      </strong>
+                      <p style={{ margin: "0.25rem 0" }}>
+                        위치: {alarm.zoneName}
+                      </p>
                     </p>
                     <p className="alarm-timestamp">
                       감지 시간: {new Date(alarm.detectedAt).toLocaleString()}

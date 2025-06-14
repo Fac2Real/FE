@@ -2,72 +2,113 @@ import { useState } from "react";
 import BasicModal from "./BasicModal";
 import axiosInstance from "../../api/axiosInstance";
 
-function ModalContents({ worker, equipList, onSubmit }) {
-  const [selectedEquipId, setSelectedEquipId] = useState("");
-    console.log(equipList)
+function ModalContents({ equip, workerList, onClose }) {
+  const [message, setMessage] = useState("");
+  const [worker, setWorker] = useState("");
+  const handleSubmit = () => {
+    if (worker == "") {
+      alert("호출할 직원을 선택하세요");
+      return;
+    }
+    axiosInstance
+      .post(`/api/fcm/equip`, {
+        workerId: worker?.workerId ?? "",
+        equipId: equip?.equipId ?? "",
+      })
+      .then((res) => {
+        console.log(res.data);
+        onClose(true);
+      })
+      .catch((e) => {
+        console.log(e);
+        // onClose(true);
+      });
+  };
   return (
     <>
-      <p>장비 유지보수를 요청할 작업자: {worker.name} ({worker.workerId})</p>
-      <div className="input-flex">
-        <span>설비 선택</span>
-        <select
-          value={selectedEquipId}
-          onChange={(e) => setSelectedEquipId(e.target.value)}
-        >
-          <option value="" disabled>
-            설비를 선택하세요
-          </option>
-          {equipList.map((equip) => (
-            <option key={equip.equipId} value={equip.equipId}>
-              {equip.equipName} ({equip.equipId})
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="button-flex">
-        <button
-          onClick={() => {
-            if (selectedEquipId) {
-              onSubmit(worker.workerId, selectedEquipId);
-            } else {
-              alert("설비를 선택해주세요.");
-            }
-          }}
-        >
-          요청 보내기
-        </button>
-      </div>
+      {workerList?.length == 0 && (
+        <>
+          <p>현재 요청 가능한 직원이 없습니다</p>
+          <br></br>
+          <div className="button-flex">
+            <button
+              onClick={() => {
+                onClose(true);
+              }}
+            >
+              닫기
+            </button>
+          </div>
+        </>
+      )}
+      {workerList?.length != 0 && (
+        <>
+          <p style={{ marginTop: 0, color: "gray" }}>
+            선택한 설비: {equip.equipName}
+          </p>
+          <div className="modal-flex">
+            <div className="select-flex">
+              <select
+                style={{ height: "1.75rem", fontSize: "1rem", width: "20rem" }}
+                onChange={(e) => setWorker(e.target.value)}
+                value={worker}
+              >
+                <option value="" disabled>
+                  점검을 요청할 직원을 선택하세요
+                </option>
+                {workerList?.map((w) => (
+                  <option key={w.workerId} value={w}>
+                    {w.name} ({w.workerId})
+                  </option>
+                ))}
+              </select>
+            </div>
+            {worker && (
+              <>
+                <div className="input-flex">
+                  <input
+                    style={{
+                      flex: "auto",
+                      width: "20rem",
+                      height: "1.75rem",
+                      textAlign: "center",
+                      margin: "0.5rem",
+                    }}
+                    placeholder={`${worker?.name} 님에게 남길 추가 메시지를 입력하세요`}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  ></input>
+                </div>
+              </>
+            )}
+          </div>
+          <br></br>
+          <div className="button-flex">
+            <button onClick={handleSubmit}>전송</button>
+          </div>
+        </>
+      )}
     </>
   );
 }
 
-export default function EquipMaintainCallModal({ isOpen, onClose, worker, equipList }) {
-  const handleSubmit = async (workerId, equipId) => {
-    try {
-      await axiosInstance.post("/api/fcm/equip", {
-        workerId,
-        equipId,
-      });
-      alert("유지보수 요청이 성공적으로 전송되었습니다.");
-      onClose(); // 모달 닫기
-    } catch (error) {
-      console.error("유지보수 요청 전송 실패:", error);
-      alert("유지보수 요청 전송에 실패했습니다.");
-    }
-  };
-
+export default function EquipMaintainCallModal({
+  isOpen,
+  onClose,
+  selectedEquip,
+  workerList,
+}) {
   if (isOpen) {
     return (
       <BasicModal
         onClose={onClose}
-        type="edit"
         modal_contents={{
-          title: "장비 유지보수 요청",
+          title: "설비 점검 요청",
           contents: (
             <ModalContents
-              worker={worker}
-              equipList={equipList}
-              onSubmit={handleSubmit}
+              equip={selectedEquip}
+              workerList={workerList}
+              onClose={onClose}
             />
           ),
         }}

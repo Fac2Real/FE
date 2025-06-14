@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import Help from "./pages/Help";
 import BasicModal from "./components/modal/BasicModal";
 import HiddenPage from "./pages/HiddenPage";
+import Header from "./Header";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(true);
@@ -21,6 +22,7 @@ export default function App() {
     <BrowserRouter>
       <ToastProvider>
         <div className="main">
+          <Header />
           <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
           <div className={`sidebar-guard ${isOpen ? "open" : "close"}`}></div>
           <div className="contents">

@@ -1,0 +1,152 @@
+.period {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: rgba(155, 155, 155);
+}
+
+.summarybox-flex {
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+}
+
+.summarybox {
+  width: 11rem;
+  height: 7.2rem;
+  border-radius: 1.2rem;
+  position: relative;
+  margin-bottom: 1.5rem;
+
+  /* background-color: black;
+  color: white; */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  background-color: var(--box-color);
+  color: black;
+  font-weight: bold;
+}
+
+.summarybox > h3 {
+  font-size: 1.25rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0.75rem;
+}
+
+.summarybox > p {
+  margin: 0.5rem;
+  font-size: 2.5rem;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.report-button-flex {
+  margin-bottom: 3rem;
+  margin-right: -2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.report-button-flex button {
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+
+  background-color: black;
+  color: white;
+
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.report-button-flex button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.report-button-flex button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Zonewise Report */
+
+/* 카테고리로 나눠지는 top-box, bottom-box */
+.cat-top-box {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+}
+
+.cat-top-box > :first-child {
+  width: 30%;
+  height: 100%;
+  background-color: orangered;
+  margin: 0;
+  line-height: 2.7rem;
+  text-align: center;
+  border-radius: 0.5rem;
+}
+
+.cat-box-mini {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  gap: 1rem;
+  justify-content: space-around;
+}
+
+.cat-bottom-box {
+  padding: 4rem 0 1rem 0;
+}
+
+.cat-bottom-box > * {
+  margin: 0.75rem 0.5rem;
+}
+
+.buttonlike {
+  cursor: pointer;
+}
+
+/* 비어있을 때 */
+.null-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgb(179, 179, 179);
+}
+
+.null-container > p {
+  margin-top: 0.25rem;
+  font-weight: 700;
+}
+
+td {
+  height: 1rem;
+  white-space: nowrap;
+  overflow: hidden !important;
+}
+
+/* 상세페이지에서 그래프 있는 부분 */
+.total-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.total-box .text-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0 1rem 0 1rem;
+}

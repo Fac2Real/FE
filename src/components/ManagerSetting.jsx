@@ -2,20 +2,21 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
 import { mock_workers, mock_manager } from "../mock_data/mock_workers";
 import WorkerTable from "./WorkerTable";
-export default function ManagerSetting({ modalParam, zoneId }) {
+import SafetyCallModal from "./modal/SafetyCallModal";
+export default function ManagerSetting({ workerList, modalParam, zoneId }) {
   const [mode, setMode] = useState("");
   const [cand, setCand] = useState([]);
-  const [selectedWorkerId, setSelectedWorkerId] = useState("");
+  const [selectedWorkerId, setSelectedWorkerId] = useState(null);
   const [manager, setManager] = useState();
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-
+  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   // 매니저 정보 받아오기
   useEffect(() => {
     console.log("???");
     axiosInstance
       .get(`/api/workers/zone/${zoneId}/manager`)
       .then((res) => {
-        console.log(res.data.data);
+        console.log("manager:", res.data.data);
         setManager(res.data.data);
       })
       .catch((error) => {
@@ -45,8 +46,6 @@ export default function ManagerSetting({ modalParam, zoneId }) {
       })
       .catch((e) => {
         console.log("매니저 후보 조회에 실패했습니다.", e);
-        // console.log("현재 위치 작업자 mock data를 대신 불러옵니다.");
-        // setCand(mock_workers);
       });
   };
 
@@ -84,6 +83,16 @@ export default function ManagerSetting({ modalParam, zoneId }) {
             selectWorker={modalParam.selectedWorker}
             openModal={modalParam.openModal}
             isManager={true}
+            callbackModal={(worker) => {
+              // setSelectedWorker(worker);
+              setIsCallModalOpen(true);
+            }}
+          />
+          <SafetyCallModal
+            isOpen={isCallModalOpen}
+            onClose={() => setIsCallModalOpen(false)}
+            selectWorker={manager}
+            workerList={workerList}
           />
         </>
       )}
@@ -93,7 +102,7 @@ export default function ManagerSetting({ modalParam, zoneId }) {
             className="button-flex manager-button"
             style={{ justifyContent: "space-between" }}
           >
-            <p>매니저가 할당되지 않았습니다</p>
+            <p style={{ marginLeft: "1.5rem" }}>매니저가 할당되지 않았습니다</p>
             <button
               style={{ marginRight: 0 }}
               onClick={() => {
@@ -117,7 +126,7 @@ export default function ManagerSetting({ modalParam, zoneId }) {
                 value={selectedWorkerId}
                 disabled={cand?.length === 0}
               >
-                {cand.map((c, i) => {
+                {cand?.map((c, i) => {
                   return (
                     <option key={i} value={c.workerId}>
                       {c.name} ({c.workerId})

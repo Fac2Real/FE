@@ -5,23 +5,15 @@ const statusKor = (status) => {
   if (status == 0) {
     return "정상";
   } else if (status == 2) {
-    return "주의";
+    return "위험";
   } else {
     return "오류";
   }
 };
 
-const formattedPhoneNumber = (phoneNumber) => {
-  if (phoneNumber.startsWith("+82")) {
-    return phoneNumber;
-  } else {
-    return "+82" + phoneNumber.slice(-10);
-  }
-};
-
 export default function WorkerTable({
   worker_list,
-  isDetail = false, // "현재 위치" 포함 여부 (Y=false, N=true)
+  isDetail = false,
   selectWorker,
   openModal,
   isManager = false,
@@ -31,30 +23,31 @@ export default function WorkerTable({
   const [search, setSearch] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("전체");
 
-  const filteredWorkers = worker_list.filter((worker) => {
+  const filteredWorkers = worker_list?.filter((worker) => {
     if (searchType === "byName") {
       return worker.name.includes(search.trim());
     } else if (searchType === "byStatus") {
       if (selectedStatus === "전체") {
-        return worker_list;
+        return true;
       }
-      return worker.status === selectedStatus;
+      console.log(worker.status);
+      return worker.status == Number(selectedStatus);
     }
     return true;
   });
 
   const directCall = (worker) => {
-    const confirmed = window.confirm(`작업자를 호출하시겠습니까?`);
-    if (confirmed) {
-      callbackModal(worker);
-    }
+    console.log("직접 호출:", worker);
+    callbackModal(worker);
   };
+  console.log(worker_list);
+
   return (
     <>
       <div className="table-container">
         {!isManager && (
-          <tr className="table-search">
-            <th colSpan={6}>
+          <div className="table-search">
+            <div colSpan={6}>
               <div className="search-container">
                 {/* 이름검색 라디오버튼 */}
                 <div>
@@ -105,15 +98,15 @@ export default function WorkerTable({
                     disabled={searchType !== "byStatus"}
                   >
                     <option value="전체">전체</option>
-                    <option value="정상">정상</option>
-                    <option value="위험">위험</option>
+                    <option value={0}>정상</option>
+                    <option value={2}>위험</option>
                   </select>
                 </div>
               </div>
-            </th>
-          </tr>
+            </div>
+          </div>
         )}
-        <div style={{ width: "100%", height: "100%", overflowY: "scroll" }}>
+        <div style={{ width: "100%", height: "100%", overflowY: "auto" }}>
           <table className="worker-table">
             <thead>
               <tr className="table-header">
@@ -124,17 +117,17 @@ export default function WorkerTable({
                 <th className="contact-row">이메일</th>
                 <th className="contact-row">전화번호</th>
                 <th style={{ width: "5%" }}>호출</th>
-                <th style={{ width: "5%" }}>상세정보</th>
+                {!isDetail && !isManager && <th>정보 수정</th>}
               </tr>
             </thead>
             <tbody>
-              {filteredWorkers.length == 0 && (
+              {filteredWorkers?.length == 0 && (
                 <tr>
                   <td colSpan={8}>조건에 맞는 직원 정보가 없습니다</td>
                 </tr>
               )}
               {filteredWorkers &&
-                filteredWorkers.map((worker, i) => {
+                filteredWorkers?.map((worker, i) => {
                   let tmp = "normal";
                   if (worker.status == "위험") {
                     tmp = "critical";
@@ -146,27 +139,27 @@ export default function WorkerTable({
                       <td>{worker.name}</td>
                       {!isDetail && <td>{worker.currentZoneName}</td>}
                       <td className="contact-row">{worker.email}</td>
-                      <td className="contact-row">
-                        {formattedPhoneNumber(worker.phoneNumber)}
-                      </td>
+                      <td className="contact-row">{worker.phoneNumber}</td>
                       <td
                         style={{ fontSize: "1.2rem", cursor: "pointer" }}
                         onClick={() => directCall(worker)}
                       >
                         🚨
                       </td>
-                      <td
-                        style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          selectWorker(worker);
-                          openModal(true);
-                        }}
-                      >
-                        조회
-                      </td>
+                      {!isDetail && !isManager && (
+                        <td
+                          style={{
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
+                          onClick={() => {
+                            selectWorker(worker);
+                            openModal(true);
+                          }}
+                        >
+                          수정
+                        </td>
+                      )}
                     </tr>
                   );
                 })}

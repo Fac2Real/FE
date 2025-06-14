@@ -16,7 +16,17 @@ function ModalContents({ onUpdate, equipId }) {
         ></input>
       </div>
       <div className="button-flex">
-        <button onClick={() => onUpdate(newFacName, equipId)}>변경</button>
+        <button
+          onClick={() => {
+            if (newFacName == "empty") {
+              alert("설비명 empty는 사용할 수 없습니다");
+              return;
+            }
+            onUpdate(newFacName, equipId);
+          }}
+        >
+          변경
+        </button>
       </div>
     </>
   );

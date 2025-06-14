@@ -5,6 +5,7 @@ import WorkerInfoModal from "../components/modal/WorkerInfoModal";
 import RegisterWorker from "../components/RegisterWorker";
 import SafetyCallModal from "../components/modal/SafetyCallModal";
 import { mock_workers } from "../mock_data/mock_workers";
+import "../styles/table.css";
 
 export default function Safety() {
   const [workerList, setWorkerList] = useState([]);
@@ -44,6 +45,7 @@ export default function Safety() {
         isOpen={isOpen}
         onClose={onClose}
         workerInfo={selectedWorkerInfo}
+        fetchWorkers={fetchWorkers}
       />
       <h1>작업자 관리</h1>
       <div className="safety-body">
@@ -60,13 +62,13 @@ export default function Safety() {
       <SafetyCallModal
         isOpen={isCallModalOpen}
         onClose={() => setIsCallModalOpen(false)}
+        selectWorker={selectedWorkerInfo}
         workerList={workerList}
       />
       <div
         className="safety-body"
         style={{
           height: "auto",
-          width: "80%",
           alignSelf: "center",
           flexDirection: "column",
         }}

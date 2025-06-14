@@ -1,0 +1,58 @@
+.header-wrapper {
+  position: absolute;
+  right: 0%;
+  top: 0%;
+  overflow-x: hidden;
+}
+
+.quick-open,
+.quick-closed {
+  width: 100%; /* 원하는 메뉴 폭 */
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease;
+  position: relative;
+  opacity: 1;
+}
+
+.quick-closed {
+  transform: translateX(50%); /* 오른쪽 바깥으로 밀기 */
+  opacity: 0;
+  pointer-events: none; /* 안 보일 때 클릭 방지 */
+}
+
+.quick-open {
+  transform: translateX(0); /* 보이는 위치 */
+  opacity: 1;
+}
+
+.header-container {
+  color: black;
+}
+
+.header-body {
+  color: black;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  position: relative;
+}
+
+.header-body span {
+  white-space: nowrap;
+  margin: 1rem 1rem;
+  border: none;
+  border-bottom: 1px solid rgb(158, 157, 157);
+  padding: 0.25rem 0.5rem;
+  padding-top: 0;
+}
+
+.header-menu {
+  display: flex;
+  gap: 0.5rem;
+  color: gray;
+}
+
+.link-as-contents:hover .header-menu {
+  background-color: transparent;
+  transform: translateY(-2.5px);
+  transition: all 0.3s ease-in-out;
+}

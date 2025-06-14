@@ -1,13 +1,13 @@
 import { useRef } from "react";
+import "../styles/table.css";
 
-export default function LogTable({ logs, onScrollEnd }) {
+export default function LogTable({ logs, onScrollEnd, scrollBoxRef }) {
   const handleScroll = (e) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     if (scrollTop + clientHeight >= scrollHeight - 10) {
       onScrollEnd();
     }
   };
-  const scrollBoxRef = useRef(null);
   return (
     <div
       ref={scrollBoxRef}
@@ -21,9 +21,9 @@ export default function LogTable({ logs, onScrollEnd }) {
               <th style={{ width: "1%" }}>분류</th>
               <th style={{ width: "6%" }}>세분류</th>
               {/* <th style={{ width: "2%" }}>위험도</th> */}
-              <th style={{ width: "3%" }}>발생 시각</th>
               <th style={{ width: "4%" }}>센서ID</th>
               <th style={{ width: "2%" }}>측정값</th>
+              <th style={{ width: "3%" }}>발생 시각</th>
             </tr>
           </thead>
           <tbody>
@@ -52,9 +52,9 @@ export default function LogTable({ logs, onScrollEnd }) {
                   <td>{l.targetType}</td>
                   <td>{l.abnormalType}</td>
                   {/* <td>{l.dangerLevel}</td> */}
-                  <td>{l.timestamp}</td>
                   <td>{l.targetId}</td>
                   <td>{l.value}</td>
+                  <td>{new Date(l.timestamp).toLocaleString()}</td>
                 </tr>
               );
             })}

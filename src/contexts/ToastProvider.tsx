@@ -31,7 +31,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const removeToast = (id: string) => {
-    setToasts((prev) => prev.filter((t) => t.eventId !== id));
+    setToasts((prev) => prev?.filter((t) => t.eventId !== id));
   };
 
   const handleToastClick = async (toast: AlarmEvent) => {
@@ -46,7 +46,11 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     removeToast(toast.eventId);
 
     // 알람 상세 페이지로 이동
-    navigate(`/zone/${toast.zoneId}`);
+    navigate(`/zone/${toast.zoneId}`, {
+      state: {
+        zoneName: toast.zoneName,
+      },
+    });
   };
 
   const getColor = (riskLevel: RiskLevel) => {
@@ -84,14 +88,15 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
             {toasts
               .reduce<AlarmEvent[]>((uniqueToasts, toast) => {
                 const isDuplicate = uniqueToasts.some(
-                  (t: AlarmEvent) => t.zoneId === toast.zoneId && t.equipId === toast.equipId
+                  (t: AlarmEvent) =>
+                    t.zoneId === toast.zoneId && t.equipId === toast.equipId
                 );
                 if (!isDuplicate) {
                   uniqueToasts.push(toast);
                 }
                 return uniqueToasts;
               }, [])
-              .map((toast) => (
+              ?.map((toast) => (
                 <div
                   key={toast.eventId}
                   onClick={(e) => {
@@ -102,29 +107,29 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
                   className={`px-4 py-3 rounded shadow-md cursor-pointer transition-all animate-fade-in ${getColor(
                     toast.riskLevel
                   )}`}
-              >
-                <MonitorIcon
-                  abnormal_sensor={toast.sensorType}
-                  level={toast.riskLevel}
-                  color={"white"}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-around",
-                  }}
                 >
-                  <h3>
-                    {toast.riskLevel} - {toast.zoneName}
-                  </h3>
-                  <div>
-                    <p>{toast.messageBody}</p>
-                    <p>{toast.time}</p>
+                  <MonitorIcon
+                    abnormal_sensor={toast.sensorType}
+                    level={toast.riskLevel}
+                    color={"white"}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <h3>
+                      {toast.riskLevel} - {toast.zoneName}
+                    </h3>
+                    <div>
+                      <p>{toast.messageBody}</p>
+                      <p>{toast.time}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>,
         document.getElementById("toast-root") as HTMLElement
