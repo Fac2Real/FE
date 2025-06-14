@@ -1,0 +1,22 @@
+/* 기본 컬러 정의*/
+:root {
+    --c1: #e3f6ff;
+    --c2: #e1f0ff;
+    --c3: #608dff;
+    --c4: #ebf8fe;
+
+    --box-color: #f6f6f6;
+    --blue: #1d4a7a;
+    --warning: #fde1ad;
+    --warning2: #f2c97e;
+    --warning3: #fcbc45;
+
+    --healthy1: green;
+
+    
+}
+
+#root {
+    position: relative;
+    z-index: 1;
+}
