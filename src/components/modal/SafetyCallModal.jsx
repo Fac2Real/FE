@@ -33,12 +33,12 @@ function ModalContents({ worker, workerList, onClose }) {
       })
       .then((res) => {
         console.log(res.data);
-        alert("설비 점검 요청이 전송되었습니다.");
+        alert("작업자 도움 요청이 전송되었습니다.");
         onClose(true);
       })
       .catch((e) => {
         console.log(e);
-        alert("설비 점검 요청에 실패했습니다.\n[원인]" + e.response?.data?.errorDescription || e.response?.data?.data);
+        alert("작업자 도움 요청에 실패했습니다.\n[원인]" + e.response?.data?.errorDescription || e.response?.data?.data);
         onClose(true);
       });
   };
@@ -77,12 +77,12 @@ function ModalContents({ worker, workerList, onClose }) {
       })
       .then((res) => {
         console.log(res.data);
-        alert("설비 점검 요청이 전송되었습니다.");
+        alert("기타 요청이 전송되었습니다.");
         onClose(true);
       })
       .catch((e) => {
         console.log(e);
-        alert("설비 점검 요청에 실패했습니다.\n[원인]" + e.response?.data?.errorDescription || e.response?.data?.data);
+        alert("기타 요청에 실패했습니다.\n[원인]" + e.response?.data?.errorDescription || e.response?.data?.data);
         onClose(true);
       });
   };
@@ -116,9 +116,9 @@ function ModalContents({ worker, workerList, onClose }) {
               <option value="" disabled>
                 도움이 필요한 작업자를 선택하세요
               </option>
-              {workerList?.map((worker) => (
-                <option key={worker.workerId} value={worker.workerId}>
-                  {worker.name} ({worker.workerId})
+              {workerList?.map((w) => (
+                <option key={w.workerId} value={w.workerId} disabled={w.workerId == worker.workerId}>
+                  {w.name} ({w.workerId})
                 </option>
               ))}
             </select>
