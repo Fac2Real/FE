@@ -15,7 +15,9 @@ export default function RegisterWorker({ fetchWorkers }) {
     axiosInstance
       .get("/api/zones")
       .then((res) => setZoneList(res.data.data))
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        setZoneList([]);
+      });
   }, []);
 
   const handleCheckboxChange = (e, zoneName) => {
@@ -106,12 +108,6 @@ export default function RegisterWorker({ fetchWorkers }) {
           if (e.response.status == 409) {
             alert(e.response.data.message);
             return;
-          }
-          console.log("작업자 등록 실패");
-          if (false) {
-            // TODO : 중복된 사번/정보의 작업자가 있을 경우 반환 받은 에러
-            alert(`${workerId}가 이미 있습니다.`);
-            alert(`${phoneNumber}가 이미 있습니다.`);
           }
         });
     } else {

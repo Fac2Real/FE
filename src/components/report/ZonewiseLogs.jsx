@@ -97,7 +97,6 @@ function WorkerTable({ log }) {
 }
 
 function EquipTable({ log }) {
-  console.log(log);
   if (!log) {
     return;
   }

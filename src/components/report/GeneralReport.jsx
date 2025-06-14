@@ -29,8 +29,6 @@ function SummaryBox({ title, count }) {
 }
 
 export default function GeneralReport({ report }) {
-  console.log("general", report);
-
   const typeData = report?.typeStats
     ?.sort((a, b) => b.cnt - a.cnt)
     .slice(0, 5)

@@ -90,7 +90,6 @@ function ContactTable({ workerInfo, onClose, fetchWorkers }) {
       return;
     }
     if (window.confirm(`수정한 정보를 저장하시겠습니까?`)) {
-      console.log("저장할 정보 전송");
       axiosInstance
         .post(`/api/workers/update`, {
           workerId: formData.workerId,
@@ -200,7 +199,6 @@ export default function WorkerInfoModal({
   workerInfo,
   fetchWorkers,
 }) {
-  console.log(workerInfo);
   if (isOpen) {
     return (
       <BasicModal

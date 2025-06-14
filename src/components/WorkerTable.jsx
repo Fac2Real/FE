@@ -30,17 +30,14 @@ export default function WorkerTable({
       if (selectedStatus === "전체") {
         return true;
       }
-      console.log(worker.status);
       return worker.status == Number(selectedStatus);
     }
     return true;
   });
 
   const directCall = (worker) => {
-    console.log("직접 호출:", worker);
     callbackModal(worker);
   };
-  console.log(worker_list);
 
   return (
     <>

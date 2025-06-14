@@ -12,11 +12,9 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    // console.log(response)  
     return response
   },
   (error) => {
-    console.log("Axios error:", error);
     if (error.response && error.response.status === 401) {
       // 세션 만료 또는 인증 실패
       if (window.location.pathname !== "/login") {

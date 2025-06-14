@@ -54,12 +54,10 @@ export default function ZoneDetail() {
         return res.data;
       })
       .then((res) => {
-        // console.log("dashboards", res);
         setDashboards(res.data);
         setLoading(false);
       })
       .catch((err) => {
-        // console.log(err);
         setError(err);
         setLoading(false);
       });
@@ -85,7 +83,6 @@ export default function ZoneDetail() {
         setWorkerList(res.data.data);
       })
       .catch((e) => {
-        // console.log(`${zoneId}의 작업자 로드 실패 - mock data를 불러옵니다`, e);
         setWorkerList(mock_workers);
       });
   };
@@ -146,8 +143,7 @@ export default function ZoneDetail() {
           setLogs(res.data.data.content);
         })
         .catch((e) => {
-          console.log("로그 조회 실패 - mock-data를 불러옵니다", e);
-          setLogs(mock_loglist);
+          setLogs([]);
         });
     }
   }, [refreshLog]);
@@ -161,34 +157,13 @@ export default function ZoneDetail() {
         setEquips(res.data.data);
       })
       .catch((e) => {
-        console.log("설비 목록 로딩 실패", e);
-        console.log("mock data로 대체합니다");
-        setEquips(mock_equips);
+        setEquips([]);
       });
   };
   useEffect(() => {
     fetchEquips();
   }, [refreshEquip]);
 
-  // const handleUpdateDate = (newDate, equipInfo) => {
-  //   axiosInstance
-  //     .post(`/api/equips/${equipInfo.equipId}/check-date`, {
-  //       checkDate: newDate,
-  //     })
-  //     .then((res) => {
-  //       setEquips((prev) =>
-  //         prev?.map((equip) =>
-  //           equip.equipId == equipInfo.equipId
-  //             ? { ...equip, lastCheckDate: newDate }
-  //             : equip
-  //         )
-  //       );
-  //       fetchEquips();
-  //     })
-  //     .catch((e) => {
-  //       console.log("설비 교체일 수정 실패", e);
-  //     });
-  // };
   return (
     <>
       <WorkerInfoModal

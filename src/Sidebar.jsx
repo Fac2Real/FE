@@ -8,7 +8,6 @@ import BellIcon from "./assets/bell_icon.svg?react";
 import CloseIcon from "./assets/close_icon.svg?react";
 import Logo from "./assets/logo.svg?react";
 import WorkerIcon from "./assets/worker_icon.svg?react";
-import LogoutIcon from "./assets/logout_icon.svg?react";
 import { useEffect, useCallback, useState } from "react";
 
 import AlarmModal from "./components/AlarmModal";
