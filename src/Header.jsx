@@ -15,10 +15,8 @@ export default function Header() {
     axiosInstance
       .post("/api/auth/logout")
       .then(() => {
-        console.log("로그아웃 성공");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("userId");
-        window.location.href = "/login"; // 로그인 페이지로 리다이렉트
+        localStorage.removeItem("isLoggedIn");
+        window.location.href = "/login";
       })
       .catch((e) => {
         console.error("로그아웃 실패", e);

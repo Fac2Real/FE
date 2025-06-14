@@ -22,7 +22,12 @@ export default function Monitoring() {
     );
   }, []);
   // 메시지 예: {"zoneId":"PID-790","sensorType":"humid","level":2}
-  useWebSocket("/topic/zone", handleWebSocketMessage);
+
+  useWebSocket(
+    "/topic/zone",
+    handleWebSocketMessage,
+    localStorage.getItem("isLoggedIn") === "true"
+  );
 
   useEffect(() => {
     Promise.all([
@@ -47,7 +52,6 @@ export default function Monitoring() {
         });
 
         setZoneList(merged);
-        console.log(merged);
       })
       .catch((e) => console.log("실시간 모니터링 페이지 : 로딩 실패", e));
   }, []);

@@ -22,22 +22,23 @@ export default function Sidebar({ isOpen, setIsOpen }) {
   const [currentPage, setCurrentPage] = useState("Home");
 
   const handleWebSocketMessage = useCallback((count) => {
-    // console.log("WebSocket message received:", count);
-    // 웹소켓 알림 왔을 때 알림 개수 업데이트
     setAlramCount(count);
   }, []);
   // 웹소켓 연결
-  useWebSocket2("/topic/unread-count", handleWebSocketMessage);
+  useWebSocket2(
+    "/topic/unread-count",
+    handleWebSocketMessage,
+    localStorage.getItem("isLoggedIn") === "true"
+  );
 
   // 첫 렌더링 시 알람 개수 초기화
   useEffect(() => {
     axiosInstance
       .get("/api/abnormal/unread-count")
       .then((res) => {
-        // console.log("res data: ", res.data);
         setAlramCount(res.data.data);
       })
-      .catch((e) => console.log("e"));
+      .catch((e) => console.log(e));
   }, []);
 
   useEffect(() => {
@@ -54,25 +55,6 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       setCurrentPage("Sensor");
     else if (location.pathname.startsWith("/report")) setCurrentPage("Report");
   }, [location.pathname]);
-
-  // const handleButtonClick = () => {
-  //   const result = confirm("로그아웃하시겠습니까?");
-  //   if (!result) {
-  //     return;
-  //   }
-  //   axiosInstance
-  //     .post("/api/auth/logout")
-  //     .then(() => {
-  //       console.log("로그아웃 성공");
-  //       localStorage.removeItem("accessToken");
-  //       localStorage.removeItem("userId");
-  //       window.location.href = "/login"; // 로그인 페이지로 리다이렉트
-  //     })
-  //     .catch((e) => {
-  //       console.error("로그아웃 실패", e);
-  //       alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
-  //     });
-  // };
 
   return (
     <aside className={isOpen ? "sidebar-open" : "sidebar-close"}>
@@ -225,7 +207,6 @@ export default function Sidebar({ isOpen, setIsOpen }) {
             className="icon"
             onClick={() => {
               setIsModalOpen(true);
-              console.log("알람 모달 열기");
             }}
           >
             <span className="icon">
