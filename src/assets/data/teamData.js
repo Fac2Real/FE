@@ -7,7 +7,7 @@ export const teamData = {
         members: [
             {
                 name: "Kiri",
-                role: "DevOps, CI/CD",
+                role: "DevOps, Jenkins CI, K8s",
                 email: "wdd1016@gmail.com",
                 github: "wdd1016",
             },
@@ -30,7 +30,7 @@ export const teamData = {
         members: [
             {
                 name: "Woody",
-                role: "Sensor Simulator, Wearable App",
+                role: "Sensor Simulator, Wearable App, Backend",
                 email: "kwy1379@ajou.ac.kr",
                 github: "gwangbu-desu",
             },
