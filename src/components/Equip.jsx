@@ -6,7 +6,6 @@ import EquipMaintainCallModal from "./modal/EquipMaintainCallModal";
 import EquipDateModal from "./modal/EquipDateModal";
 
 function GaugeBar({ percent }) {
-  console.log("percent: ", percent);
   const bgColor =
     percent >= 70 ? "#FF4D4F" : percent >= 40 ? "#FAAD14" : "#52C41A";
   return (
@@ -46,7 +45,7 @@ function EquipItem({ equip, workerList, fetchEquips }) {
         );
         setInfo(res.data.data);
       } catch (err) {
-        if (err.name !== "CanceledError") console.error(err);
+        setInfo({});
       }
     })();
 
@@ -84,9 +83,6 @@ function EquipItem({ equip, workerList, fetchEquips }) {
   const lastDateObj = new Date(lastCheckDate);
   let percent = 0;
   if (lastDateObj < predictedDate && lastDateObj <= today) {
-    console.log("오늘", today);
-    console.log("최근 점검일", lastDateObj);
-    console.log("설비 점검 추론일", predictedDate);
     percent = Math.ceil(
       ((today - lastDateObj) / (predictedDate - lastDateObj)) * 100
     );
@@ -123,9 +119,7 @@ function EquipItem({ equip, workerList, fetchEquips }) {
         );
         fetchEquips();
       })
-      .catch((e) => {
-        console.log("설비 교체일 수정 실패", e);
-      });
+      .catch((e) => {});
   };
   return (
     <>

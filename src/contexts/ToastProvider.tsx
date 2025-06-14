@@ -65,12 +65,13 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
   const handleWebSocketMessage = (message: AlarmEvent) => {
-    // console.log("Received message:", message);
-
     showToast(message);
   };
-
-  useWebSocket3("/topic/alarm", handleWebSocketMessage);
+  useWebSocket3(
+    "/topic/alarm",
+    handleWebSocketMessage,
+    localStorage.getItem("isLoggedIn") === "true"
+  );
 
   return (
     <ToastContext.Provider value={{ showToast }}>
@@ -90,7 +91,6 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
                 return uniqueToasts;
               }, [])
               ?.map((toast) => {
-                console.log(toast);
                 return (
                   <div
                     key={toast.eventId}
