@@ -4,6 +4,7 @@ import { useState } from "react";
 import QuestionIcon from "./assets/question_icon.svg?react";
 import LogoutIcon from "./assets/logout_icon.svg?react";
 import HomeIcon from "./assets/home_icon.svg?react";
+import Logo from "./assets/simple_logo.svg?react";
 import axiosInstance from "./api/axiosInstance";
 export default function Header() {
   const [isOpen, setIsOpen] = useState(true);
@@ -38,10 +39,16 @@ export default function Header() {
                   HOME
                 </span>
               </Link>
-              <Link to="/help" className="link-as-contents">
+              {/* <Link to="/help" className="link-as-contents">
                 <span className="header-menu">
                   <QuestionIcon width="1rem" fill="gray" opacity="0.7" />
                   모니토리 사용법
+                </span>
+              </Link> */}
+              <Link to="/team" className="link-as-contents">
+                <span className="header-menu">
+                  <Logo width="1rem" fill="gray" opacity="0.7" />
+                  Team Factoreal
                 </span>
               </Link>
               <Link className="link-as-contents">
