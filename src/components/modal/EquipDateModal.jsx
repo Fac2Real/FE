@@ -21,7 +21,6 @@ function ModalContents({ equipInfo, onUpdate, onClose }) {
           onClick={() => {
             const today = new Date();
             const selectedDay = new Date(newDate);
-            // console.log(selectedDay);
             if (selectedDay > today) {
               alert("오늘 이후의 날짜는 선택할 수 없습니다.");
               return;

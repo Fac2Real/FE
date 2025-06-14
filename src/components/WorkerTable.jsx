@@ -4,7 +4,7 @@ import axiosInstance from "../api/axiosInstance";
 const statusKor = (status) => {
   if (status == 0) {
     return "정상";
-  } else if (status == 2) {
+  } else if (status == 1) {
     return "위험";
   } else {
     return "오류";
@@ -30,17 +30,14 @@ export default function WorkerTable({
       if (selectedStatus === "전체") {
         return true;
       }
-      console.log(worker.status);
       return worker.status == Number(selectedStatus);
     }
     return true;
   });
 
   const directCall = (worker) => {
-    console.log("직접 호출:", worker);
     callbackModal(worker);
   };
-  console.log(worker_list);
 
   return (
     <>

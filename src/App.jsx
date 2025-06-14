@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Sidebar from "./Sidebar";
 import "./styles/style.css";
+import "./styles/common.css";
 import Settings from "./pages/Settings";
 import Monitoring from "./pages/Monitoring";
 import Report from "./pages/Report";

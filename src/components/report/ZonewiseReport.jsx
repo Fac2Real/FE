@@ -87,7 +87,6 @@ function EnvReport({ info, cnt }) {
   if (cnt == 0) {
     return <NoItems mode="환경" />;
   }
-  console.log(info);
   return <EnvLogs log={info} />;
 }
 
@@ -95,7 +94,6 @@ function WorkerReport({ info, cnt }) {
   if (cnt == 0) {
     return <NoItems mode="안전" />;
   }
-  console.log(info);
   return (
     <>
       {info?.map((w, i) => (
@@ -109,7 +107,6 @@ function EquipReport({ info, cnt }) {
   if (cnt == 0) {
     return <NoItems mode="설비" />;
   }
-  console.log(info);
   return (
     <>
       {info?.map((e, i) => {

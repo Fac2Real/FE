@@ -46,7 +46,6 @@ export default function Settings() {
       axiosInstance.get("/api/zones/zoneitems"), // zoneItems 1개만 써도 OK
     ])
       .then(([res]) => {
-        console.log(res.data.data);
         const list = res.data.data?.map((z) => ({
           title: z.zoneName,
           env_sensor: z.envList?.map((s) => ({
@@ -87,7 +86,6 @@ export default function Settings() {
   };
 
   const handleOpenFacEditModal = (facName, equipId) => {
-    console.log(facName, equipId);
     setSelectedFac(facName);
     setSelectedFacId(equipId);
     setFacEditOpen(true);
@@ -101,8 +99,6 @@ export default function Settings() {
         allowVal: newMargin,
       })
       .then((res) => {
-        console.log(sensorInfo.sensorId);
-        console.log("임계값 업데이트 완료", res);
         const updated = zoneList?.map((zone) => {
           if (zone.title !== sensorInfo.zoneName) {
             return zone;
@@ -223,7 +219,6 @@ export default function Settings() {
           zoneName: newZone,
         })
         .then((res) => {
-          console.log(res);
           const newItem = {
             title: newZone,
             env_sensor: [],

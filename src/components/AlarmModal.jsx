@@ -96,12 +96,12 @@ const AlarmModal = ({ isOpen, onClose }) => {
   const filteredAlarms = filter
     ? alarms?.filter((alarm) =>
         filter === "urgent"
-          ? alarm.abnormalType?.includes("위험")
+          ? alarm.dangerLevel === 2
           : filter === "warning"
-          ? alarm.abnormalType?.includes("경고")
+          ? alarm.dangerLevel === 1
           : filter === "normal"
-          ? !alarm.abnormalType?.includes("위험") &&
-            !alarm.abnormalType?.includes("경고")
+          ? !alarm.dangerLevel === 2 &&
+            !alarm.dangerLevel === 1
           : true
       )
     : alarms;
@@ -177,12 +177,12 @@ const AlarmModal = ({ isOpen, onClose }) => {
                   }}
                 >
                   <div>
-                    <p>
+                    <div>
                       <strong
                         className={
-                          alarm.abnormalType?.includes("경고")
+                          alarm.dangerLevel == 1
                             ? "warning"
-                            : alarm.abnormalType?.includes("위험")
+                            : alarm.dangerLevel == 2
                             ? "urgent"
                             : "normal"
                         }
@@ -192,7 +192,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
                       <p style={{ margin: "0.25rem 0" }}>
                         위치: {alarm.zoneName}
                       </p>
-                    </p>
+                    </div>
                     <p className="alarm-timestamp">
                       감지 시간: {new Date(alarm.detectedAt).toLocaleString()}
                     </p>

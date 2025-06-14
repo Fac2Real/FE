@@ -5,6 +5,7 @@ import GasIcon from "../assets/monitor_icons/gas_icon.svg?react";
 import ElectricIcon from "../assets/monitor_icons/electric_icon.svg?react";
 import PressureIcon from "../assets/monitor_icons/pressure_icon.svg?react";
 import VibIcon from "../assets/monitor_icons/vib_icon.svg?react";
+import HeartIcon from "../assets/monitor_icons/heart_icon.svg?react";
 
 export default function MonitorIcon({
   abnormal_sensor = "온도",
@@ -57,5 +58,11 @@ export default function MonitorIcon({
     abnormal_sensor.includes("먼지")
   ) {
     return <GasIcon width={iconWidth} color={color} opacity="0.4" />;
+  }
+  if (
+    abnormal_sensor.includes("심박수") ||
+    abnormal_sensor.includes("heartRate")
+  ) {
+    return <HeartIcon width={iconWidth} color={color} opacity="0.4" />;
   }
 }

@@ -27,17 +27,15 @@ export default function Login() {
         password: userPassword,
       })
       .then((res) => {
-        console.log("로그인 성공");
-        console.log(res.data);
+        localStorage.setItem("isLoggedIn", "true");
         axiosInstance.get("/api/abnormal/unread-count");
         nav("/");
       })
       .catch((e) => {
-        console.log("로그인 실패");
         console.log(e);
+        localStorage.removeItem("isLoggedIn");
         alert("아이디 또는 비밀번호가 잘못되었습니다.");
       });
-    console.log(response);
   };
   return (
     <>

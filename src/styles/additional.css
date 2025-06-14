@@ -1,0 +1,97 @@
+/* Hidden Page 전용 */
+.team-tab-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 0;
+  padding: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.team-tab-btn {
+  flex: 1;
+  padding: 1rem 0;
+  background-color: black;
+  color: white;
+  border: none;
+
+  font-size: 1.1rem;
+  letter-spacing: 0.15rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-right: 1px solid white;
+
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.team-tab-btn:hover {
+  background-color: #333;
+}
+
+.team-tab-btn:last-child {
+  border-right: none;
+}
+
+.team-tab-btn.active {
+  background-color: orangered;
+}
+
+.team-info-box {
+  padding: 4rem 0;
+}
+
+.team-summary {
+  margin: 1rem 2rem;
+  color: gray;
+  font-weight: 550;
+  font-size: 1.05rem;
+}
+
+.factoreal-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  margin-bottom: 0;
+}
+
+.members-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin: 2rem;
+  gap: 3rem;
+}
+
+.member-card {
+  /* flex: 1; */
+  width: 30%;
+}
+
+.member-img {
+  /* background-color: gray; */
+  width: 80%;
+  justify-self: center;
+  /* height: 15rem; */
+  /* border-radius: 99%; */
+}
+
+.member-info-1 {
+  color: gray;
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.member-info-2 {
+  font-size: 1rem;
+}
+
+.info-contents {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  margin: 2.5% 1%;
+  gap: 10%;
+}

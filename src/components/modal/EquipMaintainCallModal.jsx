@@ -16,12 +16,10 @@ function ModalContents({ equip, workerList, onClose }) {
         equipId: equip?.equipId ?? "",
       })
       .then((res) => {
-        console.log(res.data);
         onClose(true);
       })
       .catch((e) => {
         console.log(e);
-        // onClose(true);
       });
   };
   return (

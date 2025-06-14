@@ -12,21 +12,16 @@ export default function ManagerSetting({ workerList, modalParam, zoneId }) {
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   // 매니저 정보 받아오기
   useEffect(() => {
-    console.log("???");
     axiosInstance
       .get(`/api/workers/zone/${zoneId}/manager`)
       .then((res) => {
-        console.log("manager:", res.data.data);
         setManager(res.data.data);
       })
       .catch((error) => {
         if (error.response && error.response.status === 404) {
-          console.log("해당 공간에 담당자가 없습니다.");
           setManager(null); // 혹은 빈 상태 처리
         } else {
-          console.log("매니저 정보 조회에 실패했습니다.", error);
-          // console.log("mock data를 불러옵니다.");
-          // setManager(mock_manager);
+          setManager(null);
         }
       });
   }, [refreshTrigger]);
@@ -45,7 +40,7 @@ export default function ManagerSetting({ workerList, modalParam, zoneId }) {
         setCand(res.data.data);
       })
       .catch((e) => {
-        console.log("매니저 후보 조회에 실패했습니다.", e);
+        setCand([]);
       });
   };
 
@@ -57,7 +52,7 @@ export default function ManagerSetting({ workerList, modalParam, zoneId }) {
           setMode("");
           setRefreshTrigger((prev) => prev + 1);
         })
-        .catch((e) => console.log("담당자 지정 실패", e));
+        .catch((e) => setMode(""));
     } else {
       return;
     }

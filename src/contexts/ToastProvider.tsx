@@ -65,20 +65,14 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
   const handleWebSocketMessage = (message: AlarmEvent) => {
-    // console.log("Received message:", message);
-
     showToast(message);
   };
+  useWebSocket3(
+    "/topic/alarm",
+    handleWebSocketMessage,
+    localStorage.getItem("isLoggedIn") === "true"
+  );
 
-  useWebSocket3("/topic/alarm", handleWebSocketMessage);
-
-  // useEffect(() => {
-  //   const handleWebSocketMessage = (event: MessageEvent) => {
-  //     const data = JSON.parse(event.data) as AlarmEvent;
-  //     console.log("WebSocket message received:", data);
-  //     showToast(data);
-  //   }
-  // }, []);
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
@@ -96,40 +90,42 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
                 }
                 return uniqueToasts;
               }, [])
-              ?.map((toast) => (
-                <div
-                  key={toast.eventId}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleToastClick(toast);
-                  }}
-                  className={`px-4 py-3 rounded shadow-md cursor-pointer transition-all animate-fade-in ${getColor(
-                    toast.riskLevel
-                  )}`}
-                >
-                  <MonitorIcon
-                    abnormal_sensor={toast.sensorType}
-                    level={toast.riskLevel}
-                    color={"white"}
-                  />
+              ?.map((toast) => {
+                return (
                   <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-around",
+                    key={toast.eventId}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleToastClick(toast);
                     }}
+                    className={`px-4 py-3 rounded shadow-md cursor-pointer transition-all animate-fade-in ${getColor(
+                      toast.riskLevel
+                    )}`}
                   >
-                    <h3>
-                      {toast.riskLevel} - {toast.zoneName}
-                    </h3>
-                    <div>
-                      <p>{toast.messageBody}</p>
-                      <p>{toast.time}</p>
+                    <MonitorIcon
+                      abnormal_sensor={toast.sensorType}
+                      level={toast.riskLevel}
+                      color={"white"}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-around",
+                      }}
+                    >
+                      <h3>
+                        {toast.riskLevel} - {toast.zoneName}
+                      </h3>
+                      <div>
+                        <p>{toast.messageBody}</p>
+                        <p>{toast.time}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
           </div>
         </div>,
         document.getElementById("toast-root") as HTMLElement
