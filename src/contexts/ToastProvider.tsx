@@ -72,13 +72,6 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useWebSocket3("/topic/alarm", handleWebSocketMessage);
 
-  // useEffect(() => {
-  //   const handleWebSocketMessage = (event: MessageEvent) => {
-  //     const data = JSON.parse(event.data) as AlarmEvent;
-  //     console.log("WebSocket message received:", data);
-  //     showToast(data);
-  //   }
-  // }, []);
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
