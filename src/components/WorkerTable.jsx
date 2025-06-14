@@ -23,7 +23,7 @@ export default function WorkerTable({
   const [search, setSearch] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("전체");
 
-  const filteredWorkers = worker_list.filter((worker) => {
+  const filteredWorkers = worker_list?.filter((worker) => {
     if (searchType === "byName") {
       return worker.name.includes(search.trim());
     } else if (searchType === "byStatus") {
@@ -121,13 +121,13 @@ export default function WorkerTable({
               </tr>
             </thead>
             <tbody>
-              {filteredWorkers.length == 0 && (
+              {filteredWorkers?.length == 0 && (
                 <tr>
                   <td colSpan={8}>조건에 맞는 직원 정보가 없습니다</td>
                 </tr>
               )}
               {filteredWorkers &&
-                filteredWorkers.map((worker, i) => {
+                filteredWorkers?.map((worker, i) => {
                   let tmp = "normal";
                   if (worker.status == "위험") {
                     tmp = "critical";

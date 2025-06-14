@@ -12,6 +12,7 @@
   --warning3: #fcbc45;
 
   --healthy1: green;
+  --head: black;
 }
 #root {
   position: relative;
@@ -640,6 +641,7 @@ iframe {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  text-align: justify;
 }
 
 .alarm-item button {

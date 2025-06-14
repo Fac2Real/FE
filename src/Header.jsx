@@ -6,7 +6,7 @@ import LogoutIcon from "./assets/logout_icon.svg?react";
 import HomeIcon from "./assets/home_icon.svg?react";
 import axiosInstance from "./api/axiosInstance";
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const handleButtonClick = () => {
     const result = confirm("로그아웃하시겠습니까?");
     if (!result) {

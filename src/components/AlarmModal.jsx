@@ -167,7 +167,7 @@ const AlarmModal = ({ isOpen, onClose }) => {
         >
           {filteredAlarms.length > 0 ? (
             <ul className="alarm-list">
-              {filteredAlarms.map((alarm) => (
+              {filteredAlarms?.map((alarm) => (
                 <li
                   key={alarm.id}
                   className="alarm-item"

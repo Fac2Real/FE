@@ -1,8 +1,9 @@
 import { useState } from "react";
 import BasicModal from "./BasicModal";
+import ModalPortal from "../ModalPortal";
 
 function ModalContents({ equipInfo, onUpdate, onClose }) {
-  const [newDate, setNewDate] = useState();
+  const [newDate, setNewDate] = useState(new Date());
   return (
     <>
       <div className="input-flex" style={{ marginLeft: 0, marginTop: 0 }}>
@@ -20,7 +21,7 @@ function ModalContents({ equipInfo, onUpdate, onClose }) {
           onClick={() => {
             const today = new Date();
             const selectedDay = new Date(newDate);
-            console.log(selectedDay);
+            // console.log(selectedDay);
             if (selectedDay > today) {
               alert("오늘 이후의 날짜는 선택할 수 없습니다.");
               return;
@@ -44,14 +45,16 @@ export default function EquipDateModal({
 }) {
   if (isOpen) {
     return (
-      <BasicModal
-        onClose={onClose}
-        type="edit"
-        modal_contents={{
-          title: `[${equipInfo.equipName}]의 점검일자 업데이트`,
-          contents: <ModalContents {...{ equipInfo, onUpdate, onClose }} />,
-        }}
-      />
+      <ModalPortal>
+        <BasicModal
+          onClose={onClose}
+          type="edit"
+          modal_contents={{
+            title: `[${equipInfo.equipName}]의 점검일자 업데이트`,
+            contents: <ModalContents {...{ equipInfo, onUpdate, onClose }} />,
+          }}
+        />
+      </ModalPortal>
     );
   }
 }

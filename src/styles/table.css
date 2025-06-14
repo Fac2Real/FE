@@ -1,3 +1,9 @@
+/* 색상 관련 */
+:root {
+  --head: #1d4a7a;
+  --head: #000;
+}
+
 /* 검색 입력창 */
 .search-container {
   text-align: start;
@@ -36,7 +42,7 @@
 
 .worker-table thead,
 .logs-table thead {
-  background-color: var(--blue);
+  background-color: var(--head);
   /* background-color: black; */
   color: white;
 }
@@ -57,12 +63,6 @@
   font-weight: bold;
   color: #c00;
 }
-
-/* .normal td {
-  background-color: #e8f5e9 !important;
-  font-weight: bold;
-  color: #2e7d32;
-} */
 
 /* 테이블 열 너비 조정 */
 .worker-table th:nth-child(1) {
