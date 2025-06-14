@@ -38,7 +38,6 @@ function ModalContents({ onClose, zoneId, level }) {
     axiosInstance
       .post(`/api/fcm/zone`, { zoneId: zoneId, dangerLevel: level })
       .then((res) => {
-        console.log("dfasdf", res.data.data);
         setWorkerList(res.data.data);
         setLoading(false);
       })
